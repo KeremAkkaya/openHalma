@@ -17,8 +17,9 @@ public class BoardFactory
     
     public static BoardFactory getInstance() {
         if (instanceBoardFactory == null) {
-            
+            instanceBoardFactory = new BoardFactory();
         }
+        return instanceBoardFactory;
     }
     
 }
