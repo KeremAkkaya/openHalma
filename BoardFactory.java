@@ -22,7 +22,7 @@ public class BoardFactory
         return instanceBoardFactory;
     }
     
-    public Board createStandardStarBoard(int dimension) {
+    public StarBoard createStandardStarBoard(int dimension) {
         return null;
     }
 }
