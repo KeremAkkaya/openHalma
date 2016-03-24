@@ -9,13 +9,13 @@ public abstract class Player
 {
     protected final Color p_color;
     protected final FIELD_VALUE fieldValue;
-    
+    public static Player emptyPlayer = new LocalPlayer(FIELD_VALUE.EMPTY,null);
     public Player() {
         this(FIELD_VALUE.PLAYER1,null);
     }
     
     public Player(FIELD_VALUE fieldValue, Color color) {
-        if(fieldValue.getVal() < 0) System.out.println("invalid field value for player creation");
+        //if(fieldValue.getVal() < 0) System.out.println("invalid field value for player creation");
         this.fieldValue = fieldValue;
         this.p_color = (color == null) ? Color.black : color;
     }

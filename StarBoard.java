@@ -24,9 +24,8 @@ public class StarBoard extends Board
         } 
     }
 
-    FIELD_VALUE board[][];
     StandardStar_Values vals;
-
+    
     public StarBoard(int dimension) {
         if (dimension % 3 != 1) {
             System.out.println("create starboard wrong dimension!");
@@ -58,13 +57,17 @@ public class StarBoard extends Board
     public String toText() {
         String s = "";
         for (int i = 0; i < vals.full; i ++) {
-            for (int k = 0; k < i; k++) s += ' ';
+            for (int k = 0; k < i; k++) s += " ";
             for (int j = 0; j < vals.full; j++) {
-                s += board[i][j].getSymbol() + ' ';
+                s += board[i][j].getSymbol() + " ";
             }
             s += "\n";
         }
         return s;
+    }
+    
+    public int getDimension() {
+        return vals.full;
     }
 
     //add load from file and save to file

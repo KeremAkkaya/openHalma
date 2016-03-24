@@ -7,17 +7,21 @@ import java.util.LinkedList;
  */
 public class _test
 {
-    
-    public static void makeTest()
+    StarBoard sb;
+
+    public _test() {
+        makeTest();
+    }
+
+    public void makeTest()
     {
         Interface i = new Text();
         LinkedList<Player> plist = new LinkedList<>();
-        LocalPlayer p1 = new LocalPlayer(FIELD_VALUE.PLAYER1, null);
-        //System.out.println(p1.getSymbol());
-        plist.add(p1);
-        StarBoard sb = BoardFactory.createStandardStarBoard(7,plist);
+        plist.add(new LocalPlayer(FIELD_VALUE.PLAYER1, null));
+        plist.add(new LocalPlayer(FIELD_VALUE.PLAYER2, null));
+        plist.add(new LocalPlayer(FIELD_VALUE.PLAYER3, null));
+        sb = BoardFactory.createStandardStarBoard(10,plist,false);
         i.printBoard(sb);
     }
 
-    
 }
