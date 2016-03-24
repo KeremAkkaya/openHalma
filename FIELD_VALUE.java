@@ -7,14 +7,21 @@
  */
 public enum FIELD_VALUE
 {
-    INVALID(2),EMPTY(-1),PLAYER1(0),PLAYER2(1),PLAYER3(2),PLAYER4(3),PLAYER5(4),PLAYER6(5);
-    private int val;
-    
-    FIELD_VALUE(int val) {
+    INVALID(-2,' '),EMPTY(-1,'.'),PLAYER1(0,'+'),PLAYER2(1,'#'),PLAYER3(2,'*'),PLAYER4(3,'&'),PLAYER5(4,'%'),PLAYER6(5,'§');
+    private final int val;
+    private final char c;
+    FIELD_VALUE(int val, char c) {
         this.val = val;
+        this.c = c;
     }
     
     public int getVal() {
         return val;
     }
+    
+    public char getSymbol() {
+        return c;
+    }
+    
+    //add a symbol return? mayyybeeeee
 }

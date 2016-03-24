@@ -7,11 +7,8 @@
  */
 public class LocalPlayer extends Player
 {
-    
-    public LocalPlayer()
-    {
-        
+    public LocalPlayer(FIELD_VALUE fieldValue, Color color) {
+        super(fieldValue, color);
     }
-
     
 }

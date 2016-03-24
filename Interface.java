@@ -7,5 +7,5 @@
  */
 public abstract class Interface
 {
-    
+    public abstract void printBoard(Board b);
 }

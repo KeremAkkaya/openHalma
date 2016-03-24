@@ -7,11 +7,7 @@
  */
 public class NetworkPlayer extends Player
 {
-    
-    public NetworkPlayer()
-    {
-        
-    }
+
 
     
 }

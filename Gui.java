@@ -13,5 +13,7 @@ public class Gui extends Interface
         
     }
 
-    
+    public void printBoard(Board b) {
+        return;
+    }
 }
