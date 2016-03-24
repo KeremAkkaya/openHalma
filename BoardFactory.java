@@ -98,12 +98,12 @@ public class BoardFactory
     private void st_makeHexagon(FIELD_VALUE fv, StarBoard sb, StarBoard.StandardStar_Values vals) {
         for (int i = vals.short_triangle; i < vals.edge_hexagon - 1; i++) {
             for (int j = vals.edge_hexagon - 1 - (i - vals.short_triangle); j < vals.dimension; j++) {
-                sb.setPosition(i, j, fv);
+                sb.setPosition(new Position(i,j), fv);
             }
         }
         for (int i = vals.edge_hexagon - 1; i < vals.dimension; i++) {
             for (int j = vals.long_triangle - 1; j < vals.dimension - 1 - (i - vals.edge_hexagon); j++) {
-                sb.setPosition(i, j, fv);
+                sb.setPosition(new Position(i,j), fv);
             }
         }
     }
@@ -111,7 +111,7 @@ public class BoardFactory
     private void st_makeTriangle1(FIELD_VALUE fv, StarBoard sb, int i_reduce, StarBoard.StandardStar_Values vals) {
         for (int i = 0; i <= (vals.short_triangle - i_reduce); i++) {
             for (int j = vals.dimension - 1; j >= (vals.dimension - 1 - i); j--) {
-                sb.setPosition(i, j, fv);
+                sb.setPosition(new Position(i, j), fv);
             }
         }
     }
@@ -119,7 +119,7 @@ public class BoardFactory
     private void st_makeTriangle2(FIELD_VALUE fv, StarBoard sb, int i_reduce, StarBoard.StandardStar_Values vals) {
         for (int i = vals.long_triangle - 1; i <= vals.edge_hexagon - 1; i++) {
             for (int j = vals.short_triangle; j < (vals.edge_hexagon - i_reduce - (i-vals.short_triangle)); j++) {
-                sb.setPosition(i, j, fv);
+                sb.setPosition(new Position(i, j), fv);
             }
         }
     }
@@ -127,7 +127,7 @@ public class BoardFactory
     private void st_makeTriangle3(FIELD_VALUE fv, StarBoard sb, int i_reduce, StarBoard.StandardStar_Values vals) {
         for (int i = vals.edge_hexagon - 1; i <= vals.full - vals.long_triangle; i++) {
             for (int j = vals.short_triangle - i_reduce; j >= vals.short_triangle - (i - (vals.edge_hexagon - 1)); j--) {
-                sb.setPosition(i, j, fv);
+                sb.setPosition(new Position(i, j), fv);
             }
         }
     }
@@ -135,7 +135,7 @@ public class BoardFactory
     private void st_makeTriangle4(FIELD_VALUE fv, StarBoard sb, int i_reduce, StarBoard.StandardStar_Values vals) {
         for (int i = vals.dimension + i_reduce - 1; i < vals.full; i++) {
             for(int j = vals.short_triangle; j < vals.edge_hexagon - 1 - (i - vals.dimension); j++) {
-                sb.setPosition(i, j, fv);
+                sb.setPosition(new Position(i, j), fv);
             }
         }
     }
@@ -143,7 +143,7 @@ public class BoardFactory
     private void st_makeTriangle5(FIELD_VALUE fv, StarBoard sb, int i_reduce, StarBoard.StandardStar_Values vals) {
         for (int i = vals.edge_hexagon - 1; i <= vals.full - vals.long_triangle; i++) {
             for (int j = vals.dimension - 1; j >= vals.dimension - 1 - (i - vals.edge_hexagon + 1 - i_reduce); j--) {
-                sb.setPosition(i, j, fv);
+                sb.setPosition(new Position(i, j), fv);
             }
         }
     }
@@ -151,7 +151,7 @@ public class BoardFactory
     private void st_makeTriangle6(FIELD_VALUE fv, StarBoard sb, int i_reduce, StarBoard.StandardStar_Values vals) {
         for (int i = vals.short_triangle; i < vals.edge_hexagon; i++) {
             for (int j = vals.dimension - 1 + i_reduce; j < vals.full - (i - vals.short_triangle); j++) {
-                sb.setPosition(i, j, fv);
+                sb.setPosition(new Position(i, j), fv);
             }
         }
     }

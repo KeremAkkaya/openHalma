@@ -9,16 +9,16 @@ public abstract class Board
 {
     protected FIELD_VALUE board[][];
 
-    public FIELD_VALUE getPosition(int x, int y) {
-         if ((x < getDimension()) && (y < getDimension()) && (x >= 0) && (y >= 0)) {
-            return board[x][y];
+    public FIELD_VALUE getPosition(Position p) {
+         if ((p.x < getDimension()) && (p.y < getDimension()) && (p.x >= 0) && (p.y >= 0)) {
+            return board[p.x][p.y];
         }
         return FIELD_VALUE.INVALID;
     }
 
-    public int setPosition(int x, int y, FIELD_VALUE val) {
-        if ((x < getDimension()) && (y < getDimension()) && (x >= 0) && (y >= 0)) {
-            board[x][y] = val;
+    public int setPosition(Position p, FIELD_VALUE val) {
+        if ((p.x < getDimension()) && (p.y < getDimension()) && (p.x >= 0) && (p.y >= 0)) {
+            board[p.x][p.y] = val;
             return 0;
         }
         return 1;

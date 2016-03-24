@@ -7,10 +7,13 @@
  */
 public class Move
 {
-    
-    public Move()
+    Player p;
+    Position start, end;
+    public Move(Player p, Position start, Position end)
     {
-        
+        this.p = p;
+        this.start = start;
+        this.end = end;
     }
 
     

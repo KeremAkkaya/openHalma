@@ -1,4 +1,4 @@
-
+import java.util.LinkedList;
 /**
  * Write a description of class Halma here.
  * 
@@ -7,7 +7,7 @@
  */
 public class Halma
 {
-    
+    private LinkedList<Player> players = new LinkedList<>();
     public Halma()
     {
         

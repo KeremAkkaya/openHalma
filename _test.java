@@ -20,7 +20,10 @@ public class _test
         plist.add(new LocalPlayer(FIELD_VALUE.PLAYER1, null));
         plist.add(new LocalPlayer(FIELD_VALUE.PLAYER2, null));
         plist.add(new LocalPlayer(FIELD_VALUE.PLAYER3, null));
-        sb = BoardFactory.createStandardStarBoard(10,plist,false);
+        plist.add(new LocalPlayer(FIELD_VALUE.PLAYER4, null));
+        plist.add(new LocalPlayer(FIELD_VALUE.PLAYER5, null));
+        plist.add(new LocalPlayer(FIELD_VALUE.PLAYER6, null));
+        sb = BoardFactory.createStandardStarBoard(16,plist,true);
         i.printBoard(sb);
     }
 
