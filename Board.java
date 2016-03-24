@@ -8,5 +8,5 @@
 public abstract class Board
 {
     private int dimensionX, dimensionY;
-    private FieldValue field[][];
+    private FIELD_VALUE field[][];
 }
