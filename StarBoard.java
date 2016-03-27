@@ -1,4 +1,4 @@
-
+import java.util.*;
 /**
  * Write a description of class StarBoard here.
  * 
@@ -70,5 +70,10 @@ public class StarBoard extends Board
         return vals.full;
     }
 
+    public HashSet<Move> getMoves(Position pos, Player p) {
+        HashSet<Move> moves = new HashSet<>();
+        //foobaaar
+        return moves;
+    }
     //add load from file and save to file
 }

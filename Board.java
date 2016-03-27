@@ -1,4 +1,4 @@
-
+import java.util.*;
 /**
  * Abstract class Board - write a description of the class here
  * 
@@ -29,4 +29,6 @@ public abstract class Board
     public abstract String toText();
     
     public abstract int getDimension();
+    
+    public abstract HashSet<Move> getMoves(Position pos, Player p);
 }
