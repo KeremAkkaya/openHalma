@@ -7,8 +7,8 @@
  */
 public class Move
 {
-    Player p;
-    Position start, end;
+    public final Player p;
+    public final Position start, end;
     public Move(Player p, Position start, Position end)
     {
         this.p = p;
