@@ -30,5 +30,5 @@ public abstract class Board
     
     public abstract int getDimension();
     
-    public abstract HashSet<Move> getMoves(Position pos, Player p);
+    public abstract LinkedList<Position> getJumpPositions(Position pos, Player p);
 }
