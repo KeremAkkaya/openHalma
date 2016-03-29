@@ -59,7 +59,11 @@ public class StarBoard extends Board
         //add 2 jump moves
         _getJumpPositions(pos.x,pos.y,p.getFieldValue(),positions);
         //add 1 jump moves
-        
+        for (int i = 0; i < 6; i++) {
+            if (isValidJump(pos.x, pos.y, pos.x + signa[i][0], pos.y + signa[i][1], p.getFieldValue())) {
+                positions.add(new Position(pos.x + signa[i][0], pos.y + signa[i][1]));
+            }
+        }
         return positions;
     }
 
