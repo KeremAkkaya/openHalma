@@ -18,13 +18,21 @@ public class _test
         Interface i = new Text();
         LinkedList<Player> plist = new LinkedList<>();
         plist.add(new LocalPlayer(FIELD_VALUE.PLAYER1, null));
-        plist.add(new LocalPlayer(FIELD_VALUE.PLAYER2, null));
-        plist.add(new LocalPlayer(FIELD_VALUE.PLAYER3, null));
+        Player p2 = new LocalPlayer(FIELD_VALUE.PLAYER2, null);
+        plist.add(p2);
+        /*plist.add(new LocalPlayer(FIELD_VALUE.PLAYER3, null));
         plist.add(new LocalPlayer(FIELD_VALUE.PLAYER4, null));
         plist.add(new LocalPlayer(FIELD_VALUE.PLAYER5, null));
-        plist.add(new LocalPlayer(FIELD_VALUE.PLAYER6, null));
-        sb = BoardFactory.createStandardStarBoard(16,plist,true);
+        plist.add(new LocalPlayer(FIELD_VALUE.PLAYER6, null));*/
+        sb = BoardFactory.createStandardStarBoard(13,plist,2);
         i.printBoard(sb);
+        System.out.println(sb.toString(false));
+        LinkedList<Position> posis;
+        posis = sb.getJumpPositions(new Position(7,2), p2);
+        while (posis.peekFirst() != null) {
+            System.out.println(posis.remove().toString());
+        }
+
     }
 
 }

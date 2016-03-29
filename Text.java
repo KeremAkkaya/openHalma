@@ -14,6 +14,6 @@ public class Text extends Interface
     }
 
     public void printBoard(Board b) {
-        System.out.println(b.toText());
+        System.out.println(b.toString());
     }
 }
