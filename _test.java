@@ -24,9 +24,8 @@ public class _test
         plist.add(new LocalPlayer(FIELD_VALUE.PLAYER4, null));
         plist.add(new LocalPlayer(FIELD_VALUE.PLAYER5, null));
         plist.add(new LocalPlayer(FIELD_VALUE.PLAYER6, null));*/
-        sb = BoardFactory.createStandardStarBoard(13,plist,2);
+        sb = BoardFactory.createStandardStarBoard(13,plist,0);
         i.printBoard(sb);
-        System.out.println(sb.toString(false));
         LinkedList<Position> posis;
         posis = sb.getJumpPositions(new Position(7,2), p2);
         while (posis.peekFirst() != null) {

@@ -7,16 +7,23 @@ import java.util.*;
  */
 public class StarBoard extends Board
 {
-    
+    private int[][] signa = new int[][]{ //these are the signs for that indicate the 6 directions in the 2d matrix (the board)
+            { 0, 1 },
+            { 1, 0 },
+            { 0,-1 },
+            {-1, 0 },
+            { 1,-1 },
+            {-1, 1 }
+        };
     public StarBoard(int dimension) {
         super(dimension);
     }
-    
+
     public StarBoard(FIELD_VALUE[][] board, int dimension)
     {
         super(board, dimension);
     }
-    
+
     public String toString(boolean format) {
         String s = "";
         String c = format ? " " : "";
@@ -50,69 +57,51 @@ public class StarBoard extends Board
             return positions;
         }
         //add 2 jump moves
-        _getJumpPositions(pos,p,positions);
+        _getJumpPositions(pos.x,pos.y,p.getFieldValue(),positions);
         //add 1 jump moves
+        
         return positions;
     }
 
-    private boolean inHexagon(Position a, Position b, int radius) {
-        int diffx = b.x - a.x, diffy = b.y - a.y;
-        if((diffx == -radius) && (diffy == radius)) {
-            return true;
-        }
-        if((diffx == radius) && (diffy == 0)) {
-            return true;
-        }
-        if((diffx == 0) && (diffy == radius)) {
-            return true;
-        }
-        if((diffx == radius) && (diffy == -radius)) {
-            return true;
-        }
-        if((diffx == 0) && (diffy == -radius)) {
-            return true;
-        }
-        if((diffx == -radius) && (diffy == 0)) {
-            return true;
+    private boolean inHexagon(int ax, int ay, int bx, int by, int radius) {
+        int diffx = bx - ax, diffy = by - ay;
+        for (int i = 0; i < 6; i++) {
+            if ((diffx == radius*signa[i][0]) && (diffy == radius*signa[i][1])) return true;
         }
         return false;
     }
 
-    private boolean isValidJump(Position a, Position b, Player p) {
-        int sigx = (int)Math.signum(b.x - a.x), sigy = (int)Math.signum(b.y - a.y);
-        if ( ( (getPosition(a) != p.getFieldValue()) && (getPosition(a) != FIELD_VALUE.EMPTY) ) || (getPosition(b) != FIELD_VALUE.EMPTY) ) {
+    private boolean isValidJump(int ax, int ay, int bx, int by, FIELD_VALUE v) {
+        int sigx = (int)Math.signum(bx - ax), sigy = (int)Math.signum(by - ay);
+        if ( ( (getPosition(ax, ay) != v) && (getPosition(ax, ay) != FIELD_VALUE.EMPTY) ) || (getPosition(bx, by) != FIELD_VALUE.EMPTY) ) {
             return false;
         }
-        if (inHexagon(a,b,1)) {
+        if (inHexagon(ax,ay,bx,by,1)) {
             return true;
         }
-        if (inHexagon(a,b,2)) {
-            if (getPosition(new Position(a.x + sigx, a.y + sigy)).getVal() >= 0) return true;
+        if (inHexagon(ax,ay,bx,by,2)) {
+            if (getPosition(ax + sigx, ay + sigy).getVal() >= 0) return true;
             return false;
         }
         return false;
     }
 
-    private boolean testPosition(Position pos, int offsetx, int offsety, Player p, LinkedList<Position> positions) {
-        Position target = new Position(pos.x + offsetx, pos.y + offsety);
+    private boolean testPosition(int x, int y, int offsetx, int offsety, FIELD_VALUE v, LinkedList<Position> positions) {
+        Position target = new Position(x + offsetx, y + offsety);
         if (positions.contains(target)) return false;
-        if (isValidJump(pos, new Position(pos.x + offsetx, pos.y + offsety), p)) {
+        if (isValidJump(x, y, x + offsetx, y + offsety, v)) {
             positions.add(target);
-            _getJumpPositions(target, p, positions);
+            _getJumpPositions(x + offsetx, y + offsety, v, positions);
             return true;
         }
         return false;
     }
 
-    private LinkedList<Position> _getJumpPositions(Position pos, Player p, LinkedList<Position> positions) {
+    private LinkedList<Position> _getJumpPositions(int x, int y, FIELD_VALUE v, LinkedList<Position> positions) {
         //Jumps in 6 directions
-        testPosition(pos,-2,2,p,positions);
-        testPosition(pos,2,-2,p,positions);
-        testPosition(pos,0,2,p,positions);
-        testPosition(pos,2,0,p,positions);
-        testPosition(pos,-2,0,p,positions);
-        testPosition(pos,0,-2,p,positions);
-
+        for (int i = 0; i < 6; i++) {
+            testPosition(x,y,2*signa[i][0],2*signa[i][1],v,positions);
+        }
         return positions;
 
     }
