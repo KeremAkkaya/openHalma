@@ -16,5 +16,9 @@ public class Move
         this.end = end;
     }
 
-    
+    public String toString() {
+        String s = "";
+        s += "Player" + (player.getFieldValue().getVal() + 1) + " from " + start.toString() + " to " + end.toString();
+        return s;
+    }
 }
