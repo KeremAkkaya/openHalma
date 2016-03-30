@@ -23,5 +23,12 @@ public enum FIELD_VALUE
         return c;
     }
     
+    public static FIELD_VALUE getValByInt(int i) {
+        for (FIELD_VALUE fv : FIELD_VALUE.values())  {
+            if (fv.getVal() == i) return fv;
+        }
+        return null;
+    }
+    
     //add a symbol return? mayyybeeeee
 }

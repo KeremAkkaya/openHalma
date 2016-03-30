@@ -15,6 +15,10 @@ public class StarBoard extends Board
             { 1,-1 },
             {-1, 1 }
         };
+    public StarBoard() {
+        
+    }    
+    
     public StarBoard(int dimension) {
         super(dimension);
     }
@@ -109,10 +113,8 @@ public class StarBoard extends Board
         return positions;
 
     }
+    
+    
     //TODO: make these getJumpPositions WAAAAAAAY more efficient
-    /*public boolean allowLongJumps() {
-    return params.allowLongJumps;
-    }*/
-    //add load from file and save to file serializable?
 
 }

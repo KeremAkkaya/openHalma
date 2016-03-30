@@ -1,15 +1,17 @@
 import java.util.LinkedList;
+import java.io.*;
 /**
  * Write a description of class Game here.
  * 
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class Game
+public class Game implements Serializable
 {
     private Board board;
     private LinkedList<Move> moves = new LinkedList<>();
     private LinkedList<Move> cachedMoves = new LinkedList<>(); //additional list for 'undo'/'redo' functionality
+    private Player nextPlayer;
     public Game()
     {
 
@@ -61,4 +63,5 @@ public class Game
     public boolean redoable() {
         return cachedMoves.peekFirst() != null;
     }
+
 }

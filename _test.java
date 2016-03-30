@@ -8,7 +8,7 @@ import java.util.LinkedList;
 public class _test
 {
     StarBoard sb;
-
+    String savedBoard;
     public _test() {
         makeTest();
     }
@@ -31,7 +31,12 @@ public class _test
         while (posis.peekFirst() != null) {
             System.out.println(posis.remove().toString());
         }
-
+        
+        savedBoard = sb.writeToString();
+        StarBoard board2 = new StarBoard();
+        //System.out.println(savedBoard);
+        board2.readFromString(savedBoard);
+        if (board2.equals(sb)) System.out.println("yay");
     }
 
 }
