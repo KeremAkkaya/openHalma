@@ -8,14 +8,15 @@ import java.util.LinkedList;
  */
 public class _test
 {
-    StarBoard sb;
-    String savedBoard;
-    public _test() {
-        //makeTest();
+	static StarBoard sb;
+    static String savedBoard;
+    
+    public static void main(String[] args){
+    	//makeTest();
         guiTest();
     }
-
-    public void makeTest()
+       
+    public static void makeTest()
     {
         Interface i = new Text();
         LinkedList<Player> plist = new LinkedList<>();
@@ -41,7 +42,7 @@ public class _test
         if (board2.equals(sb)) System.out.println("yay");
     }
 
-    public void guiTest() {
+    public static void guiTest() {
     	LinkedList<Player> plist = new LinkedList<>();
         plist.add(new LocalPlayer(FIELD_VALUE.PLAYER1, null));
         Player p2 = new LocalPlayer(FIELD_VALUE.PLAYER2, null);

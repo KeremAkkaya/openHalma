@@ -21,7 +21,7 @@ public class Gui extends JPanel implements Interface		//interface as interface
     {		
     }
 
-    public static void printBoard(Board b) {
+    public void printBoard(Board b) {
     	JDialog dialog = new JDialog();
         dialog.setTitle("openHalma");
         dialog.setSize(800,600);
