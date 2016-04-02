@@ -67,6 +67,8 @@ public abstract class Board
 
     public abstract LinkedList<Position> getJumpPositions(Position pos, Player p);
     
+    public abstract int getMaxPlayers();
+    
     public boolean isValidMove(Move move) {
         if (getJumpPositions(move.start, move.player).contains(move.end)) return true;
         return false;

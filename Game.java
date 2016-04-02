@@ -21,6 +21,24 @@ public class Game implements Serializable
     public Game(Interface i) {
         this.iface = i;
     }
+    
+    public boolean addPlayer(Player p) {
+        if (players.size() < board.getMaxPlayers()) {
+            if (!players.contains(p)) {
+                players.addLast(p);
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public boolean removePlayer(Player p) {
+        if (players.contains(p)) {
+            players.remove(p);
+            return true;
+        }
+        return false;
+    }
 
     public boolean start() {
         if (players.size() < 2) {
