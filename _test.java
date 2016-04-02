@@ -11,8 +11,8 @@ public class _test
     StarBoard sb;
     String savedBoard;
     public _test() {
-        makeTest();
-        //guiTest();
+        //makeTest();
+        guiTest();
     }
 
     public void makeTest()
@@ -42,6 +42,12 @@ public class _test
     }
 
     public void guiTest() {
-    	StarBoard board = new StarBoard(10);
+    	LinkedList<Player> plist = new LinkedList<>();
+        plist.add(new LocalPlayer(FIELD_VALUE.PLAYER1, null));
+        Player p2 = new LocalPlayer(FIELD_VALUE.PLAYER2, null);
+        plist.add(p2);
+    	StarBoard board = BoardFactory.createStandardStarBoard(13,plist,0);;
+    	Interface i = new Gui();
+    	i.printBoard(board);
     }
 }
