@@ -7,5 +7,8 @@
  */
 public abstract class Interface
 {
+        
     public abstract void printBoard(Board b);
+    
+    public abstract Move requestMove(Player player);
 }

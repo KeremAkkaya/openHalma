@@ -8,6 +8,8 @@
 public class NetworkPlayer extends Player
 {
 
-
+    public Move requestMove(Interface i) {
+        return null;
+    }
     
 }

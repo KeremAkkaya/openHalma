@@ -11,23 +11,30 @@ public class Game implements Serializable
     private Board board;
     private LinkedList<Move> moves = new LinkedList<>();
     private LinkedList<Move> cachedMoves = new LinkedList<>(); //additional list for 'undo'/'redo' functionality
-    private Player nextPlayer;
-    public Game()
-    {
+    private LinkedList<Player> players;
+    private Interface iface;
+
+    public Game() {
 
     }
 
-    public int makeMove(Move move) {
-        //addlast
-        //getFirst
-        //getlast
-        if (board.getJumpPositions(move.start,move.player).contains(move.end)) {
-            System.out.println(move.toString());
-            moves.add(move);
-            cachedMoves.clear();
-            return 0;
+    public Game(Interface i) {
+        this.iface = i;
+    }
+
+    public boolean start() {
+        if (players.size() < 2) {
+            return false;
         }
-        return 1; //invalid move
+        while (!isFinished()) requestMove();
+        return true;
+    }
+
+    private void makeMove(Move move) {
+        System.out.println(move.toString());
+        applyMove(move);
+        moves.add(move);
+        cachedMoves.clear();
     }
 
     private void applyMove(Move move) {
@@ -39,6 +46,7 @@ public class Game implements Serializable
         if (undoable()) {
             Move m = moves.getLast();
             applyMove(new Move(m.player, m.end, m.start));
+            players.addFirst(players.pop());
             cachedMoves.push(moves.pop());
             return 0;
         } else {
@@ -49,6 +57,7 @@ public class Game implements Serializable
     public int redoMove() {
         if (redoable()) {
             applyMove(cachedMoves.getLast());
+            players.push(players.remove());
             moves.push(cachedMoves.pop());
             return 0;
         } else {
@@ -64,4 +73,20 @@ public class Game implements Serializable
         return cachedMoves.peekFirst() != null;
     }
 
+    public Player getNextPlayer() {
+        return players.peekFirst();
+    }
+    
+    public boolean isFinished() {
+        return true;
+    }
+
+    public void requestMove() {
+        Move move;
+        do {
+            move = players.peekFirst().requestMove(iface); //wait til valid turn
+        } while (!board.isValidMove(move));
+        makeMove(move);
+        players.push(players.remove());
+    }
 }

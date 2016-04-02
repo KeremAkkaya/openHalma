@@ -1,4 +1,4 @@
-
+import java.util.*;
 /**
  * Abstract class Player - write a description of the class here
  * 
@@ -11,6 +11,8 @@ public abstract class Player
     protected final FIELD_VALUE fieldValue;
     public static Player emptyPlayer = new LocalPlayer(FIELD_VALUE.EMPTY,null);
     protected String name;
+    protected LinkedList<Position> tokens;
+    
     public Player() {
         this(FIELD_VALUE.PLAYER1, null, "");
     }
@@ -47,5 +49,11 @@ public abstract class Player
     
     public String getName() {
         return name;
+    }
+    
+    public abstract Move requestMove(Interface iface);
+    
+    public boolean equals (Player p) {
+        return p.fieldValue == this.fieldValue;
     }
 }

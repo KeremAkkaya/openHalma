@@ -66,6 +66,11 @@ public abstract class Board
     public abstract String toString();
 
     public abstract LinkedList<Position> getJumpPositions(Position pos, Player p);
+    
+    public boolean isValidMove(Move move) {
+        if (getJumpPositions(move.start, move.player).contains(move.end)) return true;
+        return false;
+    }
 
     public String writeToString(){
         String s = "";

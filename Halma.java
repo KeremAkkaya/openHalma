@@ -7,7 +7,6 @@ import java.util.LinkedList;
  */
 public class Halma
 {
-    private LinkedList<Player> players = new LinkedList<>();
     public Halma()
     {
         

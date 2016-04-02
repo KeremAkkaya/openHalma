@@ -9,6 +9,12 @@ public class ComputerPlayer extends Player
 {
     
 
-
+    public Move requestMove(Interface iface) {
+        for (int i = 0; i < tokens.size(); i++) {
+            
+        }
+        
+        return null;
+    }
     
 }

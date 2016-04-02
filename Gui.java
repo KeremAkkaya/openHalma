@@ -16,4 +16,8 @@ public class Gui extends Interface
     public void printBoard(Board b) {
         return;
     }
+    
+    public Move requestMove(Player p) {
+        return null;
+    }
 }
