@@ -5,7 +5,7 @@ import java.io.*;
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class Text extends Interface
+public class Text implements Interface
 {
 
     public Text()
