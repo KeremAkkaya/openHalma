@@ -114,6 +114,9 @@ public class StarBoard extends Board
 
     }
     
+    public int getMaxPlayers() {
+        return 6;
+    }
     
     //TODO: make these getJumpPositions WAAAAAAAY more efficient
 
