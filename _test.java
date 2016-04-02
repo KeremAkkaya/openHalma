@@ -1,4 +1,5 @@
 import java.util.LinkedList;
+
 /**
  * Write a description of class _test here.
  * 
@@ -11,6 +12,7 @@ public class _test
     String savedBoard;
     public _test() {
         makeTest();
+        //guiTest();
     }
 
     public void makeTest()
@@ -39,4 +41,7 @@ public class _test
         if (board2.equals(sb)) System.out.println("yay");
     }
 
+    public void guiTest() {
+    	StarBoard board = new StarBoard(10);
+    }
 }
