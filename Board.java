@@ -11,7 +11,7 @@ public abstract class Board
 {
     protected FIELD_VALUE board[][];
 
-    protected int dimension;
+    protected int dimension; //size of matrix representing the board
     public Board() { //called before loading board via serialization
 
     }
