@@ -21,4 +21,9 @@ public class Move
         s += "Player" + (player.getFieldValue().getVal() + 1) + " from " + start.toString() + " to " + end.toString();
         return s;
     }
+    
+    public boolean equals(Move m) {
+        if ((m.player == this.player) && (m.start == this.start) && (m.end == this.end)) return true;
+        return false;
+    }
 }
