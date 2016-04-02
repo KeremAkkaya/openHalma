@@ -6,9 +6,10 @@
  * @version (a version number or a date)
  */
 
-import javax.swing.JDialog;
 import javax.swing.JPanel;
+import javax.swing.JFrame;
 import java.awt.Color;
+
 
 public class Gui extends JPanel implements Interface		//interface as interface
 {
@@ -22,16 +23,16 @@ public class Gui extends JPanel implements Interface		//interface as interface
     }
 
     public void printBoard(Board b) {
-    	JDialog dialog = new JDialog();
-        dialog.setTitle("openHalma");
-        dialog.setSize(800,600);
-    	
+    	 JFrame window = new JFrame();
+         window.setTitle("openHalma");
+         window.setSize(800,600);
+    	 
     	 JPanel panel = new JPanel();
-         panel.setBackground(Color.white);
-         dialog.add(panel);
-         dialog.setVisible(true);
-         return;
-    }
+		 panel.setBackground(Color.white);
+		 window.add(panel);
+		 window.setVisible(true);
+		 return;
+	 }
     
     public Move requestMove(Player p) {
         return null;
