@@ -1,6 +1,6 @@
 
 /**
- * Write a description of class Helper here.
+ * Helper class to simplify writeToString and readFromString methods
  * 
  * @author (your name) 
  * @version (a version number or a date)
@@ -13,6 +13,8 @@ public class Helper
 
     }
 
+    //returns the substring til the next occurrence of ';' and removes the substring + ';'
+    //StringBuilder is only used because it is passed by reference in contrast to string
     public static String popString(StringBuilder sb) {
         String s = sb.substring(0,1);
         sb.delete(0,1);

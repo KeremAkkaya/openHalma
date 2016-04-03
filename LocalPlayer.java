@@ -13,8 +13,9 @@ public class LocalPlayer extends Player
     public LocalPlayer(FIELD_VALUE fieldValue, Color color) {
         super(fieldValue, color);
     }
-
-    public Move requestMove(Interface iface) {
+    
+    //for local players the request is directly redirected to the interface
+    public Move requestMove(Interface iface, Board board) {
         return iface.requestMove(this);
     }
 }

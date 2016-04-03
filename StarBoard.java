@@ -16,9 +16,8 @@ public class StarBoard extends Board
             {-1, 1 }
         };
     public StarBoard() {
-        
     }    
-    
+
     public StarBoard(int dimension) {
         super(dimension);
     }
@@ -28,7 +27,7 @@ public class StarBoard extends Board
         super(board, dimension);
     }
 
-    public String toString(boolean format) {
+    public String toString(boolean format) { //setting format to false results in a more debug-style output
         String s = "";
         String c = format ? " " : "";
         if(!format) {
@@ -39,7 +38,7 @@ public class StarBoard extends Board
             //             s += "\n";
         }
         for (int i = 0; i < dimension; i ++) {
-            s += i < 10 ? "0" + i : i;
+            if(!format) s += i < 10 ? "0" + i : i;
             for (int k = 0; k < i; k++) s += c;
             for (int j = 0; j < dimension; j++) {
                 s += board[i][j].getSymbol() + " ";
@@ -53,6 +52,7 @@ public class StarBoard extends Board
         return toString(true);
     }
 
+    //returns all valid positions given a player and a (start-)position
     public LinkedList<Position> getJumpPositions(Position pos, Player p) {
         LinkedList<Position> positions = new LinkedList<>();
         if(!(getPosition(pos).equals(p.getFieldValue()))) {
@@ -60,10 +60,9 @@ public class StarBoard extends Board
             //does it make sense to restrict it to the player?
             return positions;
         }
-        //add 2 jump moves
+        //this call adds all jumps and chained jumps
         _getJumpPositions(pos.x,pos.y,p.getFieldValue(),positions);
-        //add 1 jump moves
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < 6; i++) { //this loop checks whether all the positions where the token is only moved one field are valid jumps
             if (isValidJump(pos.x, pos.y, pos.x + signa[i][0], pos.y + signa[i][1], p.getFieldValue())) {
                 positions.add(new Position(pos.x + signa[i][0], pos.y + signa[i][1]));
             }
@@ -71,6 +70,7 @@ public class StarBoard extends Board
         return positions;
     }
 
+    //returns true if the position given by (bx,by) is in on the hexagon with given radius and center (ax,ay)
     private boolean inHexagon(int ax, int ay, int bx, int by, int radius) {
         int diffx = bx - ax, diffy = by - ay;
         for (int i = 0; i < 6; i++) {
@@ -79,15 +79,16 @@ public class StarBoard extends Board
         return false;
     }
 
+    //returns true if the jump from (ax,ay) to (bx,by) is valid; only works for jumps with distance <=2 (1-field move and unchained jump)
     private boolean isValidJump(int ax, int ay, int bx, int by, FIELD_VALUE v) {
         int sigx = (int)Math.signum(bx - ax), sigy = (int)Math.signum(by - ay);
         if ( ( (getPosition(ax, ay) != v) && (getPosition(ax, ay) != FIELD_VALUE.EMPTY) ) || (getPosition(bx, by) != FIELD_VALUE.EMPTY) ) {
             return false;
         }
-        if (inHexagon(ax,ay,bx,by,1)) {
+        if (inHexagon(ax,ay,bx,by,1)) { //1-field move
             return true;
         }
-        if (inHexagon(ax,ay,bx,by,2)) {
+        if (inHexagon(ax,ay,bx,by,2)) { //2-field jump
             if (getPosition(ax + sigx, ay + sigy).getVal() >= 0) return true;
             return false;
         }
@@ -99,7 +100,7 @@ public class StarBoard extends Board
         if (positions.contains(target)) return false;
         if (isValidJump(x, y, x + offsetx, y + offsety, v)) {
             positions.add(target);
-            _getJumpPositions(x + offsetx, y + offsety, v, positions);
+            _getJumpPositions(x + offsetx, y + offsety, v, positions); //check all possible jumps of next position
             return true;
         }
         return false;
@@ -113,11 +114,11 @@ public class StarBoard extends Board
         return positions;
 
     }
-    
+
     public int getMaxPlayers() {
         return 6;
     }
-    
+
     //TODO: make these getJumpPositions WAAAAAAAY more efficient
 
 }

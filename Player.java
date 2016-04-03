@@ -53,7 +53,8 @@ public abstract class Player
         return name;
     }
     
-    public abstract Move requestMove(Interface iface);
+    //request the player to make a move
+    public abstract Move requestMove(Interface iface, Board board);
     
     public boolean equals (Player p) {
         return p.fieldValue == this.fieldValue;

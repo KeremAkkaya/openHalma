@@ -102,7 +102,7 @@ public class Game implements Serializable
     public void requestMove() {
         Move move;
         do {
-            move = players.peekFirst().requestMove(iface); //wait til valid turn
+            move = players.peekFirst().requestMove(iface, board); //wait til valid turn
         } while (!board.isValidMove(move));
         makeMove(move);
         players.push(players.remove());

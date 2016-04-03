@@ -9,12 +9,9 @@ public class ComputerPlayer extends Player
 {
     
 
-    public Move requestMove(Interface iface) {
-        for (int i = 0; i < tokens.size(); i++) {
-            
-        }
-        
-        return null;
+    //for the computerplayer the next move is chosen by an ai
+    public Move requestMove(Interface iface, Board board) {
+        return AI.move(board, 3);
     }
     
 }

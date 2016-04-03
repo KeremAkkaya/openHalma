@@ -12,6 +12,7 @@ public abstract class Board
     protected FIELD_VALUE board[][];
 
     protected int dimension; //size of matrix representing the board
+    
     public Board() { //called before loading board via serialization
 
     }
@@ -67,14 +68,12 @@ public abstract class Board
 
     public abstract LinkedList<Position> getJumpPositions(Position pos, Player p);
     
-    public abstract int getMaxPlayers();
-    
     public boolean isValidMove(Move move) {
         if (getJumpPositions(move.start, move.player).contains(move.end)) return true;
         return false;
     }
 
-    public String writeToString(){
+    public String writeToString(){ //save current board in a string
         String s = "";
         s += dimension + ";";
         for (int i = 0; i < dimension; i++) {
@@ -88,7 +87,7 @@ public abstract class Board
         return s;
     }
 
-    public boolean readFromString(String s) {
+    public boolean readFromString(String s) { //restore board from string
         StringBuilder sb = new StringBuilder(s);
         int dimension = Integer.parseInt(Helper.popString(sb));
         if (!Helper.isValue(sb, ";", "invalid format for board1")) return false;
@@ -108,13 +107,13 @@ public abstract class Board
 
     public boolean equals(Board b) {
         if (b.dimension != this.dimension) return false;
-
         for (int i = 0; i < this.dimension; i++) {
             for (int j = 0; j < this.dimension; j++) {
                 if (this.board[i][j] != b.board[i][j]) return false;
             }
         }
-
         return true;
     }
+    
+    public abstract int getMaxPlayers();
 }

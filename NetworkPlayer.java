@@ -8,7 +8,7 @@
 public class NetworkPlayer extends Player
 {
 
-    public Move requestMove(Interface i) {
+    public Move requestMove(Interface i, Board board) {
         return null;
     }
     

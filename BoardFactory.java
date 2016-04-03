@@ -112,7 +112,10 @@ public class BoardFactory
         }
         return sb;
     }
-
+    
+    //dimension size of the matrix
+    //players list of players, theoretically the size of players would be sufficient
+    //i_reduce: number of lines towards the center of the board that are NOT filled with tokens (usually set to 0)
     public static StarBoard createStandardStarBoard(int dimension, LinkedList<Player> players, int i_reduce) {
         return getInstance()._createStarBoard(dimension, players, i_reduce);
     }
