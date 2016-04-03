@@ -1,6 +1,6 @@
 
 /**
- * Write a description of class Gui here.
+ * Write a description of class Graphical here.
  * 
  * @author (your name) 
  * @version (a version number or a date)
@@ -11,14 +11,14 @@ import javax.swing.JFrame;
 import java.awt.Color;
 
 
-public class Gui extends JPanel implements Interface		//interface as interface
+public class Graphical extends JPanel implements Interface		//interface as interface
 {
 	/**
 	 * Added by Eclipse, JPanel seems to implement java.io.Serializable --> The serialization runtime associates with each serializable class a version number, called a serialVersionUID, which is used during deserialization to verify that the sender and receiver of a serialized object have loaded classes for that object that are compatible with respect to serialization.
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public Gui()
+	public Graphical()
     {		
     }
 
