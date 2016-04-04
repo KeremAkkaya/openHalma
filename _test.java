@@ -47,7 +47,7 @@ public class _test
         plist.add(new LocalPlayer(FIELD_VALUE.PLAYER1, null));
         Player p2 = new LocalPlayer(FIELD_VALUE.PLAYER2, null);
         plist.add(p2);
-    	StarBoard board = BoardFactory.createStandardStarBoard(13,plist,0);;
+    	StarBoard board = BoardFactory.createStandardStarBoard(17,plist,0);;
     	Interface i = new Graphical();
     	i.printBoard(board);
     }

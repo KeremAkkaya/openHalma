@@ -19,8 +19,9 @@ public class Graphical extends JFrame implements Interface     //interface as in
     private static final int CIRCLE_RADIUS = 25;
     private static final double CIRCLE_DISTANCE = 2.5 * CIRCLE_RADIUS;//25; //distance center to center, should be > 2*CIRCLE_RADIUS
     private static final int CIRCLE_FRAME = CIRCLE_RADIUS / 8;
-    private static final double PADDING_VERTICAL = CIRCLE_DISTANCE * Math.sqrt(3 / 4);
+    private static final double PADDING_VERTICAL = CIRCLE_DISTANCE * Math.sqrt(3.0 / 4.0);
     private static final double PADDING_HORIZONTAL = CIRCLE_DISTANCE / 2;
+    private static final double CONSTANT_HORIZONTAL = -4 * CIRCLE_DISTANCE - PADDING_HORIZONTAL;
     private static final int WIDTH = 1000;
     private static final int HEIGHT = 1000;
     private static final int PADDING_BORDER = 40;
@@ -29,11 +30,12 @@ public class Graphical extends JFrame implements Interface     //interface as in
     private final Panel panel;
 
     private static class Panel extends JPanel {
-        
+
         private Board board = null;
-        
+
         public Panel() {
             super();
+            printvar();
         }
 
         protected void paintComponent(Graphics g) {
@@ -45,21 +47,32 @@ public class Graphical extends JFrame implements Interface     //interface as in
             Color c;
             FIELD_VALUE fv;
             double xpos, ypos;
-            
+
             for (int x = 0; x < dimension; x++) {
                 for (int y = 0; y < dimension; y++) {
                     fv = board.getPosition(x, y);
                     if (fv != FIELD_VALUE.INVALID) {
                         c = fv.getColor();
                         xpos = PADDING_BORDER;
-                        //xpos += y * PADDING_HORIZONTAL;
-                        xpos += y * (PADDING_HORIZONTAL + 2 * CIRCLE_RADIUS);
+                        xpos += y * PADDING_HORIZONTAL;
+                        xpos += x * CIRCLE_DISTANCE;
+                        xpos += CONSTANT_HORIZONTAL;
                         ypos = PADDING_BORDER;
-                        ypos += x * (PADDING_VERTICAL + 2 * CIRCLE_RADIUS);
+                        ypos += y * PADDING_VERTICAL;
                         drawFieldCentered(g, c, ((int) xpos), ((int) ypos));
                     }
                 }
             }
+        }
+
+        private void printvar() {
+            System.out.println("CR: " + CIRCLE_RADIUS);
+            System.out.println("CD: " + CIRCLE_DISTANCE);
+            System.out.println("PB: " + PADDING_BORDER);
+            System.out.println("PH: " + PADDING_HORIZONTAL);
+            System.out.println("PV: " + PADDING_VERTICAL);
+            System.out.println("SQRT: " + Math.sqrt(3.0 / 4.0));
+            System.out.println("CH: " + CONSTANT_HORIZONTAL);
         }
 
         protected void drawFieldCentered(Graphics g, Color c, int x, int y) {
@@ -73,7 +86,7 @@ public class Graphical extends JFrame implements Interface     //interface as in
             g.setColor(c);
             g.fillOval(x, y, 2 * radius, 2 * radius);
         }
-        
+
         public void setBoard(Board board) {
             this.board = board;
         }
