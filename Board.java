@@ -33,7 +33,7 @@ public abstract class Board
         return getPosition(p.x, p.y);
     }
 
-    public FIELD_VALUE getPosition(int x, int y) {
+    public FIELD_VALUE getPosition(int y, int x) { //x and y changed on purpose
         if ((x < dimension) && (y < dimension) && (x >= 0) && (y >= 0)) {
             return board[x][y];
         }

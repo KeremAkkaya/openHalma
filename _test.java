@@ -49,6 +49,8 @@ public class _test
         plist.add(p2);
     	StarBoard board = BoardFactory.createStandardStarBoard(17,plist,0);;
     	Interface i = new Graphical();
+    	Interface t = new Text();
     	i.printBoard(board);
+    	t.printBoard(board);
     }
 }

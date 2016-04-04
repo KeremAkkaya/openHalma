@@ -50,15 +50,15 @@ public class Graphical extends JFrame implements Interface     //interface as in
 
             for (int x = 0; x < dimension; x++) {
                 for (int y = 0; y < dimension; y++) {
-                    fv = board.getPosition(x, y);
+                    fv = board.getPosition(dimension - 1 - x, dimension - 1 - y);
                     if (fv != FIELD_VALUE.INVALID) {
                         c = fv.getColor();
                         xpos = PADDING_BORDER;
-                        xpos += y * PADDING_HORIZONTAL;
-                        xpos += x * CIRCLE_DISTANCE;
+                        xpos += (dimension - 1 - y) * PADDING_HORIZONTAL;
+                        xpos += (dimension - 1 - x) * CIRCLE_DISTANCE;
                         xpos += CONSTANT_HORIZONTAL;
                         ypos = PADDING_BORDER;
-                        ypos += y * PADDING_VERTICAL;
+                        ypos += (dimension - 1 - y) * PADDING_VERTICAL;
                         drawFieldCentered(g, c, ((int) xpos), ((int) ypos));
                     }
                 }
