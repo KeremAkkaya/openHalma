@@ -49,16 +49,25 @@ public class Game implements Serializable
         while (!isFinished()) requestMove();
         return true;
     }
+    
+    public boolean tryMove(Move move) {
+        if(board.getJumpPositions(move.start, getNextPlayer()).contains(move.end)) {
+            makeMove(move);
+            return true;
+        }
+        return false;
+    }
 
     private void makeMove(Move move) {
         System.out.println(move.toString());
         applyMove(move);
         moves.add(move);
         cachedMoves.clear();
+        players.addLast(players.removeFirst());
     }
 
     private void applyMove(Move move) {
-        board.setPosition(move.start, FIELD_VALUE.EMPTY);
+        board.setPosition(move.start, Player.emptyPlayer.getFieldValue());
         board.setPosition(move.end, move.player.getFieldValue());
     }
 
@@ -66,8 +75,8 @@ public class Game implements Serializable
         if (undoable()) {
             Move m = moves.getLast();
             applyMove(new Move(m.player, m.end, m.start));
-            players.addFirst(players.pop());
-            cachedMoves.push(moves.pop());
+            players.addFirst(players.removeLast());
+            cachedMoves.addLast(moves.removeLast());
             return true;
         } else {
             return false;
@@ -77,8 +86,8 @@ public class Game implements Serializable
     public boolean redoMove() {
         if (redoable()) {
             applyMove(cachedMoves.getLast());
-            players.push(players.remove());
-            moves.push(cachedMoves.pop());
+            players.addLast(players.removeFirst());
+            moves.addLast(cachedMoves.removeLast());
             return true;
         } else {
             return false;
@@ -107,7 +116,6 @@ public class Game implements Serializable
             move = players.peekFirst().requestMove(iface, board); //wait til valid turn
         } while (!board.isValidMove(move));
         makeMove(move);
-        players.push(players.remove());
     }
     
     public Board getBoard() {

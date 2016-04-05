@@ -25,7 +25,7 @@ public class Graphical extends JFrame implements Interface     //interface as in
     private static final int CIRCLE_FRAME = ((int)Math.round(CIRCLE_RADIUS / 8.0));
     private static final double PADDING_VERTICAL = CIRCLE_DISTANCE * Math.sqrt(3.0 / 4.0);
     private static final double PADDING_HORIZONTAL = CIRCLE_DISTANCE / 2;
-    private static final double CONSTANT_HORIZONTAL = -6 * CIRCLE_DISTANCE;
+    private static final double CONSTANT_HORIZONTAL = 0; //-6 * CIRCLE_DISTANCE;
     private static final int WIDTH = 1000;
     private static final int HEIGHT = 1000;
     private static final int PADDING_BORDER = 40;
@@ -152,12 +152,15 @@ public class Graphical extends JFrame implements Interface     //interface as in
                     if (hoverPosition.equals(selectedPosition)) {
                         selectedPosition = Position.InvalidPosition;
                     } else {
-                        selectedPosition = hoverPosition;
+                        if (game.tryMove(new Move(game.getNextPlayer(), selectedPosition, hoverPosition))) {
+                            selectedPosition = Position.InvalidPosition;
+                        } else if ((board.getPosition(hoverPosition).getVal() >= 0) && (game.getNextPlayer().equals(board.getPosition(hoverPosition).getPlayer()))) selectedPosition = hoverPosition;
                     }
                 }
             } else {
                 selectedPosition = Position.InvalidPosition;
             }
+            System.out.println(hoverPosition);
             hover();
         }
     }

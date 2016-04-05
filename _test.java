@@ -9,22 +9,27 @@ import java.awt.Color;
  */
 public class _test
 {
-    static StarBoard sb;
-    static String savedBoard;
-    static LinkedList<Player> plist = new LinkedList<>();
+    StarBoard sb;
+    String savedBoard;
+    LinkedList<Player> plist = new LinkedList<>();
+    Game game;
+    public _test() {
+        main();
+    }
     
-    public static void main(String[] args){
+    public void main(){
         //makeTest();
         plist.add(new LocalPlayer(FIELD_VALUE.PLAYER1, Color.blue));
         plist.add(new LocalPlayer(FIELD_VALUE.PLAYER2, Color.red));
-        plist.add(new LocalPlayer(FIELD_VALUE.PLAYER3, Color.green));
+        /*plist.add(new LocalPlayer(FIELD_VALUE.PLAYER3, Color.green));
         plist.add(new LocalPlayer(FIELD_VALUE.PLAYER4, Color.orange));
         plist.add(new LocalPlayer(FIELD_VALUE.PLAYER5, Color.magenta));
-        plist.add(new LocalPlayer(FIELD_VALUE.PLAYER6, Color.yellow));
+        plist.add(new LocalPlayer(FIELD_VALUE.PLAYER6, Color.yellow));*/
+        
         guiTest();
     }
        
-    public static void makeTest()
+    public void makeTest()
     {
         Interface i = new Text();
         LinkedList<Player> plist = new LinkedList<>();
@@ -50,11 +55,12 @@ public class _test
         if (board2.equals(sb)) System.out.println("yay");
     }
 
-    public static void guiTest() {
-        StarBoard board = BoardFactory.createStandardStarBoard(17,plist,1);;
+    public void guiTest() {
+        sb = BoardFactory.createStandardStarBoard(9,plist,0);;
         Graphical i = new Graphical();
-        Game game = new Game(i, board);
-        game.addPlayer(plist.peekFirst());
-        i.printBoard(board);
+        game = new Game(i, sb);
+        game.addPlayer(plist.get(0));
+        game.addPlayer(plist.get(1));
+        i.printBoard(sb);
     }
 }
