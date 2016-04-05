@@ -32,11 +32,11 @@ public class Graphical extends JFrame implements Interface     //interface as in
     private static final Color BACKGROUND_COLOR = Color.white;
     private static final Color FRAME_COLOR = Color.black;
     private static final Color JUMP_COLOR = Color.LIGHT_GRAY;
+    private static final Color SELECTED_COLOR = Color.red;
 
     private class Panel extends JPanel {
         private Board board = null;
         private Position hoverPosition = new Position(-1,-1);
-        private boolean selected = false;
         private Position selectedPosition = new Position(-1,-1);
         //        private final Game game;
         private LinkedList<Position> possibleJumps = new LinkedList<>();
@@ -60,22 +60,16 @@ public class Graphical extends JFrame implements Interface     //interface as in
                     fv = board.getPosition(x, y);
                     if (fv != FIELD_VALUE.INVALID) {
                         c = fv.getPlayer().getColor();
-                        if (possibleJumps.contains(new Position(x, y))) {
-                            drawFieldCentered(g, JUMP_COLOR, (getCoordinateX(x,y)), (getCoordinateY(y)));
+                        if (new Position(x, y).equals(selectedPosition)) {
+                            drawFieldCentered(g, c, SELECTED_COLOR, (getCoordinateX(x,y)), (getCoordinateY(y)));
+                        } else if (possibleJumps.contains(new Position(x, y))) {
+                            drawFieldCentered(g, JUMP_COLOR, FRAME_COLOR, (getCoordinateX(x,y)), (getCoordinateY(y)));
                         } else {
-                            drawFieldCentered(g, c, (getCoordinateX(x,y)), (getCoordinateY(y)));
+                            drawFieldCentered(g, c, FRAME_COLOR, (getCoordinateX(x,y)), (getCoordinateY(y)));
                         }
                     }
                 }
             }
-        }
-        
-        private boolean whyDoIneedThis(LinkedList<Position> posi, Position pos) {
-            Position[] posis = posi.toArray(new Position[1]);
-            for (int i = 0; i < posi.size(); i++) {
-                if(posis[i].equals(pos)) return true;
-            }
-            return false;
         }
 
         protected int getCoordinateX(int x, int y) {
@@ -105,9 +99,9 @@ public class Graphical extends JFrame implements Interface     //interface as in
             System.out.println("CH: " + CONSTANT_HORIZONTAL);
         }
 
-        protected void drawFieldCentered(Graphics g, Color c, int x, int y) {
-            drawCenteredCircle(g, FRAME_COLOR, x, y, CIRCLE_RADIUS);
-            drawCenteredCircle(g, c, x, y, CIRCLE_RADIUS - CIRCLE_FRAME);
+        protected void drawFieldCentered(Graphics g, Color center, Color frame, int x, int y) {
+            drawCenteredCircle(g, frame, x, y, CIRCLE_RADIUS);
+            drawCenteredCircle(g, center, x, y, CIRCLE_RADIUS - CIRCLE_FRAME);
         }
 
         protected void drawCenteredCircle(Graphics g, Color c, int x, int y, int radius) {
@@ -139,12 +133,14 @@ public class Graphical extends JFrame implements Interface     //interface as in
         private void hover() {
             //System.out.println("selected" + selected);
             //System.out.println("valid: " + validHover());
-            if ((!selected) && (validHover())) {
+            boolean selected = !selectedPosition.equals(Position.InvalidPosition);
+            if (!selected && (validHover())) {
                 //System.out.println(game.getNextPlayer);
                 possibleJumps = board.getJumpPositions(hoverPosition);
             } else if (selected) {
                 possibleJumps = board.getJumpPositions(selectedPosition);
             } else {
+                selectedPosition = Position.InvalidPosition;
                 possibleJumps.clear();
             }
             repaint();
@@ -153,12 +149,16 @@ public class Graphical extends JFrame implements Interface     //interface as in
         public void click() {
             if (game.getNextPlayer() instanceof LocalPlayer) {
                 if (validHover()) {
-                    selectedPosition = hoverPosition;
+                    if (hoverPosition.equals(selectedPosition)) {
+                        selectedPosition = Position.InvalidPosition;
+                    } else {
+                        selectedPosition = hoverPosition;
+                    }
                 }
-                selected = !selected;
             } else {
-                selected = false;
+                selectedPosition = Position.InvalidPosition;
             }
+            hover();
         }
     }
 
@@ -214,7 +214,7 @@ public class Graphical extends JFrame implements Interface     //interface as in
 
     public void setGame(Game game) {
         this.game = game;
-        
+
     }
 
     public void printBoard(Board b)  {
