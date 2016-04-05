@@ -1,4 +1,5 @@
 import java.util.LinkedList;
+import java.awt.Color;
 
 /**
  * Write a description of class _test here.
@@ -8,11 +9,18 @@ import java.util.LinkedList;
  */
 public class _test
 {
-	static StarBoard sb;
+    static StarBoard sb;
     static String savedBoard;
+    static LinkedList<Player> plist = new LinkedList<>();
     
     public static void main(String[] args){
-    	//makeTest();
+        //makeTest();
+        plist.add(new LocalPlayer(FIELD_VALUE.PLAYER1, Color.blue));
+        plist.add(new LocalPlayer(FIELD_VALUE.PLAYER2, Color.red));
+        plist.add(new LocalPlayer(FIELD_VALUE.PLAYER3, Color.green));
+        plist.add(new LocalPlayer(FIELD_VALUE.PLAYER4, Color.orange));
+        plist.add(new LocalPlayer(FIELD_VALUE.PLAYER5, Color.magenta));
+        plist.add(new LocalPlayer(FIELD_VALUE.PLAYER6, Color.yellow));
         guiTest();
     }
        
@@ -43,14 +51,10 @@ public class _test
     }
 
     public static void guiTest() {
-    	LinkedList<Player> plist = new LinkedList<>();
-        plist.add(new LocalPlayer(FIELD_VALUE.PLAYER1, null));
-        Player p2 = new LocalPlayer(FIELD_VALUE.PLAYER2, null);
-        plist.add(p2);
-    	StarBoard board = BoardFactory.createStandardStarBoard(17,plist,0);;
-    	Interface i = new Graphical();
-    	Interface t = new Text();
-    	i.printBoard(board);
-    	t.printBoard(board);
+        StarBoard board = BoardFactory.createStandardStarBoard(17,plist,1);;
+        Graphical i = new Graphical();
+        Game game = new Game(i, board);
+        game.addPlayer(plist.peekFirst());
+        i.printBoard(board);
     }
 }

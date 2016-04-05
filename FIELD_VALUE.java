@@ -7,14 +7,14 @@ import java.awt.Color;
  */
 public enum FIELD_VALUE
 {
-    INVALID(-2, ' ', Color.white),EMPTY(-1, '.', Color.white),PLAYER1(0, '+', Color.red),PLAYER2(1, '#', Color.blue),PLAYER3(2, '*', Color.black),PLAYER4(3, '&', Color.green),PLAYER5(4, '%', Color.yellow),PLAYER6(5, '§', Color.pink);
+    INVALID(-2, ' '),EMPTY(-1, '.'),PLAYER1(0, '+'),PLAYER2(1, '#'),PLAYER3(2, '*'),PLAYER4(3, '&'),PLAYER5(4, '%'),PLAYER6(5, '§');
     private final int val;
-    private final char c;
-    private final Color color;
-    FIELD_VALUE(int val, char c, Color color) {
+    private final char c; //only needed for debug text interface, might as well leave it here
+    private Player player = null;
+    
+    FIELD_VALUE(int val, char c) {
         this.val = val;
         this.c = c;
-        this.color = color;
     }
     
     public int getVal() {
@@ -25,15 +25,18 @@ public enum FIELD_VALUE
         return c;
     }
     
+    public Player getPlayer() {
+        return player;
+    }
+    
+    public void setPlayer(Player p) {
+        this.player = p;
+    }
+    
     public static FIELD_VALUE getValByInt(int i) {
         for (FIELD_VALUE fv : FIELD_VALUE.values())  {
             if (fv.getVal() == i) return fv;
         }
         return null;
     }
-    
-    public Color getColor() {
-        return color;
-    }
-    //add a symbol return? mayyybeeeee
 }

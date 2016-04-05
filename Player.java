@@ -9,11 +9,11 @@ import java.awt.Color;
  */
 public abstract class Player
 {
-    protected final Color p_color;
-    protected final FIELD_VALUE fieldValue;
-    public static Player emptyPlayer = new LocalPlayer(FIELD_VALUE.EMPTY,null);
+    protected Color p_color;
+    protected FIELD_VALUE fieldValue;
+    public static Player emptyPlayer = new LocalPlayer(FIELD_VALUE.EMPTY,Color.white);
     protected String name;
-    protected LinkedList<Position> tokens;
+    //protected LinkedList<Position> tokens;
     
     public Player() {
         this(FIELD_VALUE.PLAYER1, null, "");
@@ -32,13 +32,9 @@ public abstract class Player
     }
     
     public Player(FIELD_VALUE fieldValue, Color color, String s) {
-        this.fieldValue = fieldValue;
+        setFieldValue(fieldValue);
         this.p_color = (color == null) ? Color.black : color;
         this.name = (s.equals("")) ? "Player" + fieldValue.getVal() : s;
-    }
-
-    public char getSymbol() {
-        return fieldValue.getSymbol();
     }
 
     public Color getColor() {
@@ -53,10 +49,23 @@ public abstract class Player
         return name;
     }
     
+    public void setName(String s) {
+        this.name = s;
+    }
+    
+    public void setFieldValue(FIELD_VALUE fv) {
+        fv.setPlayer(this);
+        this.fieldValue = fv;
+    }
+    
+    public void setColor(Color c) {
+        this.p_color = c;
+    }
+    
     //request the player to make a move
     public abstract Move requestMove(Interface iface, Board board);
     
-    public boolean equals (Player p) {
-        return p.fieldValue == this.fieldValue;
+    public boolean equals (Object p) {
+        return ((Player)p).fieldValue == this.fieldValue;
     }
 }

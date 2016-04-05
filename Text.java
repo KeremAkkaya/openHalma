@@ -32,4 +32,6 @@ public class Text implements Interface
         }
         return null;
     }
+    
+    public void setGame(Game g) {}
 }

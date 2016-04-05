@@ -5,10 +5,10 @@
  * @author (your name here)
  * @version (version number or date here)
  */
-public interface Interface		//should be an interface --> nothing to implement here (and i need to extend JPanel in GUI.java), I think thats the way to go
+public interface Interface      //should be an interface --> nothing to implement here (and i need to extend JPanel in GUI.java), I think thats the way to g    o
 {
-        
-    public void printBoard(Board b);
+    public abstract void printBoard(Board b);
+
+    public void setGame(Game g);
     
-    public Move requestMove(Player player);
 }

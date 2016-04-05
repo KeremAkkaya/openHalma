@@ -11,15 +11,17 @@ public class Game implements Serializable
     private Board board;
     private LinkedList<Move> moves = new LinkedList<>();
     private LinkedList<Move> cachedMoves = new LinkedList<>(); //additional list for 'undo'/'redo' functionality
-    private LinkedList<Player> players;
+    private LinkedList<Player> players = new LinkedList<>();
     private Interface iface;
 
     public Game() {
 
     }
 
-    public Game(Interface i) {
+    public Game(Interface i, Board board) {
         this.iface = i;
+        this.iface.setGame(this);
+        this.board = board;
     }
     
     public boolean addPlayer(Player p) {
@@ -60,26 +62,26 @@ public class Game implements Serializable
         board.setPosition(move.end, move.player.getFieldValue());
     }
 
-    public int undoMove() {
+    public boolean undoMove() {
         if (undoable()) {
             Move m = moves.getLast();
             applyMove(new Move(m.player, m.end, m.start));
             players.addFirst(players.pop());
             cachedMoves.push(moves.pop());
-            return 0;
+            return true;
         } else {
-            return 1;
+            return false;
         }
     }
 
-    public int redoMove() {
+    public boolean redoMove() {
         if (redoable()) {
             applyMove(cachedMoves.getLast());
             players.push(players.remove());
             moves.push(cachedMoves.pop());
-            return 0;
+            return true;
         } else {
-            return 1;
+            return false;
         }
     }
 
@@ -106,5 +108,9 @@ public class Game implements Serializable
         } while (!board.isValidMove(move));
         makeMove(move);
         players.push(players.remove());
+    }
+    
+    public Board getBoard() {
+        return board;
     }
 }

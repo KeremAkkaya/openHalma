@@ -7,7 +7,7 @@
  */
 public class Position
 {
-    
+    public static final Position InvalidPosition = new Position(-1, -1);
     public final int x, y;
     
     public Position()
@@ -20,9 +20,13 @@ public class Position
         this.y = y;
     }
 
-    public boolean equals(Position p) {
-        if ((p.x == this.x) && (p.y == this.y)) return true;
+    public boolean equals(Object p) {
+        if ( (((Position)p).x == this.x) && (((Position)p).y == this.y)) return true;
         return false;
+    }
+    
+    public int hashCode() {
+        return 1;
     }
     
     public String toString() {

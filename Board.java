@@ -105,11 +105,11 @@ public abstract class Board
         return true;
     }
 
-    public boolean equals(Board b) {
-        if (b.dimension != this.dimension) return false;
+    public boolean equals(Object b) {
+        if (((Board)b).dimension != this.dimension) return false;
         for (int i = 0; i < this.dimension; i++) {
             for (int j = 0; j < this.dimension; j++) {
-                if (this.board[i][j] != b.board[i][j]) return false;
+                if (this.board[i][j] != ((Board)b).board[i][j]) return false;
             }
         }
         return true;

@@ -72,8 +72,8 @@ public class BoardFactory
             break;
 
             case 2:
-            st_makeTriangle1(players.get(0).getFieldValue(),sb,i_reduce,vals);
-            st_makeTriangle4(players.get(1).getFieldValue(),sb,i_reduce,vals);
+            st_makeTriangle4(players.get(0).getFieldValue(),sb,i_reduce,vals);
+            st_makeTriangle1(players.get(1).getFieldValue(),sb,i_reduce,vals);
             break;
 
             case 3:
