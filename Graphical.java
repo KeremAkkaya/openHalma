@@ -141,9 +141,9 @@ public class Graphical extends JFrame implements Interface     //interface as in
             //System.out.println("valid: " + validHover());
             if ((!selected) && (validHover())) {
                 //System.out.println(game.getNextPlayer);
-                possibleJumps = board.getJumpPositions(hoverPosition, game.getNextPlayer());
+                possibleJumps = board.getJumpPositions(hoverPosition);
             } else if (selected) {
-                possibleJumps = board.getJumpPositions(selectedPosition, game.getNextPlayer());
+                possibleJumps = board.getJumpPositions(selectedPosition);
             } else {
                 possibleJumps.clear();
             }

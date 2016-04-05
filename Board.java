@@ -116,4 +116,8 @@ public abstract class Board
     }
     
     public abstract int getMaxPlayers();
+    
+    public LinkedList<Position> getJumpPositions(Position pos) {
+        return getJumpPositions(pos, null);
+    }
 }

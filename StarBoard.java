@@ -53,17 +53,24 @@ public class StarBoard extends Board
     }
 
     //returns all valid positions given a player and a (start-)position
+    //if p == null, the search is not restricted to the player
     public LinkedList<Position> getJumpPositions(Position pos, Player p) {
         LinkedList<Position> positions = new LinkedList<>();
-        if(!(getPosition(pos).equals(p.getFieldValue()))) {
-            //try to move other than player
-            //does it make sense to restrict it to the player?
-            return positions;
+        FIELD_VALUE fv;
+        if (p != null) {
+            if(!(getPosition(pos).equals(p.getFieldValue()))) {
+                //try to move other than player
+                //does it make sense to restrict it to the player?
+                return positions;
+            }
+            fv = p.getFieldValue();
+        } else {
+            fv = null;
         }
         //this call adds all jumps and chained jumps
-        _getJumpPositions(pos.x,pos.y,p.getFieldValue(),positions);
+        _getJumpPositions(pos.x,pos.y,fv,positions);
         for (int i = 0; i < 6; i++) { //this loop checks whether all the positions where the token is only moved one field are valid jumps
-            if (isValidJump(pos.x, pos.y, pos.x + signa[i][0], pos.y + signa[i][1], p.getFieldValue())) {
+            if (isValidJump(pos.x, pos.y, pos.x + signa[i][0], pos.y + signa[i][1], fv)) {
                 positions.add(new Position(pos.x + signa[i][0], pos.y + signa[i][1]));
             }
         }
@@ -82,9 +89,16 @@ public class StarBoard extends Board
     //returns true if the jump from (ax,ay) to (bx,by) is valid; only works for jumps with distance <=2 (1-field move and unchained jump)
     private boolean isValidJump(int ax, int ay, int bx, int by, FIELD_VALUE v) {
         int sigx = (int)Math.signum(bx - ax), sigy = (int)Math.signum(by - ay);
-        if ( ( (getPosition(ax, ay) != v) && (getPosition(ax, ay) != FIELD_VALUE.EMPTY) ) || (getPosition(bx, by) != FIELD_VALUE.EMPTY) ) {
-            return false;
+        if (v == null) {
+            if ( ( (getPosition(ax, ay).getVal() < 0) ) || (getPosition(bx, by) != FIELD_VALUE.EMPTY) ) {
+                return false;
+            }
+        } else {
+            if ( ( (getPosition(ax, ay) != v) && (getPosition(ax, ay) != FIELD_VALUE.EMPTY) ) || (getPosition(bx, by) != FIELD_VALUE.EMPTY) ) {
+                return false;
+            }
         }
+
         if (inHexagon(ax,ay,bx,by,1)) { //1-field move
             return true;
         }
