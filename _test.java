@@ -56,7 +56,7 @@ public class _test
     }
 
     public void guiTest() {
-        sb = BoardFactory.createStandardStarBoard(9,plist,0);;
+        sb = BoardFactory.createStandardStarBoard(17,plist,0);;
         Graphical i = new Graphical();
         game = new Game(i, sb);
         game.addPlayer(plist.get(0));
