@@ -13,6 +13,11 @@ public class _test
     String savedBoard;
     LinkedList<Player> plist = new LinkedList<>();
     Game game;
+    
+    public static void main(String[] args) {
+        new _test();
+    }
+    
     public _test() {
         main();
     }

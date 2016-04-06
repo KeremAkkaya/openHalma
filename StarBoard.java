@@ -90,7 +90,7 @@ public class StarBoard extends Board
     private boolean isValidJump(int ax, int ay, int bx, int by, FIELD_VALUE v) {
         int sigx = (int)Math.signum(bx - ax), sigy = (int)Math.signum(by - ay);
         if (v == null) {
-            if ( ( (getPosition(ax, ay).getVal() < 0) ) || (getPosition(bx, by) != FIELD_VALUE.EMPTY) ) {
+            if ( ( (getPosition(ax, ay).getVal() < -1) ) || (getPosition(bx, by) != FIELD_VALUE.EMPTY) ) {
                 return false;
             }
         } else {
