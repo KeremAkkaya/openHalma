@@ -57,6 +57,7 @@ public class StarBoard extends Board
     public LinkedList<Position> getJumpPositions(Position pos, Player p) {
         LinkedList<Position> positions = new LinkedList<>();
         FIELD_VALUE fv;
+        if (getPosition(pos).getVal() < 0 ) return positions; //ignore start positions that are empty or invalid
         if (p != null) {
             if(!(getPosition(pos).equals(p.getFieldValue()))) {
                 //try to move other than player
