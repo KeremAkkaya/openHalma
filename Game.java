@@ -13,6 +13,9 @@ public class Game implements Serializable
     private LinkedList<Move> cachedMoves = new LinkedList<>(); //additional list for 'undo'/'redo' functionality
     private LinkedList<Player> players = new LinkedList<>();
     private Interface iface;
+    private Position hoverPosition = new Position(-1,-1);
+    private Position selectedPosition = new Position(-1,-1);
+    private LinkedList<Position> possibleJumps = new LinkedList<>();
 
     public Game() {
 
@@ -23,7 +26,7 @@ public class Game implements Serializable
         this.iface.setGame(this);
         this.board = board;
     }
-    
+
     public boolean addPlayer(Player p) {
         if (players.size() < board.getMaxPlayers()) {
             if (!players.contains(p)) {
@@ -33,7 +36,7 @@ public class Game implements Serializable
         }
         return false;
     }
-    
+
     public boolean removePlayer(Player p) {
         if (players.contains(p)) {
             players.remove(p);
@@ -49,7 +52,7 @@ public class Game implements Serializable
         while (!isFinished()) requestMove();
         return true;
     }
-    
+
     public boolean tryMove(Move move) {
         if(board.getJumpPositions(move.start, getNextPlayer()).contains(move.end)) {
             makeMove(move);
@@ -69,6 +72,7 @@ public class Game implements Serializable
     private void applyMove(Move move) {
         board.setPosition(move.start, Player.emptyPlayer.getFieldValue());
         board.setPosition(move.end, move.player.getFieldValue());
+        iface.repaint();
     }
 
     public boolean undoMove() {
@@ -105,7 +109,7 @@ public class Game implements Serializable
     public Player getNextPlayer() {
         return players.peekFirst();
     }
-    
+
     public boolean isFinished() {
         return true;
     }
@@ -117,8 +121,52 @@ public class Game implements Serializable
         } while (!board.isValidMove(move));
         makeMove(move);
     }
-    
+
+    private boolean validHover() {
+        return (!hoverPosition.equals(Position.InvalidPosition));
+    }
+
+    public void hoverPosition(Position pos) {
+        hoverPosition = pos;
+        boolean selected = !selectedPosition.equals(Position.InvalidPosition);
+        if (!selected && (validHover())) {
+            possibleJumps = board.getJumpPositions(hoverPosition);
+        } else if (selected) {
+            possibleJumps = board.getJumpPositions(selectedPosition);
+        } else {
+            selectedPosition = Position.InvalidPosition;
+            possibleJumps.clear();
+        }
+        iface.repaint();
+    }
+
+    public void click() {
+        if (getNextPlayer() instanceof LocalPlayer) {
+            if (validHover()) {
+                if (hoverPosition.equals(selectedPosition)) {
+                    selectedPosition = Position.InvalidPosition;
+                } else {
+                    if (tryMove(new Move(getNextPlayer(), selectedPosition, hoverPosition))) {
+                        selectedPosition = Position.InvalidPosition;
+                    } else if ((board.getPosition(hoverPosition).getVal() >= 0) && (getNextPlayer().equals(board.getPosition(hoverPosition).getPlayer()))) selectedPosition = hoverPosition;
+                }
+            }
+        } else {
+            selectedPosition = Position.InvalidPosition;
+        }
+        System.out.println(hoverPosition);
+        hoverPosition(hoverPosition);
+    }
+
     public Board getBoard() {
         return board;
+    }
+
+    public Position getSelectedPosition() {
+        return selectedPosition;
+    }
+
+    public LinkedList<Position> getPossibleJumps() {
+        return possibleJumps;
     }
 }

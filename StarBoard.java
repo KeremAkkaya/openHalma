@@ -61,7 +61,6 @@ public class StarBoard extends Board
         if (p != null) {
             if(!(getPosition(pos).equals(p.getFieldValue()))) {
                 //try to move other than player
-                //does it make sense to restrict it to the player?
                 return positions;
             }
             fv = p.getFieldValue();
@@ -70,6 +69,7 @@ public class StarBoard extends Board
         }
         //this call adds all jumps and chained jumps
         _getJumpPositions(pos.x,pos.y,fv,positions);
+        
         for (int i = 0; i < 6; i++) { //this loop checks whether all the positions where the token is only moved one field are valid jumps
             if (isValidJump(pos.x, pos.y, pos.x + signa[i][0], pos.y + signa[i][1], fv)) {
                 positions.add(new Position(pos.x + signa[i][0], pos.y + signa[i][1]));
@@ -90,13 +90,13 @@ public class StarBoard extends Board
     //returns true if the jump from (ax,ay) to (bx,by) is valid; only works for jumps with distance <=2 (1-field move and unchained jump)
     private boolean isValidJump(int ax, int ay, int bx, int by, FIELD_VALUE v) {
         int sigx = (int)Math.signum(bx - ax), sigy = (int)Math.signum(by - ay);
-        if (v == null) {
-            if ( ( (getPosition(ax, ay).getVal() < -1) ) || (getPosition(bx, by) != FIELD_VALUE.EMPTY) ) {
-                return false;
+        if (v == null) { //ignore player
+            if ( ( (getPosition(ax, ay) == FIELD_VALUE.INVALID) ) || (getPosition(bx, by) != FIELD_VALUE.EMPTY) ) {
+                return false; //...if starting position is invalid or target position is not empty
             }
-        } else {
+        } else { //do not ignore player
             if ( ( (getPosition(ax, ay) != v) && (getPosition(ax, ay) != FIELD_VALUE.EMPTY) ) || (getPosition(bx, by) != FIELD_VALUE.EMPTY) ) {
-                return false;
+                return false; //...if starting position != playertoken or target position is not empty
             }
         }
 
@@ -104,7 +104,7 @@ public class StarBoard extends Board
             return true;
         }
         if (inHexagon(ax,ay,bx,by,2)) { //2-field jump
-            if (getPosition(ax + sigx, ay + sigy).getVal() >= 0) return true;
+            if (getPosition(ax + sigx, ay + sigy).getVal() >= 0) return true; //check whether there is a token to jump over
             return false;
         }
         return false;

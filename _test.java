@@ -66,6 +66,7 @@ public class _test
         game = new Game(i, sb);
         game.addPlayer(plist.get(0));
         game.addPlayer(plist.get(1));
-        i.printBoard(sb);
+        i.setGame(game);
+        i.repaint();
     }
 }

@@ -36,10 +36,7 @@ public class Graphical extends JFrame implements Interface     //interface as in
 
     private class Panel extends JPanel {
         private Board board = null;
-        private Position hoverPosition = new Position(-1,-1);
-        private Position selectedPosition = new Position(-1,-1);
-        //        private final Game game;
-        private LinkedList<Position> possibleJumps = new LinkedList<>();
+        private Position hoverPosition = Position.InvalidPosition;
 
         public Panel() {
             super();
@@ -60,9 +57,9 @@ public class Graphical extends JFrame implements Interface     //interface as in
                     fv = board.getPosition(x, y);
                     if (fv != FIELD_VALUE.INVALID) {
                         c = fv.getPlayer().getColor();
-                        if (new Position(x, y).equals(selectedPosition)) {
+                        if (new Position(x, y).equals(game.getSelectedPosition())) {
                             drawFieldCentered(g, c, SELECTED_COLOR, (getCoordinateX(x,y)), (getCoordinateY(y)));
-                        } else if (possibleJumps.contains(new Position(x, y))) {
+                        } else if (game.getPossibleJumps().contains(new Position(x, y))) {
                             drawFieldCentered(g, JUMP_COLOR, FRAME_COLOR, (getCoordinateX(x,y)), (getCoordinateY(y)));
                         } else {
                             drawFieldCentered(g, c, FRAME_COLOR, (getCoordinateX(x,y)), (getCoordinateY(y)));
@@ -116,52 +113,15 @@ public class Graphical extends JFrame implements Interface     //interface as in
         }
 
         public void updatePosition(int x, int y) {
-            //System.out.println(x + ";" + y);
             Position pos = getPositionByCoordinates(x,y);
-            //System.out.println(pos.toString());
             if (!this.hoverPosition.equals(pos)) {
                 hoverPosition = pos;
-                //System.out.println(hoverPosition.toString());
-                hover();
+                game.hoverPosition(hoverPosition);
             }
-        }
-
-        private boolean validHover() {
-            return (!hoverPosition.equals(Position.InvalidPosition));
-        }
-
-        private void hover() {
-            //System.out.println("selected" + selected);
-            //System.out.println("valid: " + validHover());
-            boolean selected = !selectedPosition.equals(Position.InvalidPosition);
-            if (!selected && (validHover())) {
-                //System.out.println(game.getNextPlayer);
-                possibleJumps = board.getJumpPositions(hoverPosition);
-            } else if (selected) {
-                possibleJumps = board.getJumpPositions(selectedPosition);
-            } else {
-                selectedPosition = Position.InvalidPosition;
-                possibleJumps.clear();
-            }
-            repaint();
         }
 
         public void click() {
-            if (game.getNextPlayer() instanceof LocalPlayer) {
-                if (validHover()) {
-                    if (hoverPosition.equals(selectedPosition)) {
-                        selectedPosition = Position.InvalidPosition;
-                    } else {
-                        if (game.tryMove(new Move(game.getNextPlayer(), selectedPosition, hoverPosition))) {
-                            selectedPosition = Position.InvalidPosition;
-                        } else if ((board.getPosition(hoverPosition).getVal() >= 0) && (game.getNextPlayer().equals(board.getPosition(hoverPosition).getPlayer()))) selectedPosition = hoverPosition;
-                    }
-                }
-            } else {
-                selectedPosition = Position.InvalidPosition;
-            }
-            System.out.println(hoverPosition);
-            hover();
+           game.click();
         }
     }
 
@@ -217,11 +177,10 @@ public class Graphical extends JFrame implements Interface     //interface as in
 
     public void setGame(Game game) {
         this.game = game;
-
+        panel.setBoard(game.getBoard());
     }
 
-    public void printBoard(Board b)  {
-        panel.setBoard(b);
+    public void repaint()  {
         panel.repaint();
     }
 

@@ -7,14 +7,16 @@ import java.io.*;
  */
 public class Text implements Interface
 {
+    
+    private Game game = null;
 
     public Text()
     {
 
     }
 
-    public void printBoard(Board b) {
-        System.out.println(b.toString());
+    public void repaint() {
+        System.out.println(game.getBoard().toString());
     }
 
     public Move requestMove(Player player) {

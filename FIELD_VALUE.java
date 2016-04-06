@@ -7,7 +7,7 @@ import java.awt.Color;
  */
 public enum FIELD_VALUE
 {
-    INVALID(-2, ' '),EMPTY(-1, '.'),PLAYER1(0, '+'),PLAYER2(1, '#'),PLAYER3(2, '*'),PLAYER4(3, '&'),PLAYER5(4, '%'),PLAYER6(5, '§');
+    JUMP(-3, ','), INVALID(-2, ' '), EMPTY(-1, '.'), PLAYER1(0, '+'), PLAYER2(1, '#'), PLAYER3(2, '*'), PLAYER4(3, '&'), PLAYER5(4, '%'), PLAYER6(5, '§');
     private final int val;
     private final char c; //only needed for debug text interface, might as well leave it here
     private Player player = null;
