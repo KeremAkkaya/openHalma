@@ -62,6 +62,8 @@ public class Game implements Serializable
     }
 
     private void makeMove(Move move) {
+        //TODO: change the currentPosition in Player
+        //TODO: check whether player finished the game
         System.out.println(move.toString());
         applyMove(move);
         moves.add(move);

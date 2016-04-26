@@ -34,6 +34,7 @@ public class Graphical extends JFrame implements Interface     //interface as in
     private static final Color JUMP_COLOR = Color.LIGHT_GRAY;
     private static final Color SELECTED_COLOR = Color.red;
 
+    //TODO: calculate the exact size of window needed and display board accordingly
     private class Panel extends JPanel {
         private Board board = null;
         private Position hoverPosition = Position.InvalidPosition;
@@ -50,7 +51,6 @@ public class Graphical extends JFrame implements Interface     //interface as in
             int dimension = board.getDimension();
             Color c;
             FIELD_VALUE fv;
-            Position pos;
 
             for (int x = 0; x < dimension; x++) {
                 for (int y = 0; y < dimension; y++) {

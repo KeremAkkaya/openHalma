@@ -13,6 +13,8 @@ public abstract class Player
     protected FIELD_VALUE fieldValue;
     public static Player emptyPlayer = new LocalPlayer(FIELD_VALUE.EMPTY,Color.white);
     protected String name;
+    protected LinkedList<Position> currentPositions, targetPositions;
+    protected Position direction; //this is a position because it needs to hold x and y value
     //protected LinkedList<Position> tokens;
     
     public Player() {
@@ -37,6 +39,20 @@ public abstract class Player
         this.name = (s.equals("")) ? "Player" + fieldValue.getVal() : s;
     }
 
+    public void initPositions(Board board) {
+        for(Position p: currentPositions) {
+            board.setPosition(p, this.fieldValue);
+        }
+    }
+
+    public void setCurrentPositions(LinkedList<Position> p) {
+        this.currentPositions=p;
+    }
+
+    public void setTargetPositions(LinkedList<Position> p) {
+        this.targetPositions=p;
+    }
+
     public Color getColor() {
         return p_color;
     }
@@ -56,6 +72,11 @@ public abstract class Player
     public void setFieldValue(FIELD_VALUE fv) {
         fv.setPlayer(this);
         this.fieldValue = fv;
+    }
+
+    public void moveToken(Move move) {
+        currentPositions.remove(move.start);
+        currentPositions.add(move.end);
     }
     
     public void setColor(Color c) {
