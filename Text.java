@@ -16,7 +16,7 @@ public class Text implements Interface
     }
 
     public void repaint() {
-        System.out.println(game.getBoard().toString());
+        System.out.println(game.getBoard().toString(false));
     }
 
     public Move requestMove(Player player) {
@@ -35,5 +35,7 @@ public class Text implements Interface
         return null;
     }
     
-    public void setGame(Game g) {}
+    public void setGame(Game g) {
+        this.game = g;
+    }
 }

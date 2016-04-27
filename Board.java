@@ -66,6 +66,8 @@ public abstract class Board
 
     public abstract String toString();
 
+    public abstract String toString(boolean format);
+
     public abstract LinkedList<Position> getJumpPositions(Position pos, Player p);
     
     public boolean isValidMove(Move move) {

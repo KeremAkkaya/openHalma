@@ -20,12 +20,12 @@ public class Graphical extends JFrame implements Interface     //interface as in
      * Added by Eclipse, JPanel seems to implement java.io.Serializable --> The serialization runtime associates with each serializable class a version number, called a serialVersionUID, which is used during deserialization to verify that the sender and receiver of a serialized object have loaded classes for that object that are compatible with respect to serialization.
      */
     private static final long serialVersionUID = 1L;
-    private static final int CIRCLE_RADIUS = 25;
+    private static final int CIRCLE_RADIUS = 15;
     private static final double CIRCLE_DISTANCE = 2.5 * CIRCLE_RADIUS;//25; //distance center to center, should be > 2*CIRCLE_RADIUS
     private static final int CIRCLE_FRAME = ((int)Math.round(CIRCLE_RADIUS / 8.0));
     private static final double PADDING_VERTICAL = CIRCLE_DISTANCE * Math.sqrt(3.0 / 4.0);
     private static final double PADDING_HORIZONTAL = CIRCLE_DISTANCE / 2;
-    private static final double CONSTANT_HORIZONTAL = 0; //-6 * CIRCLE_DISTANCE;
+    private double CONSTANT_HORIZONTAL = 0;// - 4 * CIRCLE_DISTANCE - CIRCLE_RADIUS;
     private static final int WIDTH = 1000;
     private static final int HEIGHT = 1000;
     private static final int PADDING_BORDER = 40;
@@ -51,26 +51,34 @@ public class Graphical extends JFrame implements Interface     //interface as in
             int dimension = board.getDimension();
             Color c;
             FIELD_VALUE fv;
+            Position pos;
 
             for (int x = 0; x < dimension; x++) {
                 for (int y = 0; y < dimension; y++) {
                     fv = board.getPosition(x, y);
+                    //pos = new Position(getCoordinateY(y), getCoordinateX(x,y));
+                    pos = new Position(getCoordinateX(x,y), (getCoordinateY(y)));
                     if (fv != FIELD_VALUE.INVALID) {
                         c = fv.getPlayer().getColor();
                         if (new Position(x, y).equals(game.getSelectedPosition())) {
-                            drawFieldCentered(g, c, SELECTED_COLOR, (getCoordinateX(x,y)), (getCoordinateY(y)));
+                            drawFieldCentered(g, c, SELECTED_COLOR, pos.x, pos.y);
                         } else if (game.getPossibleJumps().contains(new Position(x, y))) {
-                            drawFieldCentered(g, JUMP_COLOR, FRAME_COLOR, (getCoordinateX(x,y)), (getCoordinateY(y)));
+                            drawFieldCentered(g, JUMP_COLOR, FRAME_COLOR,  pos.x, pos.y);
                         } else {
-                            drawFieldCentered(g, c, FRAME_COLOR, (getCoordinateX(x,y)), (getCoordinateY(y)));
+                            drawFieldCentered(g, c, FRAME_COLOR, pos.x, pos.y);
                         }
+                    } else {
+                        //drawFieldCentered(g, Color.BLACK, Color.black, pos.x, pos.y);
+                        //debug output
                     }
+
                 }
             }
         }
 
         protected int getCoordinateX(int x, int y) {
-            return (int)Math.round( PADDING_BORDER + (y * PADDING_HORIZONTAL) + (x * CIRCLE_DISTANCE) + CONSTANT_HORIZONTAL );
+            //return (int)Math.round(PADDING_BORDER + x * (PADDING_HORIZONTAL +15 ));
+            return (int)Math.round( PADDING_BORDER + (y * PADDING_HORIZONTAL) + (x * CIRCLE_DISTANCE) - (((this.board.getDimension() - 1) /  3) * CIRCLE_DISTANCE + 2* CIRCLE_RADIUS) );
         }
 
         protected int getCoordinateY(int y) {
@@ -79,7 +87,7 @@ public class Graphical extends JFrame implements Interface     //interface as in
 
         protected Position getPositionByCoordinates(int x, int y) {
             int exacty = ((int)Math.round((y - PADDING_BORDER) / PADDING_VERTICAL));
-            int exactx = ((int)Math.round( (x - (PADDING_BORDER + (exacty * PADDING_HORIZONTAL) + CONSTANT_HORIZONTAL)) / CIRCLE_DISTANCE ));
+            int exactx = ((int)Math.round( (x - (PADDING_BORDER + (exacty * PADDING_HORIZONTAL) - (((this.board.getDimension() - 1) /  3) * CIRCLE_DISTANCE + 2* CIRCLE_RADIUS))) / CIRCLE_DISTANCE ));
             int distancex = Math.abs(x - getCoordinateX(exactx, exacty));
             int distancey = Math.abs(y - getCoordinateY(exacty));
             if (Math.round(Math.sqrt(distancex * distancex + distancey * distancey)) <= CIRCLE_RADIUS) return new Position(exactx, exacty);
@@ -109,7 +117,12 @@ public class Graphical extends JFrame implements Interface     //interface as in
         }
 
         public void setBoard(Board board) {
+
+            //CONSTANT_HORIZONTAL = 0 - ((board.getDimension() - 1) /  3) * CIRCLE_DISTANCE - CIRCLE_RADIUS;
             this.board = board;
+            //CONSTANT_HORIZONTAL = 0 - ((this.board.getDimension() - 1) /  3) * CIRCLE_DISTANCE - CIRCLE_RADIUS; //uncommenting this gives me nullpointer
+            //but why?
+
         }
 
         public void updatePosition(int x, int y) {
@@ -167,6 +180,7 @@ public class Graphical extends JFrame implements Interface     //interface as in
     {
         super("openHalma");
         setSize(WIDTH,HEIGHT);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         panel = new Panel();
         panel.setBackground(BACKGROUND_COLOR);
         panel.addMouseMotionListener(new MoveListener(panel));

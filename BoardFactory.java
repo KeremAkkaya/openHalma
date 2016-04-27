@@ -1,4 +1,6 @@
 import java.util.LinkedList;
+import java.util.List;
+
 /**
  * Write a description of class BoardFactory here.
  * 
@@ -12,11 +14,11 @@ public class BoardFactory
     
     
     public class StandardStar_Values { //contains length of edges of the star board dependent on the dimension
-        public final int dimension;         //=7
-        public final int short_triangle;    //=2
-        public final int long_triangle;     //=3
-        public final int full;              //=9 this is the 'real' dimension of the board, namely the width and height of the matrix
-        public final int edge_hexagon;      //=5
+        public final int dimension;         //=7 // 13 // 10
+        public final int short_triangle;    //=2 // 4  // 3
+        public final int long_triangle;     //=3 // 5  // 4
+        public final int full;              //=9 // 17 // 13   this is the 'real' dimension of the board, namely the width and height of the matrix
+        public final int edge_hexagon;      //=5 // 9  // 7
 
         public StandardStar_Values(int full) {
             if (((3 * full + 1) % 4) != 0) {
@@ -56,60 +58,54 @@ public class BoardFactory
         StandardStar_Values vals = new StandardStar_Values(dimension);
         StarBoard sb = new StarBoard(vals.full);
         sb.initBoard();
-        st_makeHexagon(Player.emptyPlayer, sb, vals);
-        st_makeTriangle1(Player.emptyPlayer,sb,0,vals);
-        st_makeTriangle2(Player.emptyPlayer,sb,0,vals);
-        st_makeTriangle3(Player.emptyPlayer,sb,0,vals);
-        st_makeTriangle4(Player.emptyPlayer,sb,0,vals);
-        st_makeTriangle5(Player.emptyPlayer,sb,0,vals);
-        st_makeTriangle6(Player.emptyPlayer,sb,0,vals);
-        
+        LinkedList<Position> pos = new LinkedList<>();
+        pos.addAll(st_makeHexagon(vals));
+        pos.addAll(st_makeTriangle1(0,vals));
+        pos.addAll(st_makeTriangle2(0,vals));
+        pos.addAll(st_makeTriangle3(0,vals));
+        pos.addAll(st_makeTriangle4(0,vals));
+        pos.addAll(st_makeTriangle5(0,vals));
+        pos.addAll(st_makeTriangle6(0,vals));
+
+        for(Position posi : pos) {
+            sb.setPosition(posi,FIELD_VALUE.EMPTY);
+        }
         switch(players.size()) {
-            case 0:
-            break;
-
-            case 1:
-            st_makeTriangle1(players.get(0),sb,i_reduce,vals);
-            break;
-
-            case 2:
-            st_makeTriangle3(players.get(0),sb,i_reduce,vals);
-            st_makeTriangle6(players.get(1),sb,i_reduce,vals);
-            break;
+            case 5:
+                players.get(4).setCurrentPositions(st_makeTriangle4(i_reduce,vals));
+                players.get(3).setCurrentPositions(st_makeTriangle2(i_reduce,vals));
 
             case 3:
-            st_makeTriangle1(players.get(0),sb,i_reduce,vals);
-            st_makeTriangle3(players.get(1),sb,i_reduce,vals);
-            st_makeTriangle5(players.get(2),sb,i_reduce,vals);
-            break;
+                players.get(1).setCurrentPositions(st_makeTriangle3(i_reduce,vals));
+                players.get(2).setCurrentPositions(st_makeTriangle5(i_reduce,vals));
 
-            case 4:
-            st_makeTriangle1(players.get(0),sb,i_reduce,vals);
-            st_makeTriangle4(players.get(1),sb,i_reduce,vals);
-            st_makeTriangle2(players.get(2),sb,i_reduce,vals);
-            st_makeTriangle5(players.get(3),sb,i_reduce,vals);
-            break;
+            case 1:
+                players.get(0).setCurrentPositions(st_makeTriangle1(i_reduce,vals));
+                break;
 
-            case 5:
-            st_makeTriangle1(players.get(0),sb,i_reduce,vals);
-            st_makeTriangle4(players.get(1),sb,i_reduce,vals);
-            st_makeTriangle2(players.get(2),sb,i_reduce,vals);
-            st_makeTriangle5(players.get(3),sb,i_reduce,vals);
-            st_makeTriangle3(players.get(4),sb,i_reduce,vals);
-            break;
 
             case 6:
-            st_makeTriangle1(players.get(0),sb,i_reduce,vals);
-            st_makeTriangle2(players.get(1),sb,i_reduce,vals);
-            st_makeTriangle3(players.get(2),sb,i_reduce,vals);
-            st_makeTriangle4(players.get(3),sb,i_reduce,vals);
-            st_makeTriangle5(players.get(4),sb,i_reduce,vals);
-            st_makeTriangle6(players.get(5),sb,i_reduce,vals);
-            break;
+                players.get(4).setCurrentPositions(st_makeTriangle1(i_reduce,vals));
+                players.get(5).setCurrentPositions(st_makeTriangle4(i_reduce,vals));
+
+            case 4:
+                players.get(2).setCurrentPositions(st_makeTriangle2(i_reduce,vals));
+                players.get(3).setCurrentPositions(st_makeTriangle5(i_reduce,vals));
+
+            case 2:
+                players.get(0).setCurrentPositions(st_makeTriangle3(i_reduce,vals));
+                players.get(1).setCurrentPositions(st_makeTriangle6(i_reduce,vals));
+
+            case 0:
+                break;
 
             default:
             System.out.println("number of players not supported");
             return null;
+        }
+
+        for (Player p : players) {
+            p.initPositions(sb);
         }
         return sb;
     }
@@ -121,64 +117,78 @@ public class BoardFactory
         return getInstance()._createStarBoard(dimension, players, i_reduce);
     }
 
-    private void st_makeHexagon(Player player, StarBoard sb, StandardStar_Values vals) {
+    private LinkedList<Position> st_makeHexagon(StandardStar_Values vals) {
+        LinkedList<Position> pos = new LinkedList<Position>();
         for (int i = vals.short_triangle; i < vals.edge_hexagon - 1; i++) {
             for (int j = vals.edge_hexagon - 1 - (i - vals.short_triangle); j < vals.dimension; j++) {
-                sb.setPosition(new Position(i,j), player.getFieldValue());
+                pos.add(new Position(i,j));
             }
         }
         for (int i = vals.edge_hexagon - 1; i < vals.dimension; i++) {
             for (int j = vals.long_triangle - 1; j < vals.dimension - 1 - (i - vals.edge_hexagon); j++) {
-                sb.setPosition(new Position(i,j), player.getFieldValue());
+                pos.add(new Position(i,j));
             }
         }
+        return pos;
     }
 
-    private void st_makeTriangle1(Player player, StarBoard sb, int i_reduce, StandardStar_Values vals) {
+    private LinkedList<Position> st_makeTriangle1(int i_reduce, StandardStar_Values vals) {
+        LinkedList<Position> pos = new LinkedList<Position>();
         for (int i = 0; i <= (vals.short_triangle - i_reduce); i++) {
             for (int j = vals.dimension - 1; j >= (vals.dimension - 1 - i); j--) {
-                sb.setPosition(new Position(i,j), player.getFieldValue());
+                pos.add(new Position(i, j));
             }
         }
+        return pos;
     }
 
-    private void st_makeTriangle2(Player player, StarBoard sb, int i_reduce, StandardStar_Values vals) {
+    private LinkedList<Position> st_makeTriangle2(int i_reduce, StandardStar_Values vals) {
+        LinkedList<Position> pos = new LinkedList<Position>();
         for (int i = vals.long_triangle - 1; i <= vals.edge_hexagon - 1; i++) {
             for (int j = vals.short_triangle; j < (vals.edge_hexagon - i_reduce - (i-vals.short_triangle)); j++) {
-                sb.setPosition(new Position(i,j), player.getFieldValue());
+                pos.add(new Position(i, j));
             }
         }
+        return pos;
     }
 
-    private void st_makeTriangle3(Player player, StarBoard sb, int i_reduce, StandardStar_Values vals) {
+    private LinkedList<Position> st_makeTriangle3(int i_reduce, StandardStar_Values vals) {
+        LinkedList<Position> pos = new LinkedList<Position>();
         for (int i = vals.edge_hexagon - 1; i <= vals.full - vals.long_triangle; i++) {
             for (int j = vals.short_triangle - i_reduce; j >= vals.short_triangle - (i - (vals.edge_hexagon - 1)); j--) {
-                sb.setPosition(new Position(i,j), player.getFieldValue());
+                pos.add(new Position(i, j));
             }
         }
+        return pos;
     }
 
-    private void st_makeTriangle4(Player player, StarBoard sb, int i_reduce, StandardStar_Values vals) {
+    private LinkedList<Position> st_makeTriangle4(int i_reduce, StandardStar_Values vals) {
+        LinkedList<Position> pos = new LinkedList<Position>();
         for (int i = vals.dimension + i_reduce - 1; i < vals.full; i++) {
             for(int j = vals.short_triangle; j < vals.edge_hexagon - 1 - (i - vals.dimension); j++) {
-                sb.setPosition(new Position(i,j), player.getFieldValue());
+                pos.add(new Position(i, j));
             }
         }
+        return pos;
     }
 
-    private void st_makeTriangle5(Player player, StarBoard sb, int i_reduce, StandardStar_Values vals) {
+    private LinkedList<Position> st_makeTriangle5(int i_reduce, StandardStar_Values vals) {
+        LinkedList<Position> pos = new LinkedList<Position>();
         for (int i = vals.edge_hexagon - 1; i <= vals.full - vals.long_triangle; i++) {
             for (int j = vals.dimension - 1; j >= vals.dimension - 1 - (i - vals.edge_hexagon + 1 - i_reduce); j--) {
-                sb.setPosition(new Position(i,j), player.getFieldValue());
+                pos.add(new Position(i, j));
             }
         }
+        return pos;
     }
 
-    private void st_makeTriangle6(Player player, StarBoard sb, int i_reduce, StandardStar_Values vals) {
+    private LinkedList<Position> st_makeTriangle6(int i_reduce, StandardStar_Values vals) {
+        LinkedList<Position> pos = new LinkedList<Position>();
         for (int i = vals.short_triangle; i < vals.edge_hexagon; i++) {
             for (int j = vals.dimension - 1 + i_reduce; j < vals.full - (i - vals.short_triangle); j++) {
-                sb.setPosition(new Position(i,j), player.getFieldValue());
+                pos.add(new Position(i, j));
             }
         }
+        return pos;
     }
 }

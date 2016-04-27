@@ -121,7 +121,7 @@ public class StarBoard extends Board
         return false;
     }
 
-    private LinkedList<Position> _getJumpPositions(int x, int y, FIELD_VALUE v, LinkedList<Position> positions) {
+    private List<Position> _getJumpPositions(int x, int y, FIELD_VALUE v, LinkedList<Position> positions) {
         //Jumps in 6 directions
         for (int i = 0; i < 6; i++) {
             testPosition(x,y,2*signa[i][0],2*signa[i][1],v,positions);
