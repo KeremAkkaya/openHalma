@@ -11,7 +11,15 @@ public class BoardFactory
 {
 
     private static BoardFactory instanceBoardFactory = null;
-    
+
+    private int[][] directions = {
+            {2, -1},
+            {1,  1},
+            {-1, 2},
+            {-2, 1},
+            {-1,-1},
+            {1, -2}
+    };
     
     public class StandardStar_Values { //contains length of edges of the star board dependent on the dimension
         public final int dimension;         //=7 // 13 // 10
@@ -44,6 +52,7 @@ public class BoardFactory
         return instanceBoardFactory;
     }
     //TODO: instead of directly interacting with the board, set the currentPositions and targetPosition + direction for each player and let (game/player/board) init them
+    //TODO: or give players to st_makeTriangleX and let the method set all parameters
 
     private StarBoard _createStarBoard(int dimension, LinkedList<Player> players, int i_reduce) {
         if(i_reduce < 0) {
@@ -72,30 +81,40 @@ public class BoardFactory
         }
         switch(players.size()) {
             case 5:
-                players.get(4).setCurrentPositions(st_makeTriangle4(i_reduce,vals));
-                players.get(3).setCurrentPositions(st_makeTriangle2(i_reduce,vals));
+                //players.get(4).setCurrentPositions(st_makeTriangle4(i_reduce,vals));
+                //players.get(3).setCurrentPositions(st_makeTriangle2(i_reduce,vals));
+                preparePlayer(i_reduce,vals,players.get(4),4);
+                preparePlayer(i_reduce,vals,players.get(3),2);
 
             case 3:
-                players.get(1).setCurrentPositions(st_makeTriangle3(i_reduce,vals));
-                players.get(2).setCurrentPositions(st_makeTriangle5(i_reduce,vals));
+                //players.get(1).setCurrentPositions(st_makeTriangle3(i_reduce,vals));
+                //players.get(2).setCurrentPositions(st_makeTriangle5(i_reduce,vals));
+                preparePlayer(i_reduce,vals,players.get(1),3);
+                preparePlayer(i_reduce,vals,players.get(2),5);
 
             case 1:
-                players.get(0).setCurrentPositions(st_makeTriangle1(i_reduce,vals));
+                preparePlayer(i_reduce,vals,players.get(0),1);
+                //players.get(0).setCurrentPositions(st_makeTriangle1(i_reduce,vals));
                 break;
 
 
             case 6:
-                players.get(4).setCurrentPositions(st_makeTriangle1(i_reduce,vals));
-                players.get(5).setCurrentPositions(st_makeTriangle4(i_reduce,vals));
+                //players.get(4).setCurrentPositions(st_makeTriangle1(i_reduce,vals));
+                //players.get(5).setCurrentPositions(st_makeTriangle4(i_reduce,vals));
+                preparePlayer(i_reduce,vals,players.get(4),1);
+                preparePlayer(i_reduce,vals,players.get(5),4);
 
             case 4:
-                players.get(2).setCurrentPositions(st_makeTriangle2(i_reduce,vals));
-                players.get(3).setCurrentPositions(st_makeTriangle5(i_reduce,vals));
+                //players.get(2).setCurrentPositions(st_makeTriangle2(i_reduce,vals));
+                //players.get(3).setCurrentPositions(st_makeTriangle5(i_reduce,vals));
+                preparePlayer(i_reduce,vals,players.get(2),2);
+                preparePlayer(i_reduce,vals,players.get(3),5);
 
             case 2:
-                players.get(0).setCurrentPositions(st_makeTriangle3(i_reduce,vals));
-                players.get(1).setCurrentPositions(st_makeTriangle6(i_reduce,vals));
-
+                //players.get(0).setCurrentPositions(st_makeTriangle3(i_reduce,vals));
+                //players.get(1).setCurrentPositions(st_makeTriangle6(i_reduce,vals));
+                preparePlayer(i_reduce,vals,players.get(0),3);
+                preparePlayer(i_reduce,vals,players.get(1),6);
             case 0:
                 break;
 
@@ -117,6 +136,43 @@ public class BoardFactory
         return getInstance()._createStarBoard(dimension, players, i_reduce);
     }
 
+    private void preparePlayer(int i_reduce, StandardStar_Values vals, Player p, int pos) {
+        LinkedList<Position> current, target;
+        switch (pos) {
+            case 1:
+                current = st_makeTriangle1(i_reduce, vals);
+                target = st_makeTriangle4(i_reduce, vals);
+                break;
+            case 2:
+                current = st_makeTriangle2(i_reduce, vals);
+                target = st_makeTriangle5(i_reduce, vals);
+                break;
+            case 3:
+                current = st_makeTriangle3(i_reduce, vals);
+                target = st_makeTriangle6(i_reduce, vals);
+                break;
+            case 4:
+                current = st_makeTriangle4(i_reduce, vals);
+                target = st_makeTriangle1(i_reduce, vals);
+                break;
+            case 5:
+                current = st_makeTriangle5(i_reduce, vals);
+                target = st_makeTriangle2(i_reduce, vals);
+                break;
+            case 6:
+                current = st_makeTriangle6(i_reduce, vals);
+                target = st_makeTriangle3(i_reduce, vals);
+                break;
+            default:
+                current = new LinkedList<>();
+                target = new LinkedList<>();
+        }
+        p.setCurrentPositions(current);
+        p.setTargetPositions(target);
+        p.setDirection(new Position(directions[pos-1][0], directions[pos-1][1]));
+
+    }
+
     private LinkedList<Position> st_makeHexagon(StandardStar_Values vals) {
         LinkedList<Position> pos = new LinkedList<Position>();
         for (int i = vals.short_triangle; i < vals.edge_hexagon - 1; i++) {
@@ -133,7 +189,7 @@ public class BoardFactory
     }
 
     private LinkedList<Position> st_makeTriangle1(int i_reduce, StandardStar_Values vals) {
-        LinkedList<Position> pos = new LinkedList<Position>();
+        LinkedList<Position> pos = new LinkedList<>();
         for (int i = 0; i <= (vals.short_triangle - i_reduce); i++) {
             for (int j = vals.dimension - 1; j >= (vals.dimension - 1 - i); j--) {
                 pos.add(new Position(i, j));
@@ -143,7 +199,7 @@ public class BoardFactory
     }
 
     private LinkedList<Position> st_makeTriangle2(int i_reduce, StandardStar_Values vals) {
-        LinkedList<Position> pos = new LinkedList<Position>();
+        LinkedList<Position> pos = new LinkedList<>();
         for (int i = vals.long_triangle - 1; i <= vals.edge_hexagon - 1; i++) {
             for (int j = vals.short_triangle; j < (vals.edge_hexagon - i_reduce - (i-vals.short_triangle)); j++) {
                 pos.add(new Position(i, j));
@@ -153,7 +209,7 @@ public class BoardFactory
     }
 
     private LinkedList<Position> st_makeTriangle3(int i_reduce, StandardStar_Values vals) {
-        LinkedList<Position> pos = new LinkedList<Position>();
+        LinkedList<Position> pos = new LinkedList<>();
         for (int i = vals.edge_hexagon - 1; i <= vals.full - vals.long_triangle; i++) {
             for (int j = vals.short_triangle - i_reduce; j >= vals.short_triangle - (i - (vals.edge_hexagon - 1)); j--) {
                 pos.add(new Position(i, j));

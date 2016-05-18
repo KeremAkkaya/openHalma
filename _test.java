@@ -40,21 +40,15 @@ public class _test
         Interface i = new Text();
         LinkedList<Player> plist = new LinkedList<>();
         plist.add(new LocalPlayer(FIELD_VALUE.PLAYER1, null));
-        Player p2 = new LocalPlayer(FIELD_VALUE.PLAYER2, null);
-        plist.add(p2);
-        plist.add(new LocalPlayer(FIELD_VALUE.PLAYER3,null));
-        /*plist.add(new LocalPlayer(FIELD_VALUE.PLAYER3, null));
+        /*plist.add(new LocalPlayer(FIELD_VALUE.PLAYER2, null));
+        plist.add(new LocalPlayer(FIELD_VALUE.PLAYER3, null));
         plist.add(new LocalPlayer(FIELD_VALUE.PLAYER4, null));
         plist.add(new LocalPlayer(FIELD_VALUE.PLAYER5, null));
         plist.add(new LocalPlayer(FIELD_VALUE.PLAYER6, null));*/
         sb = BoardFactory.createStandardStarBoard(13,plist,0);
         System.out.println(sb.toString());
         LinkedList<Position> posis;
-        posis = sb.getJumpPositions(new Position(9,4), p2);
-        while (posis.peekFirst() != null) {
-            System.out.println(posis.remove().toString());
-        }
-        
+
         savedBoard = sb.writeToString();
         StarBoard board2 = new StarBoard();
         //System.out.println(savedBoard);
@@ -79,14 +73,13 @@ public class _test
             interfaces[i].repaint();
         }*/
 
-        sb = BoardFactory.createStandardStarBoard(29,plist,0);
+        sb = BoardFactory.createStandardStarBoard(17,plist,0);
         if (sb==null) System.exit(55);
         Graphical i = new Graphical();
         Text t = new Text();
         game = new Game(i, sb);
-        game.addPlayer(plist.get(0));
-        game.addPlayer(plist.get(1));
-        game.addPlayer(plist.get(2));
+        for (Player p: plist) game.addPlayer(p);
+
         t.setGame(game);
         i.setGame(game);
         t.repaint();

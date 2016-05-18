@@ -44,6 +44,7 @@ public class Graphical extends JFrame implements Interface     //interface as in
         }
 
         protected void paintComponent(Graphics g) {
+
             super.paintComponent(g);
             if (board == null) return;
             g.setColor(BACKGROUND_COLOR);
@@ -116,10 +117,19 @@ public class Graphical extends JFrame implements Interface     //interface as in
             g.fillOval(x, y, 2 * radius, 2 * radius);
         }
 
+
         public void setBoard(Board board) {
 
             //CONSTANT_HORIZONTAL = 0 - ((board.getDimension() - 1) /  3) * CIRCLE_DISTANCE - CIRCLE_RADIUS;
             this.board = board;
+            /*int x = board.getDimension();
+            x = (3 * x + 1) / 4;
+            int size = 0;
+            size += 2 * PADDING_BORDER;
+            size += x * CIRCLE_DISTANCE;
+            size += CIRCLE_DISTANCE;
+            this.setSize(size,size);//*/
+
             //CONSTANT_HORIZONTAL = 0 - ((this.board.getDimension() - 1) /  3) * CIRCLE_DISTANCE - CIRCLE_RADIUS; //uncommenting this gives me nullpointer
             //but why?
 
@@ -192,6 +202,17 @@ public class Graphical extends JFrame implements Interface     //interface as in
     public void setGame(Game game) {
         this.game = game;
         panel.setBoard(game.getBoard());
+
+
+        /*int x = game.getBoard().getDimension();
+        x = (3 * x + 1) / 4;
+        int size = 0;
+        size += 2 * PADDING_BORDER;
+        size += x * CIRCLE_DISTANCE;
+        size += CIRCLE_DISTANCE;
+        this.setSize(size,size);
+        panel.setSize(size,size);*/
+
     }
 
     public void repaint()  {

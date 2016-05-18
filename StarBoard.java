@@ -41,7 +41,7 @@ public class StarBoard extends Board
             if(!format) s += i < 10 ? "0" + i : i;
             for (int k = 0; k < i; k++) s += c;
             for (int j = 0; j < dimension; j++) {
-                s += board[i][j].getSymbol() + " ";
+                s += board[j][i].getSymbol() + " "; //switch i and j to have coherent representation in text and graphical mode
             }
             s += "\n";
         }

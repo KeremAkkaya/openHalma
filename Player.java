@@ -15,8 +15,7 @@ public abstract class Player
     protected String name;
     protected LinkedList<Position> currentPositions, targetPositions;
     protected Position direction; //this is a position because it needs to hold x and y value
-    //protected LinkedList<Position> tokens;
-    
+
     public Player() {
         this(FIELD_VALUE.PLAYER1, null, "");
     }
@@ -51,6 +50,10 @@ public abstract class Player
 
     public void setTargetPositions(LinkedList<Position> p) {
         this.targetPositions=p;
+    }
+
+    public void setDirection(Position p) {
+        this.direction = p;
     }
 
     public Color getColor() {

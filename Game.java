@@ -72,6 +72,7 @@ public class Game implements Serializable
     }
 
     private void applyMove(Move move) {
+        move.player.moveToken(move);
         board.setPosition(move.start, Player.emptyPlayer.getFieldValue());
         board.setPosition(move.end, move.player.getFieldValue());
         iface.repaint();
