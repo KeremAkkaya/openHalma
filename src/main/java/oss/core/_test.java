@@ -1,3 +1,11 @@
+package oss.core;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.PostConstruct;
 import java.util.LinkedList;
 import java.awt.Color;
 
@@ -7,6 +15,9 @@ import java.awt.Color;
  * @author (your name) 
  * @version (a version number or a date)
  */
+
+@Service
+
 public class _test
 {
     StarBoard sb;
@@ -30,7 +41,7 @@ public class _test
         /*plist.add(new LocalPlayer(FIELD_VALUE.PLAYER3, Color.green));
         plist.add(new LocalPlayer(FIELD_VALUE.PLAYER4, Color.orange));
         plist.add(new LocalPlayer(FIELD_VALUE.PLAYER5, Color.magenta));
-        plist.add(new LocalPlayer(FIELD_VALUE.PLAYER6, Color.yellow));*/
+        plist.add(new LocalPlayerdns(FIELD_VALUE.PLAYER6, Color.yellow));*/
         
         guiTest();
     }
