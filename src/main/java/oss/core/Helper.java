@@ -1,3 +1,4 @@
+package oss.core;
 
 /**
  * Helper class to simplify writeToString and readFromString methods

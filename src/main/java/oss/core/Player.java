@@ -1,3 +1,5 @@
+package oss.core;
+
 import java.util.*;
 import java.awt.Color;
 

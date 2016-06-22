@@ -1,3 +1,5 @@
+package oss.core;
+
 import java.util.LinkedList;
 /**
  * Write a description of class Halma here.

@@ -1,3 +1,5 @@
+package oss.core;
+
 import java.io.*;
 /**
  * Write a description of class Text here.

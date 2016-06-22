@@ -1,3 +1,6 @@
+package oss.core;
+
+
 import java.util.LinkedList;
 import java.io.*;
 /**

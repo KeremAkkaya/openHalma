@@ -1,3 +1,6 @@
+package oss.core;
+
+
 import java.awt.Color;
 /**
  * Enumeration class Field - write a description of the enum class here

@@ -1,3 +1,5 @@
+package oss.core;
+
 import java.util.*;
 /**
  * Write a description of class StarBoard here.

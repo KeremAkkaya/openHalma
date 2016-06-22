@@ -1,3 +1,4 @@
+package oss.core;
 
 /**
  * Abstract class Display - write a description of the class here

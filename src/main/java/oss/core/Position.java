@@ -1,3 +1,4 @@
+package oss.core;
 
 /**
  * Write a description of class Position here.
