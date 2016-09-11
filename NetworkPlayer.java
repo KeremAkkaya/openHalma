@@ -1,4 +1,4 @@
-
+import java.util.*;
 /**
  * Write a description of class NetworkPlayer here.
  * 
@@ -12,4 +12,7 @@ public class NetworkPlayer extends Player
         return null;
     }
     
+    public Move requestMove(Board board, LinkedList<Player> pl, Player p) {
+        return Move.nullMove;
+    }
 }

@@ -69,7 +69,7 @@ public class Graphical extends JFrame implements Interface     //interface as in
                             drawFieldCentered(g, c, FRAME_COLOR, pos.x, pos.y);
                         }
                     } else {
-                        //drawFieldCentered(g, Color.BLACK, Color.black, pos.x, pos.y);
+                        drawFieldCentered(g, Color.BLACK, Color.black, pos.x, pos.y);
                         //debug output
                     }
 

@@ -16,16 +16,26 @@ public abstract class Board
     public Board() { //called before loading board via serialization
 
     }
+    
+    public abstract int getNumDirections();
+    
+    public abstract int[][] getSigna();
 
     public Board(int dimension) {
         this.dimension = dimension;
         board = new FIELD_VALUE[dimension][dimension];
     }
+    
+    public abstract Board simulateMove(Move m);
+    
+    public void applyMoveUnchecked(Move m) {
+        setPosition(m.start, Player.emptyPlayer.getFieldValue());
+        setPosition(m.end, m.player.getFieldValue());
+    }
 
     public Board(FIELD_VALUE[][] board, int dimension) //constructor used to load a saved game
     {
-        this(dimension);
-        //board is created empty and then replaced by another one :/ its ok for the moment
+        this.dimension = dimension;
         this.board = board;
     }
 

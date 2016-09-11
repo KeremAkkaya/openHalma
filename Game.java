@@ -46,10 +46,12 @@ public class Game implements Serializable
     }
 
     public boolean start() {
+        System.out.println("game started");
         if (players.size() < 2) {
             return false;
         }
         while (!isFinished()) requestMove();
+        System.out.println("game finished");
         return true;
     }
 
@@ -114,15 +116,25 @@ public class Game implements Serializable
     }
 
     public boolean isFinished() {
-        return true;
+        boolean finished = true;
+        for (Player p : players) {
+            finished &= p.isFinished();
+        }
+        return finished;
     }
 
     public void requestMove() {
+        System.out.println("move request started");
         Move move;
+        Player p = getNextPlayer();
         do {
-            move = players.peekFirst().requestMove(iface, board); //wait til valid turn
-        } while (!board.isValidMove(move));
-        makeMove(move);
+            move = p.requestMove(board, new LinkedList<Player>(players), p); //wait til valid turn
+        } while ((!board.isValidMove(move)) && (getNextPlayer() == p));
+        if (p == getNextPlayer()) {
+            System.out.println("trymove");
+            tryMove(move);
+        }
+        System.out.println("move request finished");
     }
 
     private boolean validHover() {

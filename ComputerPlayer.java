@@ -1,17 +1,19 @@
+import java.util.*;
+import java.awt.Color;
 
-/**
- * Write a description of class ComputerPlayer here.
- * 
- * @author (your name) 
- * @version (a version number or a date)
- */
 public class ComputerPlayer extends Player
 {
-    
-
+    AI.STRATEGY strategy;
+    int depth;
     //for the computerplayer the next move is chosen by an ai
-    public Move requestMove(Interface iface, Board board) {
-        return AI.move(board, 3);
+    public ComputerPlayer(FIELD_VALUE fv, Color color, String s, AI.STRATEGY strat, int depth) {
+        super(fv, color, s);
+        this.depth = depth;
+        this.strategy = strat;
+    }
+    
+    public Move requestMove(Board board, LinkedList<Player> pl, Player p) {
+        return AI.move(board, this.depth, pl, strategy, this);
     }
     
 }

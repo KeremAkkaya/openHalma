@@ -9,6 +9,7 @@ public class Move
 {
     public final Player player;
     public final Position start, end;
+    public static Move nullMove = new Move(Player.emptyPlayer, Position.InvalidPosition, Position.InvalidPosition);
     public Move(Player p, Position start, Position end)
     {
         this.player = p;

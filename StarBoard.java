@@ -7,16 +7,18 @@ import java.util.*;
  */
 public class StarBoard extends Board
 {
-    private int[][] signa = new int[][]{ //these are the signs for that indicate the 6 directions in the 2d matrix (the board)
+    public final static int[][] signa = new int[][]{ //these are the signs for that indicate the 6 directions in the 2d matrix (the board)
+            { 1,-1 },
+            {-1, 1 },
             { 0, 1 },
             { 1, 0 },
             { 0,-1 },
-            {-1, 0 },
-            { 1,-1 },
-            {-1, 1 }
+            {-1, 0 }
         };
+        
+    public final static int directions = 6;
     public StarBoard() {
-    }    
+    }
 
     public StarBoard(int dimension) {
         super(dimension);
@@ -25,6 +27,26 @@ public class StarBoard extends Board
     public StarBoard(FIELD_VALUE[][] board, int dimension)
     {
         super(board, dimension);
+    }
+    
+    public int getNumDirections() {
+        return directions;
+    }
+    
+    public int[][] getSigna() {
+        return signa;
+    }
+    
+    public Board simulateMove(Move move) {
+        FIELD_VALUE nBoard[][] = new FIELD_VALUE[dimension][dimension];
+        for (int i = 0; i < dimension; i++) {
+            for (int j = 0; j < dimension; j++) {
+                nBoard[i][j] = board[i][j];
+            }
+        }
+        StarBoard b = new StarBoard(nBoard, this.dimension);
+        b.applyMoveUnchecked(move);
+        return b;
     }
 
     public String toString(boolean format) { //setting format to false results in a more debug-style output
