@@ -30,21 +30,27 @@ public class AI
     }
 
     public static Move farthest(Board board, Player aPlayer, Evaluator e) {
-        System.out.println("yoyo");
+        //System.out.println("yoyo");
         Board simBoard;
         Move move, bestmove = Move.nullMove;
         double val, maxval = Double.MIN_VALUE;
         for (Position start: aPlayer.getCurrentPositions()) {
             for (Position target: board.getJumpPositions(start, aPlayer)) {
+                System.out.println("analyzing from " + start.toString() + " to " + target.toString());
+
                 move = new Move(aPlayer, start, target);
                 simBoard = board.simulateMove(move);
                 val = e.evaluateBoard(simBoard, aPlayer, aPlayer);
+                System.out.println(val);
+                System.out.println(e.evaluateBoard(board, aPlayer, aPlayer));
                 if (val > maxval) {
-                    System.out.println(val);
+
+
                     maxval = val;
                     bestmove = move;
                 }
             }
+            // System.out.println("next start position");
         }
         return bestmove;
     }
@@ -86,26 +92,6 @@ public class AI
 
     }
 
-    public static double pointDistance(Position a, Position b, Board board) {
-        int diffx, diffy;
-        diffx = b.x - a.x;
-        diffy = b.y - a.y;
-        int sum = 0;
-
-        while ((diffx != 0) || (diffy != 0)) {
-            sum++;
-            for (int i = 0; i < board.getNumDirections(); ++i) {
-                if ((Math.signum(diffx) == board.getSigna()[i][0]) && (Math.signum(diffy) == board.getSigna()[i][1])) {
-                    diffx -= board.getSigna()[i][0];
-                    diffy -= board.getSigna()[i][1];
-                    break;
-                }
-            }
-        }
-        return Math.sqrt((a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y));
-
-    }
-
     public static abstract class Evaluator {
         public abstract double evaluateBoard(Board b, Player p, Player aPlayer);
     }
@@ -114,9 +100,11 @@ public class AI
 
         public double evaluateBoard(Board b, Player p, Player aPlayer) {
             double sum = 0;
-            for (Position pos : p.getCurrentPositions()) {
-                if (! p.getTargetPositions().contains(pos)) {
-                    sum += pointDistance(p.getTip(), pos, b);
+            for (Position pos : b.getAllPositions()) {
+                if (b.getPosition(pos) == aPlayer.fieldValue) {
+                    if (!p.getTargetPositions().contains(pos)) {
+                        sum += b.pointDistance(p.getTip(), pos);
+                    }
                 }
             }
             return p == aPlayer ? reference - sum : - reference + sum;

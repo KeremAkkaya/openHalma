@@ -1,3 +1,5 @@
+import javafx.geometry.Pos;
+
 import java.util.*;
 import java.io.*;
 
@@ -126,10 +128,22 @@ public abstract class Board
         }
         return true;
     }
+
+    public abstract double pointDistance(Position a, Position b);
     
     public abstract int getMaxPlayers();
     
     public LinkedList<Position> getJumpPositions(Position pos) {
         return getJumpPositions(pos, null);
+    }
+
+    public List<Position> getAllPositions() {
+        LinkedList<Position> allPos = new LinkedList<>();
+        for (int i = 0; i < dimension; i++) {
+            for (int j = 0; j < dimension; j++) {
+                allPos.add(new Position(i, j));
+            }
+        }
+        return allPos;
     }
 }

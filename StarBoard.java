@@ -22,11 +22,18 @@ public class StarBoard extends Board
 
     public StarBoard(int dimension) {
         super(dimension);
+        /*System.out.println(pointDistance(new Position(8,8), new Position(7,8)));
+        System.out.println(pointDistance(new Position(8,8), new Position(8,7)));
+        System.out.println(pointDistance(new Position(8,8), new Position(9,7)));
+        System.out.println(pointDistance(new Position(8,8), new Position(9,8)));
+        System.out.println(pointDistance(new Position(8,8), new Position(8,9)));
+        System.out.println(pointDistance(new Position(8,8), new Position(7,9)));*/
+
     }
 
-    public StarBoard(FIELD_VALUE[][] board, int dimension)
-    {
+    public StarBoard(FIELD_VALUE[][] board, int dimension) {
         super(board, dimension);
+
     }
     
     public int getNumDirections() {
@@ -154,6 +161,29 @@ public class StarBoard extends Board
 
     public int getMaxPlayers() {
         return 6;
+    }
+
+    public double pointDistance(Position a, Position b) {
+        double gax = getCoordinateX(a.x, a.y);
+        double gay = getCoordinateY(a.y);
+        double gbx = getCoordinateX(b.x, b.y);
+        double gby = getCoordinateY(b.y);
+
+        return Math.sqrt(Math.pow(gax - gbx, 2) + Math.pow(gay - gby, 2));
+    }
+
+    private static final int CIRCLE_RADIUS = 15;
+    private static final double CIRCLE_DISTANCE = 2.5 * CIRCLE_RADIUS;//25; //distance center to center, should be > 2*CIRCLE_RADIUS
+    private static final double PADDING_VERTICAL = CIRCLE_DISTANCE * Math.sqrt(3.0 / 4.0);
+    private static final double PADDING_HORIZONTAL = CIRCLE_DISTANCE / 2;
+
+    private double getCoordinateX(int x, int y) {
+        //return (int)Math.round(PADDING_BORDER + x * (PADDING_HORIZONTAL +15 ));
+        return ((y * PADDING_HORIZONTAL) + (x * CIRCLE_DISTANCE) - (((getDimension() - 1) / 3) * CIRCLE_DISTANCE + 2 * CIRCLE_RADIUS));
+    }
+
+    private double getCoordinateY(int y) {
+        return ((y * PADDING_VERTICAL));
     }
 
     //TODO: make these getJumpPositions WAAAAAAAY more efficient

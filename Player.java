@@ -46,7 +46,7 @@ public abstract class Player
         double distance = 0, pdistance;
         Position center = new Position(board.dimension / 2, board.dimension / 2);
         for (Position p: targetPositions) {
-            pdistance = AI.pointDistance(p, center, board);
+            pdistance = board.pointDistance(p, center);
             if (pdistance > distance) {
                 distance = pdistance;
                 tip = p;
