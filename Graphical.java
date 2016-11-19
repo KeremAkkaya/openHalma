@@ -8,17 +8,11 @@
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.*;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.*;
-import java.util.*;
 
 public class Graphical extends JFrame implements Interface     //interface as interface
 {
-    /**
-     * Added by Eclipse, JPanel seems to implement java.io.Serializable --> The serialization runtime associates with each serializable class a version number, called a serialVersionUID, which is used during deserialization to verify that the sender and receiver of a serialized object have loaded classes for that object that are compatible with respect to serialization.
-     */
     private static final long serialVersionUID = 1L;
     private static final int CIRCLE_RADIUS = 15;
     private static final double CIRCLE_DISTANCE = 2.5 * CIRCLE_RADIUS;//25; //distance center to center, should be > 2*CIRCLE_RADIUS
@@ -36,7 +30,7 @@ public class Graphical extends JFrame implements Interface     //interface as in
 
     //TODO: calculate the exact size of window needed and display board accordingly
     private class Panel extends JPanel {
-        private Board board = null;
+        private StarBoard board = null;
         private Position hoverPosition = Position.InvalidPosition;
 
         public Panel() {
@@ -57,7 +51,6 @@ public class Graphical extends JFrame implements Interface     //interface as in
             for (int x = 0; x < dimension; x++) {
                 for (int y = 0; y < dimension; y++) {
                     fv = board.getPosition(x, y);
-                    //pos = new Position(getCoordinateY(y), getCoordinateX(x,y));
                     pos = new Position(getCoordinateX(x,y), (getCoordinateY(y)));
                     if (fv != FIELD_VALUE.INVALID) {
                         c = fv.getPlayer().getColor();
@@ -69,7 +62,7 @@ public class Graphical extends JFrame implements Interface     //interface as in
                             drawFieldCentered(g, c, FRAME_COLOR, pos.x, pos.y);
                         }
                     } else {
-                        drawFieldCentered(g, Color.BLACK, Color.black, pos.x, pos.y);
+                        //drawFieldCentered(g, Color.BLACK, Color.black, pos.x, pos.y);
                         //debug output
                     }
 
@@ -117,8 +110,7 @@ public class Graphical extends JFrame implements Interface     //interface as in
             g.fillOval(x, y, 2 * radius, 2 * radius);
         }
 
-
-        public void setBoard(Board board) {
+        public void setBoard(StarBoard board) {
 
             //CONSTANT_HORIZONTAL = 0 - ((board.getDimension() - 1) /  3) * CIRCLE_DISTANCE - CIRCLE_RADIUS;
             this.board = board;
@@ -164,7 +156,11 @@ public class Graphical extends JFrame implements Interface     //interface as in
 
         public void mousePressed(MouseEvent e) {}
 
-        public void mouseReleased(MouseEvent e) {}
+        public void mouseReleased(MouseEvent e) {
+            if (e.getID() == MouseEvent.MOUSE_DRAGGED) {
+                panel.click();
+            }
+        }
 
     }
 
@@ -218,9 +214,4 @@ public class Graphical extends JFrame implements Interface     //interface as in
     public void repaint()  {
         panel.repaint();
     }
-
-    public Move requestMove(Player p) {
-        return null;
-    }
-
 }

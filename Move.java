@@ -24,7 +24,6 @@ public class Move
     }
     
     public boolean equals(Object m) {
-        if ( (((Move)m).player == this.player) && (((Move)m).start == this.start) && (((Move)m).end == this.end)) return true;
-        return false;
+        return (((Move) m).player == this.player) && (((Move) m).start == this.start) && (((Move) m).end == this.end);
     }
 }

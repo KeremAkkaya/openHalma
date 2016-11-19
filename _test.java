@@ -24,10 +24,11 @@ public class _test
 
     public void main(){
         //makeTest();
-        plist.add(new LocalPlayer(FIELD_VALUE.PLAYER1, Color.blue));
+
         //plist.add(new LocalPlayer(FIELD_VALUE.PLAYER2, Color.red));
         //plist.add(new ComputerPlayer(FIELD_VALUE.PLAYER1, Color.blue, "?", AI.STRATEGY.FARTHEST, 1));
         plist.add(new ComputerPlayer(FIELD_VALUE.PLAYER2, Color.red, "?", AI.STRATEGY.FARTHEST, 1));
+        plist.add(new LocalPlayer(FIELD_VALUE.PLAYER1, Color.blue));
         /*plist.add(new LocalPlayer(FIELD_VALUE.PLAYER3, Color.yellow));
         plist.add(new LocalPlayer(FIELD_VALUE.PLAYER3, Color.green));
         plist.add(new LocalPlayer(FIELD_VALUE.PLAYER4, Color.orange));
@@ -74,16 +75,14 @@ public class _test
         interfaces[i].repaint();
         }*/
 
-        sb = BoardFactory.createStandardStarBoard(17,plist,0);
+        sb = BoardFactory.createStandardStarBoard(5, plist, 0);
         if (sb==null) System.exit(55);
         Graphical i = new Graphical();
-        Text t = new Text();
         game = new Game(i, sb);
         for (Player p: plist) game.addPlayer(p);
 
-        t.setGame(game);
+
         i.setGame(game);
-        t.repaint();
         i.repaint();
         game.start();
     }

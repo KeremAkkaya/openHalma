@@ -11,8 +11,8 @@ public class ComputerPlayer extends Player
         this.depth = depth;
         this.strategy = strat;
     }
-    
-    public Move requestMove(Board board, LinkedList<Player> pl, Player p) {
+
+    public Move requestMove(StarBoard board, LinkedList<Player> pl, Player p) {
         return AI.move(board, this.depth, pl, strategy, this);
     }
     

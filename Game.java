@@ -8,7 +8,7 @@ import java.io.*;
  */
 public class Game implements Serializable
 {
-    private Board board;
+    private StarBoard board;
     private LinkedList<Move> moves = new LinkedList<>();
     private LinkedList<Move> cachedMoves = new LinkedList<>(); //additional list for 'undo'/'redo' functionality
     private LinkedList<Player> players = new LinkedList<>();
@@ -21,7 +21,7 @@ public class Game implements Serializable
 
     }
 
-    public Game(Interface i, Board board) {
+    public Game(Interface i, StarBoard board) {
         this.iface = i;
         this.iface.setGame(this);
         this.board = board;
@@ -124,17 +124,14 @@ public class Game implements Serializable
     }
 
     public void requestMove() {
-        System.out.println("move request started");
         Move move;
         Player p = getNextPlayer();
         do {
             move = p.requestMove(board, new LinkedList<Player>(players), p); //wait til valid turn
         } while ((!board.isValidMove(move)) && (getNextPlayer() == p));
         if (p == getNextPlayer()) {
-            System.out.println("trymove");
             tryMove(move);
         }
-        System.out.println("move request finished");
     }
 
     private boolean validHover() {
@@ -173,7 +170,7 @@ public class Game implements Serializable
         hoverPosition(hoverPosition);
     }
 
-    public Board getBoard() {
+    public StarBoard getBoard() {
         return board;
     }
 

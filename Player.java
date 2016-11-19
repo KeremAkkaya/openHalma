@@ -39,7 +39,7 @@ public abstract class Player
         this.name = (s.equals("")) ? "Player" + fieldValue.getVal() : s;
     }
 
-    public void initPositions(Board board) {
+    public void initPositions(StarBoard board) {
         for(Position p: currentPositions) {
             board.setPosition(p, this.fieldValue);
         }
@@ -99,7 +99,7 @@ public abstract class Player
     }
 
     //request the player to make a move
-    public abstract Move requestMove(Board board, LinkedList<Player> pl, Player p);
+    public abstract Move requestMove(StarBoard board, LinkedList<Player> pl, Player p);
 
     public boolean equals (Object p) {
         return ((Player)p).fieldValue == this.fieldValue;

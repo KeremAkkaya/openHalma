@@ -2,8 +2,9 @@ import java.util.*;
 public class AI
 {
     private static double reference = 15000;
-    public static enum STRATEGY {
-        RANDOM, MINIMAX, FARTHEST;
+
+    public enum STRATEGY {
+        RANDOM, MINIMAX, FARTHEST
     }
 
     public static class Pair<Board, Integer> {
@@ -16,8 +17,7 @@ public class AI
         }
     }
 
-    public static Move move(Board board, int depth, LinkedList<Player> players, STRATEGY strategy, Player aPlayer) {
-        System.out.println("move");
+    public static Move move(StarBoard board, int depth, LinkedList<Player> players, STRATEGY strategy, Player aPlayer) {
         switch (strategy) {
             case RANDOM:
             break;
@@ -29,40 +29,35 @@ public class AI
         return Move.nullMove;
     }
 
-    public static Move farthest(Board board, Player aPlayer, Evaluator e) {
-        //System.out.println("yoyo");
-        Board simBoard;
+    public static Move farthest(StarBoard board, Player aPlayer, Evaluator e) {
+        StarBoard simBoard;
         Move move, bestmove = Move.nullMove;
         double val, maxval = Double.MIN_VALUE;
         for (Position start: aPlayer.getCurrentPositions()) {
             for (Position target: board.getJumpPositions(start, aPlayer)) {
-                System.out.println("analyzing from " + start.toString() + " to " + target.toString());
+                //System.out.println("analyzing from " + start.toString() + " to " + target.toString());
 
                 move = new Move(aPlayer, start, target);
                 simBoard = board.simulateMove(move);
                 val = e.evaluateBoard(simBoard, aPlayer, aPlayer);
-                System.out.println(val);
-                System.out.println(e.evaluateBoard(board, aPlayer, aPlayer));
+                //System.out.println(val);
+                //System.out.println(e.evaluateBoard(board, aPlayer, aPlayer));
                 if (val > maxval) {
-
-
                     maxval = val;
                     bestmove = move;
                 }
             }
-            // System.out.println("next start position");
         }
         return bestmove;
     }
 
-    public static Pair<Move, Integer> minimax(Board b, LinkedList<Player> players, int depth, Player aPlayer, Evaluator e) {
-        //System.out.println("nono");
+    public static Pair<Move, Integer> minimax(StarBoard b, LinkedList<Player> players, int depth, Player aPlayer, Evaluator e) {
         if (depth == 0) {
             return new Pair(Move.nullMove, e.evaluateBoard(b, players.getFirst(), aPlayer));
         }
         Player currentPlayer = players.removeFirst();
         players.addLast(currentPlayer);
-        Board simBoard, minBoard = null, maxBoard = null;
+        StarBoard simBoard, minBoard = null, maxBoard = null;
         int min = Integer.MAX_VALUE, max = Integer.MIN_VALUE;
         int val;
         Move move, minMove = null, maxMove = null;
@@ -93,12 +88,12 @@ public class AI
     }
 
     public static abstract class Evaluator {
-        public abstract double evaluateBoard(Board b, Player p, Player aPlayer);
+        public abstract double evaluateBoard(StarBoard b, Player p, Player aPlayer);
     }
 
     public static class SimpleDistanceEvaluator extends Evaluator {
 
-        public double evaluateBoard(Board b, Player p, Player aPlayer) {
+        public double evaluateBoard(StarBoard b, Player p, Player aPlayer) {
             double sum = 0;
             for (Position pos : b.getAllPositions()) {
                 if (b.getPosition(pos) == aPlayer.fieldValue) {

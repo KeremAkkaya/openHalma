@@ -1,12 +1,11 @@
 import java.util.*;
-/**
- * Write a description of class StarBoard here.
- * 
- * @author (your name) 
- * @version (a version number or a date)
- */
-public class StarBoard extends Board
+
+public class StarBoard
 {
+    protected FIELD_VALUE board[][];
+
+    protected int dimension; //size of matrix representing the board
+
     public final static int[][] signa = new int[][]{ //these are the signs for that indicate the 6 directions in the 2d matrix (the board)
             { 1,-1 },
             {-1, 1 },
@@ -21,21 +20,25 @@ public class StarBoard extends Board
     }
 
     public StarBoard(int dimension) {
-        super(dimension);
-        /*System.out.println(pointDistance(new Position(8,8), new Position(7,8)));
-        System.out.println(pointDistance(new Position(8,8), new Position(8,7)));
-        System.out.println(pointDistance(new Position(8,8), new Position(9,7)));
-        System.out.println(pointDistance(new Position(8,8), new Position(9,8)));
-        System.out.println(pointDistance(new Position(8,8), new Position(8,9)));
-        System.out.println(pointDistance(new Position(8,8), new Position(7,9)));*/
-
+        this.dimension = dimension;
+        board = new FIELD_VALUE[dimension][dimension];
     }
 
-    public StarBoard(FIELD_VALUE[][] board, int dimension) {
-        super(board, dimension);
-
+    public StarBoard(FIELD_VALUE[][] board, int dimension) //constructor used to load a saved game
+    {
+        this.dimension = dimension;
+        this.board = board;
     }
-    
+
+    public FIELD_VALUE getPosition(Position p) {
+        return getPosition(p.x, p.y);
+    }
+
+    public void applyMoveUnchecked(Move m) {
+        setPosition(m.start, Player.emptyPlayer.getFieldValue());
+        setPosition(m.end, m.player.getFieldValue());
+    }
+
     public int getNumDirections() {
         return directions;
     }
@@ -43,8 +46,8 @@ public class StarBoard extends Board
     public int[][] getSigna() {
         return signa;
     }
-    
-    public Board simulateMove(Move move) {
+
+    public StarBoard simulateMove(Move move) {
         FIELD_VALUE nBoard[][] = new FIELD_VALUE[dimension][dimension];
         for (int i = 0; i < dimension; i++) {
             for (int j = 0; j < dimension; j++) {
@@ -133,8 +136,7 @@ public class StarBoard extends Board
             return true;
         }
         if (inHexagon(ax,ay,bx,by,2)) { //2-field jump
-            if (getPosition(ax + sigx, ay + sigy).getVal() >= 0) return true; //check whether there is a token to jump over
-            return false;
+            return getPosition(ax + sigx, ay + sigy).getVal() >= 0;
         }
         return false;
     }
@@ -184,6 +186,100 @@ public class StarBoard extends Board
 
     private double getCoordinateY(int y) {
         return ((y * PADDING_VERTICAL));
+    }
+
+
+    public FIELD_VALUE getPosition(int x, int y) {
+        if ((x < dimension) && (y < dimension) && (x >= 0) && (y >= 0)) {
+            return board[x][y];
+        }
+        return FIELD_VALUE.INVALID;
+    }
+
+    public int setPosition(Position p, FIELD_VALUE val) {
+        return setPosition(p.x, p.y, val);
+    }
+
+    public int setPosition(int x, int y, FIELD_VALUE val) {
+        if ((x < dimension) && (y < dimension) && (x >= 0) && (y >= 0)) {
+            board[x][y] = val;
+            return 0;
+        }
+        return 1;
+    }
+
+    public void initBoard() {
+        for (int i = 0; i < dimension; i++) {
+            for (int j = 0; j < dimension; j++) {
+                board[i][j] = FIELD_VALUE.INVALID;
+            }
+        }
+    }
+
+    public int getDimension() {
+        return dimension;
+    }
+
+
+    public boolean isValidMove(Move move) {
+        return getJumpPositions(move.start, move.player).contains(move.end);
+    }
+
+    public String writeToString() { //save current board in a string
+        String s = "";
+        s += dimension + ";";
+        for (int i = 0; i < dimension; i++) {
+            for (int j = 0; j < dimension; j++) {
+                s += board[i][j].getVal();
+                s += ";";
+            }
+            s += ";";
+        }
+        s += ";";
+        return s;
+    }
+
+    public boolean readFromString(String s) { //restore board from string
+        StringBuilder sb = new StringBuilder(s);
+        int dimension = Integer.parseInt(Helper.popString(sb));
+        if (!Helper.isValue(sb, ";", "invalid format for board1")) return false;
+        FIELD_VALUE[][] board = new FIELD_VALUE[dimension][dimension];
+        for (int i = 0; i < dimension; i++) {
+            for (int j = 0; j < dimension; j++) {
+                board[i][j] = FIELD_VALUE.getValByInt(Integer.parseInt(Helper.popString(sb)));
+                if (!Helper.isValue(sb, ";", "invalid format for board2")) return false;
+            }
+            if (!Helper.isValue(sb, ";", "invalid format for board3")) return false;
+        }
+        if (!Helper.isValue(sb, ";", "invalid format for board4")) return false;
+        this.dimension = dimension;
+        this.board = board;
+        return true;
+    }
+
+    public boolean equals(Object b) {
+        if (((StarBoard) b).dimension != this.dimension) return false;
+        for (int i = 0; i < this.dimension; i++) {
+            for (int j = 0; j < this.dimension; j++) {
+                if (this.board[i][j] != ((StarBoard) b).board[i][j]) return false;
+            }
+        }
+        return true;
+    }
+
+
+    public LinkedList<Position> getJumpPositions(Position pos) {
+        return getJumpPositions(pos, null);
+    }
+
+    public List<Position> getAllPositions() {
+        LinkedList<Position> allPos = new LinkedList<>();
+        for (int i = 0; i < dimension; i++) {
+            for (int j = 0; j < dimension; j++) {
+                allPos.add(new Position(i, j));
+            }
+        }
+        return allPos;
     }
 
     //TODO: make these getJumpPositions WAAAAAAAY more efficient

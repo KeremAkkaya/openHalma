@@ -21,8 +21,7 @@ public class Position
     }
 
     public boolean equals(Object p) {
-        if ( (((Position)p).x == this.x) && (((Position)p).y == this.y)) return true;
-        return false;
+        return (((Position) p).x == this.x) && (((Position) p).y == this.y);
     }
     
     public int hashCode() {
