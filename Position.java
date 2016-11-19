@@ -1,10 +1,4 @@
 
-/**
- * Write a description of class Position here.
- * 
- * @author (your name) 
- * @version (a version number or a date)
- */
 public class Position
 {
     public static final Position InvalidPosition = new Position(-1, -1);

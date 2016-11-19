@@ -1,12 +1,6 @@
 import java.util.LinkedList;
 import java.awt.Color;
 
-/**
- * Write a description of class _test here.
- * 
- * @author (your name) 
- * @version (a version number or a date)
- */
 public class _test
 {
     StarBoard sb;
