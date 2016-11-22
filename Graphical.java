@@ -186,16 +186,17 @@ public class Graphical extends JFrame implements Interface     //interface as in
         setVisible(true);
         this.game = game;
         panel.setBoard(game.getBoard());
-    }
 
-        /*int x = game.getBoard().getDimension();
-        x = (3 * x + 1) / 4;
-        int size = 0;
-        size += 2 * PADDING_BORDER;
-        size += x * CIRCLE_DISTANCE;
-        size += CIRCLE_DISTANCE;
-        this.setSize(size,size);
-        panel.setSize(size,size);*/
+        int dim = game.getBoard().getDimension();
+        int short_tri = (dim - 1) / 3;
+        int full = dim - 1;
+        int x = panel.getCoordinateX(full, short_tri);
+        int y = panel.getCoordinateY(full);
+        x += CIRCLE_RADIUS + PADDING_BORDER;
+        y += CIRCLE_RADIUS + 1.5 * PADDING_BORDER;
+        this.setSize(x, y);
+        panel.setSize(x, y);
+    }
 
     public void repaint()  {
         panel.repaint();
