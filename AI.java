@@ -51,15 +51,15 @@ public class AI
         return bestmove;
     }
 
-    public static Pair<Move, Integer> minimax(StarBoard b, LinkedList<Player> players, int depth, Player aPlayer, Evaluator e) {
+    public static Pair<Move, Double> minimax(StarBoard b, LinkedList<Player> players, int depth, Player aPlayer, Evaluator e) {
         if (depth == 0) {
             return new Pair(Move.nullMove, e.evaluateBoard(b, players.getFirst(), aPlayer));
         }
         Player currentPlayer = players.removeFirst();
         players.addLast(currentPlayer);
         StarBoard simBoard, minBoard = null, maxBoard = null;
-        int min = Integer.MAX_VALUE, max = Integer.MIN_VALUE;
-        int val;
+        double min = Double.MAX_VALUE, max = Double.MIN_VALUE;
+        double val;
         Move move, minMove = null, maxMove = null;
         for (Position start: currentPlayer.getCurrentPositions()) {
             for (Position target: b.getJumpPositions(start, currentPlayer)) {

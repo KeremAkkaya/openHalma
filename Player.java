@@ -115,8 +115,10 @@ public abstract class Player
         return currentPositions;
     }
 
-    public boolean isFinished() {
-        for (Position p: currentPositions) {
+    public boolean isFinished(StarBoard b) {
+        for (Position p : targetPositions) System.out.println("target: " + p);
+        for (Position p : b.getPositionByPlayer(this)) {
+            System.out.println("current: " + p);
             if (!(targetPositions.contains(p))) {
                 return false;
             }

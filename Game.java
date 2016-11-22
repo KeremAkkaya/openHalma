@@ -11,6 +11,7 @@ public class Game implements Serializable
     private Position hoverPosition = new Position(-1,-1);
     private Position selectedPosition = new Position(-1,-1);
     private LinkedList<Position> possibleJumps = new LinkedList<>();
+    private LinkedList<Player> winners = new LinkedList<>();
 
     public Game() {
 
@@ -111,21 +112,25 @@ public class Game implements Serializable
     }
 
     public boolean isFinished() {
-        boolean finished = true;
         for (Player p : players) {
-            finished &= p.isFinished();
+            if (!(winners.contains(p))) return false;
         }
-        return finished;
+        return true;
     }
 
     public void requestMove() {
         Move move;
         Player p = getNextPlayer();
+        if (winners.contains(p)) return;
         do {
             move = p.requestMove(board, new LinkedList<Player>(players), p); //wait til valid turn
         } while ((!board.isValidMove(move)) && (getNextPlayer() == p));
         if (p == getNextPlayer()) {
             tryMove(move);
+            if (p.isFinished(board)) {
+                winners.push(p);
+                System.out.println(p.toString() + " finished the game as " + winners.size() + ".");
+            }
         }
     }
 

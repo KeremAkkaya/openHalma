@@ -267,7 +267,6 @@ public class StarBoard
         return true;
     }
 
-
     public LinkedList<Position> getJumpPositions(Position pos) {
         return getJumpPositions(pos, null);
     }
@@ -280,6 +279,18 @@ public class StarBoard
             }
         }
         return allPos;
+    }
+
+    public List<Position> getPositionByPlayer(Player p) {
+        LinkedList<Position> playerPos = new LinkedList<>();
+        for (int i = 0; i < dimension; i++) {
+            for (int j = 0; j < dimension; j++) {
+                if (getPosition(i, j).equals(p.getFieldValue())) {
+                    playerPos.add(new Position(i, j));
+                }
+            }
+        }
+        return playerPos;
     }
 
     //TODO: make these getJumpPositions WAAAAAAAY more efficient
