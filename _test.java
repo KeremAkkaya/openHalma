@@ -71,13 +71,8 @@ public class _test
 
         sb = BoardFactory.createStandardStarBoard(5, plist, 0);
         if (sb==null) System.exit(55);
-        Graphical i = new Graphical();
-        game = new Game(i, sb);
+        game = new Game(sb);
         for (Player p: plist) game.addPlayer(p);
-
-
-        i.setGame(game);
-        i.repaint();
         game.start();
     }
 }

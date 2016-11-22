@@ -154,7 +154,6 @@ public class Graphical extends JFrame implements Interface     //interface as in
                 panel.click();
             }
         }
-
     }
 
     private class MoveListener implements MouseMotionListener {
@@ -168,14 +167,13 @@ public class Graphical extends JFrame implements Interface     //interface as in
         }
 
         public void mouseDragged(MouseEvent e) {
-
         }
     }
 
     private Game game;
     private final Panel panel;
 
-    public Graphical()
+    public Graphical(Game game)
     {
         super("openHalma");
         setSize(WIDTH,HEIGHT);
@@ -186,12 +184,9 @@ public class Graphical extends JFrame implements Interface     //interface as in
         panel.addMouseListener(new ClickListener(panel));
         add(panel);
         setVisible(true);
-    }
-
-    public void setGame(Game game) {
         this.game = game;
         panel.setBoard(game.getBoard());
-
+    }
 
         /*int x = game.getBoard().getDimension();
         x = (3 * x + 1) / 4;
@@ -201,8 +196,6 @@ public class Graphical extends JFrame implements Interface     //interface as in
         size += CIRCLE_DISTANCE;
         this.setSize(size,size);
         panel.setSize(size,size);*/
-
-    }
 
     public void repaint()  {
         panel.repaint();

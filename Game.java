@@ -16,10 +16,10 @@ public class Game implements Serializable
 
     }
 
-    public Game(Interface i, StarBoard board) {
-        this.iface = i;
-        this.iface.setGame(this);
+    public Game(StarBoard board) {
+        //this.iface.setGame(this);
         this.board = board;
+        this.iface = new Graphical(this);
     }
 
     public boolean addPlayer(Player p) {
