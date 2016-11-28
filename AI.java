@@ -1,7 +1,7 @@
 import java.util.*;
 public class AI
 {
-    private static double reference = 15000;
+    private static double reference = Double.MAX_VALUE;
 
     public enum STRATEGY {
         RANDOM, MINIMAX, FARTHEST
@@ -95,13 +95,17 @@ public class AI
 
         public double evaluateBoard(StarBoard b, Player p, Player aPlayer) {
             double sum = 0;
+            Position tip = p.getTip();
+            boolean win = true;
             for (Position pos : b.getAllPositions()) {
                 if (b.getPosition(pos) == aPlayer.fieldValue) {
                     if (!p.getTargetPositions().contains(pos)) {
-                        sum += b.pointDistance(p.getTip(), pos);
+                        win = false;
+                        sum += b.pointDistance(tip, pos);
                     }
                 }
             }
+            if (win) return p == aPlayer ? reference : -reference;
             return p == aPlayer ? reference - sum : - reference + sum;
         }
 
