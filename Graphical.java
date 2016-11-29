@@ -146,7 +146,6 @@ public class Graphical extends JFrame implements Interface     //interface as in
         }
 
         public void mouseClicked(MouseEvent e) {
-            panel.click();
         }
 
         public void mouseEntered(MouseEvent e) {}
@@ -159,7 +158,7 @@ public class Graphical extends JFrame implements Interface     //interface as in
         }
 
         public void mouseReleased(MouseEvent e) {
-            if ((_distance(e) < 5) && (_distance(e) > 0)) {
+            if (_distance(e) < 5) {
                 panel.click();
             }
         }
