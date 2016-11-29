@@ -35,13 +35,12 @@ public class AI
         double val, maxval = Double.MIN_VALUE;
         for (Position start: aPlayer.getCurrentPositions()) {
             for (Position target: board.getJumpPositions(start, aPlayer)) {
-                //System.out.println("analyzing from " + start.toString() + " to " + target.toString());
 
                 move = new Move(aPlayer, start, target);
                 simBoard = board.simulateMove(move);
                 val = e.evaluateBoard(simBoard, aPlayer, aPlayer);
-                //System.out.println(val);
-                //System.out.println(e.evaluateBoard(board, aPlayer, aPlayer));
+                Logger.log(LOGGER_LEVEL.AI_DEBUG, start.toString() + " -> " + target.toString() + " is worth" + val + "for" + aPlayer.toString());
+
                 if (val > maxval) {
                     maxval = val;
                     bestmove = move;

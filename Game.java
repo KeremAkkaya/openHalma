@@ -42,12 +42,12 @@ public class Game implements Serializable
     }
 
     public boolean start() {
-        System.out.println("game started");
+        Logger.log(LOGGER_LEVEL.GAMEINFO, "Game started");
         if (players.size() < 2) {
             return false;
         }
         while (!isFinished()) requestMove();
-        System.out.println("game finished");
+        Logger.log(LOGGER_LEVEL.GAMEINFO, "Game finished");
         return true;
     }
 
@@ -62,7 +62,7 @@ public class Game implements Serializable
     private void makeMove(Move move) {
         //TODO: change the currentPosition in Player
         //TODO: check whether player finished the game
-        System.out.println(move.toString());
+        Logger.log(LOGGER_LEVEL.GAMEINFO, move.toString());
         applyMove(move);
         moves.add(move);
         cachedMoves.clear();
@@ -129,7 +129,7 @@ public class Game implements Serializable
             tryMove(move);
             if (p.isFinished(board)) {
                 winners.push(p);
-                System.out.println(p.toString() + " finished the game as " + winners.size() + ".");
+                Logger.log(LOGGER_LEVEL.GAMEINFO, p.toString() + " finished the game as " + winners.size() + ".");
             }
         }
     }
@@ -166,7 +166,7 @@ public class Game implements Serializable
         } else {
             selectedPosition = Position.InvalidPosition;
         }
-        System.out.println(hoverPosition);
+        Logger.log(LOGGER_LEVEL.DEBUG, "Clicked " + hoverPosition.toString());
         hoverPosition(hoverPosition);
     }
 

@@ -23,7 +23,7 @@ public class BoardFactory
 
         public StandardStar_Values(int full) {
             if (((3 * full + 1) % 4) != 0) {
-                System.out.println("create starboard wrong dimension! expect crash now. must be 5 + 4x x positive");
+                Logger.log(LOGGER_LEVEL.ERROR, "create starboard wrong dimension! expect crash now. must be 5 + 4x x positive");
             }
             this.full = full;
             this.dimension = (3 * full + 1) / 4;

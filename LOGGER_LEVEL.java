@@ -1,14 +1,12 @@
 public enum LOGGER_LEVEL {
 
-    ERROR(0, "ERROR"), WARNING(1, "WARNING"), GAMEINFO(5, "GAMEINFO");
+    ERROR("ERROR"), WARNING("WARNING"), GAMEINFO("GAMEINFO"), AI_DEBUG("AI_DEBUG"), DEBUG("AI_DEBUG");
 
     //TODO: more to come when needed
 
-    private final int val;
     private final String name;
 
-    LOGGER_LEVEL(int val, String name) {
-        this.val = val;
+    LOGGER_LEVEL(String name) {
         this.name = name;
     }
 
