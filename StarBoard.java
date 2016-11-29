@@ -161,7 +161,7 @@ public class StarBoard
 
     }
 
-    public int getMaxPlayers() {
+    public static int getMaxPlayers() {
         return 6;
     }
 

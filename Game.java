@@ -18,7 +18,6 @@ public class Game implements Serializable
     }
 
     public Game(StarBoard board) {
-        //this.iface.setGame(this);
         this.board = board;
         this.iface = new Graphical(this);
     }
