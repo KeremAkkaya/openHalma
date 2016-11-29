@@ -43,11 +43,28 @@ public class Game implements Serializable
     public boolean start() {
         Logger.log(LOGGER_LEVEL.GAMEINFO, "Game started");
         if (players.size() < 2) {
+            Logger.log(LOGGER_LEVEL.GAMEINFO, "Only one player, exiting...");
             return false;
         }
         while (!isFinished()) requestMove();
         Logger.log(LOGGER_LEVEL.GAMEINFO, "Game finished");
         return true;
+    }
+
+    public void requestMove() {
+        Move move;
+        Player p = getNextPlayer();
+        if (winners.contains(p)) return;
+        do {
+            move = p.requestMove(board, new LinkedList<Player>(players), p); //wait til valid turn
+        } while ((!board.isValidMove(move)) && (getNextPlayer() == p));
+        if (p == getNextPlayer()) {
+            tryMove(move);
+            if (p.isFinished(board)) {
+                winners.push(p);
+                Logger.log(LOGGER_LEVEL.GAMEINFO, p.toString() + " finished the game as " + winners.size() + ".");
+            }
+        }
     }
 
     public boolean tryMove(Move move) {
@@ -72,6 +89,7 @@ public class Game implements Serializable
         move.player.moveToken(move);
         board.setPosition(move.start, Player.emptyPlayer.getFieldValue());
         board.setPosition(move.end, move.player.getFieldValue());
+        //TODO: why is the panel not repainted here? only after mouse is moved...
         iface.repaint();
     }
 
@@ -115,22 +133,6 @@ public class Game implements Serializable
             if (!(winners.contains(p))) return false;
         }
         return true;
-    }
-
-    public void requestMove() {
-        Move move;
-        Player p = getNextPlayer();
-        if (winners.contains(p)) return;
-        do {
-            move = p.requestMove(board, new LinkedList<Player>(players), p); //wait til valid turn
-        } while ((!board.isValidMove(move)) && (getNextPlayer() == p));
-        if (p == getNextPlayer()) {
-            tryMove(move);
-            if (p.isFinished(board)) {
-                winners.push(p);
-                Logger.log(LOGGER_LEVEL.GAMEINFO, p.toString() + " finished the game as " + winners.size() + ".");
-            }
-        }
     }
 
     private boolean validHover() {

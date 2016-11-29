@@ -21,7 +21,6 @@ public class Graphical extends JFrame implements Interface     //interface as in
     private static final Color JUMP_COLOR = Color.LIGHT_GRAY;
     private static final Color SELECTED_COLOR = Color.red;
 
-    //TODO: calculate the exact size of window needed and display board accordingly
     private class Panel extends JPanel {
         private StarBoard board = null;
         private Position hoverPosition = Position.InvalidPosition;
@@ -158,9 +157,7 @@ public class Graphical extends JFrame implements Interface     //interface as in
         }
 
         public void mouseReleased(MouseEvent e) {
-            if (_distance(e) < 5) {
-                panel.click();
-            }
+            if (_distance(e) < 5) panel.click();
         }
 
         public void mouseMoved(MouseEvent e) {
@@ -168,10 +165,8 @@ public class Graphical extends JFrame implements Interface     //interface as in
         }
 
         public void mouseDragged(MouseEvent e) {
-
         }
     }
-
 
     private Game game;
     private final Panel panel;
