@@ -133,9 +133,15 @@ public class Graphical extends JFrame implements Interface     //interface as in
         }
     }
 
-    private class ClickListener implements MouseListener {
+    private class ClickMoveListener implements MouseListener, MouseMotionListener {
         private final Panel panel;
-        public ClickListener(Panel p) {
+        int previousX, previousY;
+
+        private double _distance(MouseEvent e) {
+            return Math.sqrt(Math.pow(e.getX() - previousX, 2) + Math.pow(e.getY() - previousY, 2));
+        }
+
+        public ClickMoveListener(Panel p) {
             this.panel = p;
         }
 
@@ -147,19 +153,15 @@ public class Graphical extends JFrame implements Interface     //interface as in
 
         public void mouseExited(MouseEvent e) {}
 
-        public void mousePressed(MouseEvent e) {}
+        public void mousePressed(MouseEvent e) {
+            previousX = e.getX();
+            previousY = e.getY();
+        }
 
         public void mouseReleased(MouseEvent e) {
-            if (e.getID() == MouseEvent.MOUSE_DRAGGED) {
+            if ((_distance(e) < 5) && (_distance(e) > 0)) {
                 panel.click();
             }
-        }
-    }
-
-    private class MoveListener implements MouseMotionListener {
-        private final Panel panel;
-        public MoveListener(Panel p) {
-            this.panel = p;
         }
 
         public void mouseMoved(MouseEvent e) {
@@ -167,8 +169,10 @@ public class Graphical extends JFrame implements Interface     //interface as in
         }
 
         public void mouseDragged(MouseEvent e) {
+
         }
     }
+
 
     private Game game;
     private final Panel panel;
@@ -180,8 +184,9 @@ public class Graphical extends JFrame implements Interface     //interface as in
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         panel = new Panel();
         panel.setBackground(BACKGROUND_COLOR);
-        panel.addMouseMotionListener(new MoveListener(panel));
-        panel.addMouseListener(new ClickListener(panel));
+        ClickMoveListener clickMoveListener = new ClickMoveListener(panel);
+        panel.addMouseMotionListener(clickMoveListener);
+        panel.addMouseListener(clickMoveListener);
         add(panel);
         setVisible(true);
         this.game = game;
