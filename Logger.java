@@ -3,15 +3,14 @@ import java.util.Set;
 
 public class Logger {
     private static Logger instanceLogger = null;
-    private HashSet<LOGGER_LEVEL> logger_levels = new HashSet<LOGGER_LEVEL>() {{
-        add(LOGGER_LEVEL.ERROR);
-        add(LOGGER_LEVEL.WARNING);
-        add(LOGGER_LEVEL.AI_DEBUG);
-        add(LOGGER_LEVEL.GAMEINFO);
-        add(LOGGER_LEVEL.DEBUG);
-    }};
+    private HashSet<LOGGER_LEVEL> logger_levels;
 
     private Logger() {
+        logger_levels = new HashSet<>();
+        for (LOGGER_LEVEL l : LOGGER_LEVEL.values()) {
+            logger_levels.add(l);
+        }
+
     } //inaccessible from outside
 
     private static Logger getInstance() {

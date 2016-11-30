@@ -4,7 +4,8 @@ public enum LOGGER_LEVEL {
     WARNING("WARNING"),
     GAMEINFO("GAMEINFO"),
     AI_DEBUG("AI_DEBUG"),
-    DEBUG("DEBUG");
+    DEBUG("DEBUG"),
+    TEMP_DEBUG("TEMP_DEBUG");
 
     //TODO: more to come when needed
 
