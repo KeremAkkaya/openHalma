@@ -45,9 +45,8 @@ public abstract class Player
                 distance = pdistance;
                 tip = p;
             }
-
         }
-        System.out.println(tip);
+        Logger.log(LOGGER_LEVEL.DEBUG, this.toString() + " target (tip) is: " + tip.toString());
     }
 
     public void setTargetPositions(LinkedList<Position> p) {

@@ -12,7 +12,7 @@ public class Move
 
     public String toString() {
         String s = "";
-        s += "Player" + (player.getFieldValue().getVal() + 1) + " from " + start.toString() + " to " + end.toString();
+        s += player.toString() + " from " + start.toString() + " to " + end.toString();
         return s;
     }
     
