@@ -50,9 +50,7 @@ public class StarBoard
     public StarBoard simulateMove(Move move) {
         FIELD_VALUE nBoard[][] = new FIELD_VALUE[dimension][dimension];
         for (int i = 0; i < dimension; i++) {
-            for (int j = 0; j < dimension; j++) {
-                nBoard[i][j] = board[i][j];
-            }
+            System.arraycopy(board[i], 0, nBoard[i], 0, dimension);
         }
         StarBoard b = new StarBoard(nBoard, this.dimension);
         b.applyMoveUnchecked(move);

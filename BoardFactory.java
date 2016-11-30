@@ -167,7 +167,7 @@ public class BoardFactory
     }
 
     private LinkedList<Position> st_makeHexagon(StandardStar_Values vals) {
-        LinkedList<Position> pos = new LinkedList<Position>();
+        LinkedList<Position> pos = new LinkedList<>();
         for (int i = vals.short_triangle; i < vals.edge_hexagon - 1; i++) {
             for (int j = vals.edge_hexagon - 1 - (i - vals.short_triangle); j < vals.dimension; j++) {
                 pos.add(new Position(i,j));
@@ -212,7 +212,7 @@ public class BoardFactory
     }
 
     private LinkedList<Position> st_makeTriangle4(int i_reduce, StandardStar_Values vals) {
-        LinkedList<Position> pos = new LinkedList<Position>();
+        LinkedList<Position> pos = new LinkedList<>();
         for (int i = vals.dimension + i_reduce - 1; i < vals.full; i++) {
             for(int j = vals.short_triangle; j < vals.edge_hexagon - 1 - (i - vals.dimension); j++) {
                 pos.add(new Position(i, j));
@@ -222,7 +222,7 @@ public class BoardFactory
     }
 
     private LinkedList<Position> st_makeTriangle5(int i_reduce, StandardStar_Values vals) {
-        LinkedList<Position> pos = new LinkedList<Position>();
+        LinkedList<Position> pos = new LinkedList<>();
         for (int i = vals.edge_hexagon - 1; i <= vals.full - vals.long_triangle; i++) {
             for (int j = vals.dimension - 1; j >= vals.dimension - 1 - (i - vals.edge_hexagon + 1 - i_reduce); j--) {
                 pos.add(new Position(i, j));
@@ -232,7 +232,7 @@ public class BoardFactory
     }
 
     private LinkedList<Position> st_makeTriangle6(int i_reduce, StandardStar_Values vals) {
-        LinkedList<Position> pos = new LinkedList<Position>();
+        LinkedList<Position> pos = new LinkedList<>();
         for (int i = vals.short_triangle; i < vals.edge_hexagon; i++) {
             for (int j = vals.dimension - 1 + i_reduce; j < vals.full - (i - vals.short_triangle); j++) {
                 pos.add(new Position(i, j));

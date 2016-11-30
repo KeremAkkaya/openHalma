@@ -56,7 +56,7 @@ public class Game implements Serializable
         Player p = getNextPlayer();
         if (winners.contains(p)) return;
         do {
-            move = p.requestMove(board, new LinkedList<Player>(players), p); //wait til valid turn
+            move = p.requestMove(board, new LinkedList<>(players), p); //wait til valid turn
         } while ((!board.isValidMove(move)) && (getNextPlayer() == p));
         if (p == getNextPlayer()) {
             tryMove(move);

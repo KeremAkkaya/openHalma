@@ -175,7 +175,7 @@ public class Graphical extends JFrame implements Interface     //interface as in
     {
         super("openHalma");
         setSize(WIDTH,HEIGHT);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         panel = new Panel();
         panel.setBackground(BACKGROUND_COLOR);
         ClickMoveListener clickMoveListener = new ClickMoveListener(panel);
