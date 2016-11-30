@@ -80,8 +80,6 @@ public class Game implements Serializable
     }
 
     private void makeMove(Move move) {
-        //TODO: change the currentPosition in Player
-        //TODO: check whether player finished the game
         Logger.log(LOGGER_LEVEL.GAMEINFO, move.toString());
         applyMove(move);
         moves.add(move);
@@ -92,7 +90,6 @@ public class Game implements Serializable
     private void applyMove(Move move) {
         board.setPosition(move.start, Player.emptyPlayer.getFieldValue());
         board.setPosition(move.end, move.player.getFieldValue());
-        //TODO: why is the panel not repainted here? only after mouse is moved...
         iface.repaint();
     }
 

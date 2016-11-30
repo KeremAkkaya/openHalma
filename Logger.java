@@ -9,8 +9,9 @@ public class Logger {
         for (LOGGER_LEVEL l : LOGGER_LEVEL.values()) {
             logger_levels.add(l);
         }
-
-    } //inaccessible from outside
+        logger_levels.remove(LOGGER_LEVEL.AI_DEBUG);
+        logger_levels.remove(LOGGER_LEVEL.GRAPHICAL_DEBUG);
+    }
 
     private static Logger getInstance() {
         if (instanceLogger == null) {

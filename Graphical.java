@@ -3,7 +3,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class Graphical extends JFrame implements Interface     //interface as interface
+public class Graphical extends JFrame implements Interface
 {
     private static final long serialVersionUID = 1L;
     private static final int CIRCLE_RADIUS = 15;
@@ -12,8 +12,6 @@ public class Graphical extends JFrame implements Interface     //interface as in
     private static final double PADDING_VERTICAL = CIRCLE_DISTANCE * Math.sqrt(3.0 / 4.0);
     private static final double PADDING_HORIZONTAL = CIRCLE_DISTANCE / 2;
     private double CONSTANT_HORIZONTAL = 0;// - 4 * CIRCLE_DISTANCE - CIRCLE_RADIUS;
-    private static final int WIDTH = 1000;
-    private static final int HEIGHT = 1000;
     private static final int PADDING_BORDER = 40;
     private static final Color BACKGROUND_COLOR = Color.white;
     private static final Color FRAME_COLOR = Color.black;
@@ -38,6 +36,7 @@ public class Graphical extends JFrame implements Interface     //interface as in
             Color c;
             FIELD_VALUE fv;
             Position pos;
+            Logger.log(LOGGER_LEVEL.GRAPHICAL_DEBUG, "Redrawing!");
 
             for (int x = 0; x < dimension; x++) {
                 for (int y = 0; y < dimension; y++) {
@@ -47,7 +46,7 @@ public class Graphical extends JFrame implements Interface     //interface as in
                         c = fv.getPlayer().getColor();
                         if (new Position(x, y).equals(game.getSelectedPosition())) {
                             drawFieldCentered(g, c, SELECTED_COLOR, pos.x, pos.y);
-                        } else if (game.getPossibleJumps().contains(new Position(x, y))) {
+                        } else if ((game.getPossibleJumps().contains(new Position(x, y))) && (fv == FIELD_VALUE.EMPTY)) {
                             drawFieldCentered(g, JUMP_COLOR, FRAME_COLOR,  pos.x, pos.y);
                         } else {
                             drawFieldCentered(g, c, FRAME_COLOR, pos.x, pos.y);
@@ -62,7 +61,6 @@ public class Graphical extends JFrame implements Interface     //interface as in
         }
 
         protected int getCoordinateX(int x, int y) {
-            //return (int)Math.round(PADDING_BORDER + x * (PADDING_HORIZONTAL +15 ));
             return (int)Math.round( PADDING_BORDER + (y * PADDING_HORIZONTAL) + (x * CIRCLE_DISTANCE) - (((this.board.getDimension() - 1) /  3) * CIRCLE_DISTANCE + 2* CIRCLE_RADIUS) );
         }
 
