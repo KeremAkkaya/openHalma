@@ -33,9 +33,7 @@ public class BoardFactory
         }
     }
 
-    private BoardFactory()
-    {
-
+    private BoardFactory() {
     }
 
     private static BoardFactory getInstance() {
@@ -50,11 +48,11 @@ public class BoardFactory
     private StarBoard _createStarBoard(int dimension, LinkedList<Player> players, int i_reduce) {
         if(i_reduce < 0) {
             i_reduce = 0;
-            System.out.println("i_reduce must be >=0");
+            Logger.log(LOGGER_LEVEL.WARNING, "i_reduce must be >=0; setting to 0");
         }
         if((players.size() > 3) && i_reduce < 1) {
-            System.out.println("standard starboard only up to 3 players, use reduce instead");
-            return null;
+            Logger.log(LOGGER_LEVEL.WARNING, "standard starboard only up to 3 players, setting reduce to 1");
+            i_reduce = 1;
         }
 
         StandardStar_Values vals = new StandardStar_Values(dimension);
@@ -76,17 +74,17 @@ public class BoardFactory
             case 5:
                 //players.get(4).setCurrentPositions(st_makeTriangle4(i_reduce,vals));
                 //players.get(3).setCurrentPositions(st_makeTriangle2(i_reduce,vals));
-                preparePlayer(i_reduce,vals,players.get(4),4);
-                preparePlayer(i_reduce,vals,players.get(3),2);
+                preparePlayer(sb, i_reduce, vals, players.get(4), 4);
+                preparePlayer(sb, i_reduce, vals, players.get(3), 2);
 
             case 3:
                 //players.get(1).setCurrentPositions(st_makeTriangle3(i_reduce,vals));
                 //players.get(2).setCurrentPositions(st_makeTriangle5(i_reduce,vals));
-                preparePlayer(i_reduce,vals,players.get(1),3);
-                preparePlayer(i_reduce,vals,players.get(2),5);
+                preparePlayer(sb, i_reduce, vals, players.get(1), 3);
+                preparePlayer(sb, i_reduce, vals, players.get(2), 5);
 
             case 1:
-                preparePlayer(i_reduce,vals,players.get(0),1);
+                preparePlayer(sb, i_reduce, vals, players.get(0), 1);
                 //players.get(0).setCurrentPositions(st_makeTriangle1(i_reduce,vals));
                 break;
 
@@ -94,30 +92,26 @@ public class BoardFactory
             case 6:
                 //players.get(4).setCurrentPositions(st_makeTriangle1(i_reduce,vals));
                 //players.get(5).setCurrentPositions(st_makeTriangle4(i_reduce,vals));
-                preparePlayer(i_reduce,vals,players.get(4),1);
-                preparePlayer(i_reduce,vals,players.get(5),4);
+                preparePlayer(sb, i_reduce, vals, players.get(4), 1);
+                preparePlayer(sb, i_reduce, vals, players.get(5), 4);
 
             case 4:
                 //players.get(2).setCurrentPositions(st_makeTriangle2(i_reduce,vals));
                 //players.get(3).setCurrentPositions(st_makeTriangle5(i_reduce,vals));
-                preparePlayer(i_reduce,vals,players.get(2),2);
-                preparePlayer(i_reduce,vals,players.get(3),5);
+                preparePlayer(sb, i_reduce, vals, players.get(2), 2);
+                preparePlayer(sb, i_reduce, vals, players.get(3), 5);
 
             case 2:
                 //players.get(0).setCurrentPositions(st_makeTriangle3(i_reduce,vals));
                 //players.get(1).setCurrentPositions(st_makeTriangle6(i_reduce,vals));
-                preparePlayer(i_reduce,vals,players.get(0),3);
-                preparePlayer(i_reduce,vals,players.get(1),6);
+                preparePlayer(sb, i_reduce, vals, players.get(0), 3);
+                preparePlayer(sb, i_reduce, vals, players.get(1), 6);
             case 0:
                 break;
 
             default:
             System.out.println("number of players not supported");
             return null;
-        }
-
-        for (Player p : players) {
-            p.initPositions(sb);
         }
         return sb;
     }
@@ -129,7 +123,7 @@ public class BoardFactory
         return getInstance()._createStarBoard(dimension, players, i_reduce);
     }
 
-    private void preparePlayer(int i_reduce, StandardStar_Values vals, Player p, int pos) {
+    private void preparePlayer(StarBoard board, int i_reduce, StandardStar_Values vals, Player p, int pos) {
         LinkedList<Position> current, target;
         switch (pos) {
             case 1:
@@ -160,8 +154,8 @@ public class BoardFactory
                 current = new LinkedList<>();
                 target = new LinkedList<>();
         }
-        p.setCurrentPositions(current);
         p.setTargetPositions(target);
+        p.initPositions(board, current);
         p.setDirection(new Position(directions[pos-1][0], directions[pos-1][1]));
 
     }

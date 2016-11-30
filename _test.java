@@ -20,8 +20,8 @@ public class _test
         //makeTest();
 
         //plist.add(new LocalPlayer(FIELD_VALUE.PLAYER2, Color.red));
-        //plist.add(new ComputerPlayer(FIELD_VALUE.PLAYER1, Color.blue, "?", AI.STRATEGY.FARTHEST, 1));
-        plist.add(new ComputerPlayer(FIELD_VALUE.PLAYER2, Color.red, "?", AI.STRATEGY.MINIMAX, 6));
+        //plist.add(new ComputerPlayer(FIELD_VALUE.PLAYER1, Color.blue, "", AI.STRATEGY.FARTHEST, 1));
+        plist.add(new ComputerPlayer(FIELD_VALUE.PLAYER2, Color.red, "", AI.STRATEGY.FARTHEST, 6));
         plist.add(new LocalPlayer(FIELD_VALUE.PLAYER1, Color.blue));
         /*plist.add(new LocalPlayer(FIELD_VALUE.PLAYER3, Color.yellow));
         plist.add(new LocalPlayer(FIELD_VALUE.PLAYER3, Color.green));

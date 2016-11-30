@@ -1,7 +1,7 @@
 import java.util.*;
 public class AI
 {
-    private static double reference = Double.MAX_VALUE;
+    private static double reference = (double) 1000;
 
     public enum STRATEGY {
         RANDOM, MINIMAX, FARTHEST
@@ -32,14 +32,14 @@ public class AI
     public static Move farthest(StarBoard board, Player aPlayer, Evaluator e) {
         StarBoard simBoard;
         Move move, bestmove = Move.nullMove;
-        double val, maxval = Double.MIN_VALUE;
-        for (Position start: aPlayer.getCurrentPositions()) {
+        double val, maxval = -Double.MAX_VALUE;
+        for (Position start : board.getPositionByPlayer(aPlayer)) {
             for (Position target: board.getJumpPositions(start, aPlayer)) {
 
                 move = new Move(aPlayer, start, target);
                 simBoard = board.simulateMove(move);
                 val = e.evaluateBoard(simBoard, aPlayer, aPlayer);
-                Logger.log(LOGGER_LEVEL.AI_DEBUG, start.toString() + " -> " + target.toString() + " is worth" + val + "for" + aPlayer.toString());
+                Logger.log(LOGGER_LEVEL.AI_DEBUG, start.toString() + " -> " + target.toString() + " is worth " + val + " for " + aPlayer.toString());
 
                 if (val > maxval) {
                     maxval = val;
@@ -50,9 +50,9 @@ public class AI
         return bestmove;
     }
 
-    public static Pair<Move, Double> minimax(StarBoard b, LinkedList<Player> players, int depth, Player aPlayer, Evaluator e) {
+    public static Pair<Move, Double> minimax(StarBoard board, LinkedList<Player> players, int depth, Player aPlayer, Evaluator e) {
         if (depth == 0) {
-            return new Pair(Move.nullMove, e.evaluateBoard(b, players.getFirst(), aPlayer));
+            return new Pair(Move.nullMove, e.evaluateBoard(board, players.getFirst(), aPlayer));
         }
         Player currentPlayer = players.removeFirst();
         players.addLast(currentPlayer);
@@ -60,10 +60,10 @@ public class AI
         double min = Double.MAX_VALUE, max = Double.MIN_VALUE;
         double val;
         Move move, minMove = null, maxMove = null;
-        for (Position start: currentPlayer.getCurrentPositions()) {
-            for (Position target: b.getJumpPositions(start, currentPlayer)) {
+        for (Position start : board.getPositionByPlayer(currentPlayer)) {
+            for (Position target : board.getJumpPositions(start, currentPlayer)) {
                 move = new Move(currentPlayer, start, target);
-                simBoard = b.simulateMove(move);
+                simBoard = board.simulateMove(move);
                 val = minimax(simBoard, players, depth - 1, aPlayer, e).value;
                 if (val < min) {
                     min = val;
@@ -105,7 +105,7 @@ public class AI
                 }
             }
             if (win) return p == aPlayer ? reference : -reference;
-            return p == aPlayer ? reference - sum : - reference + sum;
+            return p == aPlayer ? -sum : sum;
         }
 
     }

@@ -46,7 +46,10 @@ public class Game implements Serializable
             Logger.log(LOGGER_LEVEL.GAMEINFO, "Only one player, exiting...");
             return false;
         }
-        while (!isFinished()) requestMove();
+        while (!isFinished()) {
+            if (winners.contains(getNextPlayer())) players.addLast(players.removeFirst()); //skip if player is finished
+            requestMove();
+        }
         Logger.log(LOGGER_LEVEL.GAMEINFO, "Game finished");
         return true;
     }
@@ -54,7 +57,6 @@ public class Game implements Serializable
     public void requestMove() {
         Move move;
         Player p = getNextPlayer();
-        if (winners.contains(p)) return;
         do {
             move = p.requestMove(board, new LinkedList<>(players), p); //wait til valid turn
         } while ((!board.isValidMove(move)) && (getNextPlayer() == p));
@@ -86,7 +88,6 @@ public class Game implements Serializable
     }
 
     private void applyMove(Move move) {
-        move.player.moveToken(move);
         board.setPosition(move.start, Player.emptyPlayer.getFieldValue());
         board.setPosition(move.end, move.player.getFieldValue());
         //TODO: why is the panel not repainted here? only after mouse is moved...

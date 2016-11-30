@@ -7,7 +7,7 @@ public abstract class Player
     protected FIELD_VALUE fieldValue;
     public static Player emptyPlayer = new LocalPlayer(FIELD_VALUE.EMPTY,Color.white);
     protected String name;
-    protected LinkedList<Position> currentPositions, targetPositions;
+    protected LinkedList<Position> targetPositions;
     protected Position tip;
     protected Position direction; //this is a position because it needs to hold x and y value
 
@@ -33,8 +33,8 @@ public abstract class Player
         this.name = (s.equals("")) ? "Player" + fieldValue.getVal() : s;
     }
 
-    public void initPositions(StarBoard board) {
-        for(Position p: currentPositions) {
+    public void initPositions(StarBoard board, LinkedList<Position> posis) {
+        for (Position p : posis) {
             board.setPosition(p, this.fieldValue);
         }
         double distance = 0, pdistance;
@@ -48,10 +48,6 @@ public abstract class Player
 
         }
         System.out.println(tip);
-    }
-
-    public void setCurrentPositions(LinkedList<Position> p) {
-        this.currentPositions=p;
     }
 
     public void setTargetPositions(LinkedList<Position> p) {
@@ -83,11 +79,6 @@ public abstract class Player
         this.fieldValue = fv;
     }
 
-    public void moveToken(Move move) {
-        currentPositions.remove(move.start);
-        currentPositions.add(move.end);
-    }
-
     public void setColor(Color c) {
         this.p_color = c;
     }
@@ -111,18 +102,27 @@ public abstract class Player
         return targetPositions;
     }
 
-    public LinkedList<Position> getCurrentPositions() {
-        return currentPositions;
-    }
-
     public boolean isFinished(StarBoard b) {
-        for (Position p : targetPositions) System.out.println("target: " + p);
+        for (Position p : targetPositions) Logger.log(LOGGER_LEVEL.TEMP_DEBUG, this.toString() + "target: " + p);
         for (Position p : b.getPositionByPlayer(this)) {
-            System.out.println("current: " + p);
+            Logger.log(LOGGER_LEVEL.TEMP_DEBUG, this.toString() + "current: " + p);
             if (!(targetPositions.contains(p))) {
                 return false;
             }
         }
         return true;
+    }
+
+    public String toString() {
+        final String suffix;
+        if (this instanceof LocalPlayer) {
+            suffix = "H";
+        } else if (this instanceof ComputerPlayer) {
+            suffix = "C";
+        } else {
+            suffix = "N";
+        }
+        return this.name + "[" + suffix + "]";
+
     }
 }
