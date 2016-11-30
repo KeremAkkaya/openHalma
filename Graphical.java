@@ -1,7 +1,6 @@
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
 import java.awt.event.*;
 
 public class Graphical extends JFrame implements Interface     //interface as interface
@@ -174,7 +173,6 @@ public class Graphical extends JFrame implements Interface     //interface as in
     public Graphical(Game game)
     {
         super("openHalma");
-        setSize(WIDTH,HEIGHT);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         panel = new Panel();
         panel.setBackground(BACKGROUND_COLOR);

@@ -23,7 +23,7 @@ public class Game implements Serializable
     }
 
     public boolean addPlayer(Player p) {
-        if (players.size() < board.getMaxPlayers()) {
+        if (players.size() < StarBoard.getMaxPlayers()) {
             if (!players.contains(p)) {
                 players.addLast(p);
                 return true;
@@ -43,6 +43,7 @@ public class Game implements Serializable
     public boolean start() {
         Logger.log(LOGGER_LEVEL.GAMEINFO, "Game started");
         if (players.size() < 2) {
+            //why not one player mode make as few moves as possible...?
             Logger.log(LOGGER_LEVEL.GAMEINFO, "Only one player, exiting...");
             return false;
         }
@@ -62,16 +63,17 @@ public class Game implements Serializable
         } while ((!board.isValidMove(move)) && (getNextPlayer() == p));
         if (p == getNextPlayer()) {
             tryMove(move);
-            if (p.isFinished(board)) {
-                winners.push(p);
-                Logger.log(LOGGER_LEVEL.GAMEINFO, p.toString() + " finished the game as " + winners.size() + ".");
-            }
         }
     }
 
     public boolean tryMove(Move move) {
-        if(board.getJumpPositions(move.start, getNextPlayer()).contains(move.end)) {
+        Player p = getNextPlayer();
+        if (board.getJumpPositions(move.start, p).contains(move.end)) {
             makeMove(move);
+            if (p.isFinished(board)) {
+                winners.push(p);
+                Logger.log(LOGGER_LEVEL.GAMEINFO, p.toString() + " finished the game as " + winners.size() + ".");
+            }
             return true;
         }
         return false;
