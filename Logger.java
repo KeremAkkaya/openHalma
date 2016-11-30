@@ -26,10 +26,16 @@ public class Logger {
     }
 
     private void _log(LOGGER_LEVEL logger_level, String data) {
-        System.out.println("[" + logger_level.toString() + "]: " + data);
+        if (logger_levels.contains(logger_level)) {
+            System.out.println("[" + logger_level.toString() + "]: " + data);
+        }
     }
 
-    public static void set_loglevel(Set<LOGGER_LEVEL> levels) {
+    public static void set_loglevel(HashSet<LOGGER_LEVEL> levels) {
+        getInstance()._set_loglevel(levels);
+    }
 
+    private void _set_loglevel(HashSet<LOGGER_LEVEL> levels) {
+        logger_levels = levels;
     }
 }
