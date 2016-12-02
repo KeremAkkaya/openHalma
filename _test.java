@@ -22,7 +22,7 @@ public class _test
         //plist.add(new LocalPlayer(FIELD_VALUE.PLAYER2, Color.red));
         //plist.add(new ComputerPlayer(FIELD_VALUE.PLAYER1, Color.blue, "", AI.STRATEGY.FARTHEST, 1));
         plist.add(new ComputerPlayer(FIELD_VALUE.PLAYER2, Color.red, "", AI.STRATEGY.FARTHEST, 6));
-        plist.add(new LocalPlayer(FIELD_VALUE.PLAYER1, Color.blue));
+        plist.add(new LocalPlayer(FIELD_VALUE.PLAYER1, Color.blue, "Human"));
         /*plist.add(new LocalPlayer(FIELD_VALUE.PLAYER3, Color.yellow));
         plist.add(new LocalPlayer(FIELD_VALUE.PLAYER3, Color.green));
         plist.add(new LocalPlayer(FIELD_VALUE.PLAYER4, Color.orange));
@@ -36,7 +36,7 @@ public class _test
     {
         Interface i = new Text();
         LinkedList<Player> plist = new LinkedList<>();
-        plist.add(new LocalPlayer(FIELD_VALUE.PLAYER1, null));
+        //plist.add(new LocalPlayer(FIELD_VALUE.PLAYER1, Color.blue, ));
         /*plist.add(new LocalPlayer(FIELD_VALUE.PLAYER2, null));
         plist.add(new LocalPlayer(FIELD_VALUE.PLAYER3, null));
         plist.add(new LocalPlayer(FIELD_VALUE.PLAYER4, null));
@@ -68,11 +68,13 @@ public class _test
 
         interfaces[i].repaint();
         }*/
+        MainMenu mainMenu = new MainMenu();
+        if (true) return;
+
 
         sb = BoardFactory.createStandardStarBoard(5, plist, 0);
         if (sb==null) System.exit(55);
-        game = new Game(sb);
-        for (Player p: plist) game.addPlayer(p);
+        game = new Game(sb, plist);
         game.start();
     }
 }

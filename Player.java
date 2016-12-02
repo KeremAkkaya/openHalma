@@ -3,32 +3,21 @@ import java.awt.Color;
 
 public abstract class Player
 {
-    protected Color p_color;
-    protected FIELD_VALUE fieldValue;
-    public static Player emptyPlayer = new LocalPlayer(FIELD_VALUE.EMPTY,Color.white);
-    protected String name;
+    protected final Color p_color;
+    protected final FIELD_VALUE fieldValue;
+    public static Player emptyPlayer = new LocalPlayer(FIELD_VALUE.EMPTY, Color.white, "");
+    protected final String name;
     protected LinkedList<Position> targetPositions;
     protected Position tip;
     protected Position direction; //this is a position because it needs to hold x and y value
 
     public Player() {
-        this(FIELD_VALUE.PLAYER1, null, "");
-    }
-
-    public Player (FIELD_VALUE fieldValue) {
-        this(fieldValue, null, "");
-    }
-
-    public Player(FIELD_VALUE fieldValue, Color color) {
-        this(fieldValue, color, "");
-    }
-
-    public Player(FIELD_VALUE fieldValue, String s) {
-        this(fieldValue, null, s);
+        this(FIELD_VALUE.EMPTY, Color.white, ""); // by default this creates the empty player
     }
 
     public Player(FIELD_VALUE fieldValue, Color color, String s) {
-        setFieldValue(fieldValue);
+        fieldValue.setPlayer(this);
+        this.fieldValue = fieldValue;
         this.p_color = (color == null) ? Color.black : color;
         this.name = (s.equals("")) ? "Player" + fieldValue.getVal() : s;
     }
@@ -69,19 +58,6 @@ public abstract class Player
         return name;
     }
 
-    public void setName(String s) {
-        this.name = s;
-    }
-
-    public void setFieldValue(FIELD_VALUE fv) {
-        fv.setPlayer(this);
-        this.fieldValue = fv;
-    }
-
-    public void setColor(Color c) {
-        this.p_color = c;
-    }
-
     //request the player to make a move
     public abstract Move requestMove(StarBoard board, LinkedList<Player> pl, Player p);
 
@@ -103,7 +79,7 @@ public abstract class Player
 
     public boolean isFinished(StarBoard b) {
         for (Position p : targetPositions) Logger.log(LOGGER_LEVEL.TEMP_DEBUG, this.toString() + "target: " + p);
-        for (Position p : b.getPositionByPlayer(this)) {
+        for (Position p : b.getPositionByPlayer(this)) { //TODO: find out why this sometimes doesnt find all positions
             Logger.log(LOGGER_LEVEL.TEMP_DEBUG, this.toString() + "current: " + p);
             if (!(targetPositions.contains(p))) {
                 return false;

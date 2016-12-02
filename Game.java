@@ -1,3 +1,5 @@
+import sun.awt.image.ImageWatched;
+
 import java.util.LinkedList;
 import java.io.*;
 
@@ -17,27 +19,10 @@ public class Game implements Serializable
 
     }
 
-    public Game(StarBoard board) {
+    public Game(StarBoard board, LinkedList<Player> players) {
         this.board = board;
+        this.players = players;
         this.iface = new Graphical(this);
-    }
-
-    public boolean addPlayer(Player p) {
-        if (players.size() < StarBoard.getMaxPlayers()) {
-            if (!players.contains(p)) {
-                players.addLast(p);
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public boolean removePlayer(Player p) {
-        if (players.contains(p)) {
-            players.remove(p);
-            return true;
-        }
-        return false;
     }
 
     public boolean start() {
