@@ -100,7 +100,7 @@ public class MainMenu extends JFrame {
                 case EMPTY_PLAYER:
                     break;
                 case COMPUTER_PLAYER:
-                    players.add(new ComputerPlayer(FIELD_VALUE.getValByInt(players.size()), Color.red, c.textField.getText(), AI.STRATEGY.FARTHEST, 1));
+                    players.add(new ComputerPlayer(FIELD_VALUE.getValByInt(players.size()), Color.red, c.textField.getText(), AI.STRATEGY.MINIMAX, 6));
                     break;
                 case HUMAN_PLAYER:
                     players.add(new LocalPlayer(FIELD_VALUE.getValByInt(players.size()), Color.blue, c.textField.getText()));

@@ -59,6 +59,7 @@ public class Game implements Serializable
             makeMove(move);
             if (p.isFinished(board)) {
                 winners.push(p);
+                players.remove(p);
                 Logger.log(LOGGER_LEVEL.GAMEINFO, p.toString() + " finished the game as " + winners.size() + ".");
             }
             return true;

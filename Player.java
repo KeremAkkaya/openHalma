@@ -78,9 +78,9 @@ public abstract class Player
     }
 
     public boolean isFinished(StarBoard b) {
-        for (Position p : targetPositions) Logger.log(LOGGER_LEVEL.TEMP_DEBUG, this.toString() + "target: " + p);
+        for (Position p : targetPositions) ;// Logger.log(LOGGER_LEVEL.TEMP_DEBUG, this.toString() + " target: " + p);
         for (Position p : b.getPositionByPlayer(this)) { //TODO: find out why this sometimes doesnt find all positions
-            Logger.log(LOGGER_LEVEL.TEMP_DEBUG, this.toString() + "current: " + p);
+            //Logger.log(LOGGER_LEVEL.TEMP_DEBUG, this.toString() + " current: " + p);
             if (!(targetPositions.contains(p))) {
                 return false;
             }
