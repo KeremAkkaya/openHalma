@@ -1,9 +1,5 @@
-
-import sun.awt.image.ImageWatched;
-
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.*;
 import java.util.*;
 
 public class MainMenu extends JFrame {
@@ -23,13 +19,13 @@ public class MainMenu extends JFrame {
     private JTextField textFieldPlayer5;
     private JTextField textFieldPlayer6;
 
-    private final LinkedList<componentContainer> uiElements = new LinkedList<componentContainer>() {{
-        add(new componentContainer(comboBoxPlayer1, textFieldPlayer1));
-        add(new componentContainer(comboBoxPlayer2, textFieldPlayer2));
-        add(new componentContainer(comboBoxPlayer3, textFieldPlayer3));
-        add(new componentContainer(comboBoxPlayer4, textFieldPlayer4));
-        add(new componentContainer(comboBoxPlayer5, textFieldPlayer5));
-        add(new componentContainer(comboBoxPlayer6, textFieldPlayer6));
+    private final LinkedList<ComponentContainer> uiElements = new LinkedList<ComponentContainer>() {{
+        add(new ComponentContainer(comboBoxPlayer1, textFieldPlayer1));
+        add(new ComponentContainer(comboBoxPlayer2, textFieldPlayer2));
+        add(new ComponentContainer(comboBoxPlayer3, textFieldPlayer3));
+        add(new ComponentContainer(comboBoxPlayer4, textFieldPlayer4));
+        add(new ComponentContainer(comboBoxPlayer5, textFieldPlayer5));
+        add(new ComponentContainer(comboBoxPlayer6, textFieldPlayer6));
     }};
 
 
@@ -49,20 +45,31 @@ public class MainMenu extends JFrame {
         }
     }
 
-    private class componentContainer {
+    private class ComponentContainer {
         public final JTextField textField;
         public final JComboBox comboBox;
 
-        public componentContainer(JComboBox comboBox, JTextField textField) {
+        public ComponentContainer(JComboBox comboBox, JTextField textField) {
             this.comboBox = comboBox;
             this.textField = textField;
         }
     }
 
+    private class GameThread extends Thread {
+        private final Game game;
+
+        public GameThread(Game game) {
+            this.game = game;
+        }
+
+        public void run() {
+            game.start();
+        }
+    }
     public MainMenu() {
         super("openHalma");
         Logger.log(LOGGER_LEVEL.GUI_DEBUG, "Setting up GUI");
-        for (componentContainer c : uiElements) {
+        for (ComponentContainer c : uiElements) {
             c.comboBox.addItem(PLAYER_VALUES.EMPTY_PLAYER);
             c.comboBox.addItem(PLAYER_VALUES.HUMAN_PLAYER);
             c.comboBox.addItem(PLAYER_VALUES.COMPUTER_PLAYER);
@@ -88,11 +95,22 @@ public class MainMenu extends JFrame {
     private void start() {
         LinkedList<Player> players = new LinkedList<>();
 
-        for (componentContainer c : uiElements) {
-            if (c.comboBox.getSelectedItem() != PLAYER_VALUES.EMPTY_PLAYER) {
-
+        for (ComponentContainer c : uiElements) {
+            switch (((PLAYER_VALUES) c.comboBox.getSelectedItem())) {
+                case EMPTY_PLAYER:
+                    break;
+                case COMPUTER_PLAYER:
+                    players.add(new ComputerPlayer(FIELD_VALUE.getValByInt(players.size()), Color.red, c.textField.getText(), AI.STRATEGY.FARTHEST, 1));
+                    break;
+                case HUMAN_PLAYER:
+                    players.add(new LocalPlayer(FIELD_VALUE.getValByInt(players.size()), Color.blue, c.textField.getText()));
+                    break;
             }
         }
+        StarBoard board = BoardFactory.createStandardStarBoard(9, players, 0);
+        GameThread gameThread = new GameThread(new Game(board, players));
+        this.setVisible(false);
+        gameThread.start();
 
         //this.setVisible(false);
     }

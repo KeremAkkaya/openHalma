@@ -17,15 +17,18 @@ public class StarBoard
         
     public final static int directions = 6;
     public StarBoard() {
+        //Logger.log(LOGGER_LEVEL.TEMP_DEBUG, "Starboard instantiated");
     }
 
     public StarBoard(int dimension) {
+        this();
         this.dimension = dimension;
         board = new FIELD_VALUE[dimension][dimension];
     }
 
     public StarBoard(FIELD_VALUE[][] board, int dimension) //constructor used to load a saved game
     {
+        this();
         this.dimension = dimension;
         this.board = board;
     }

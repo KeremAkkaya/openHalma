@@ -29,9 +29,10 @@ public class Game implements Serializable
         Logger.log(LOGGER_LEVEL.GAMEINFO, "Game started");
         if (players.size() < 2) {
             //why not one player mode make as few moves as possible...?
-            Logger.log(LOGGER_LEVEL.GAMEINFO, "Only one player, exiting...");
-            return false;
+            Logger.log(LOGGER_LEVEL.GAMEINFO, "Only one player, have fun...");
+            Logger.log(LOGGER_LEVEL.GAMEINFO, "Do you know why there is an AI implemented in this software?");
         }
+        Logger.log(LOGGER_LEVEL.TEMP_DEBUG, "got this far");
         while (!isFinished()) {
             if (winners.contains(getNextPlayer())) players.addLast(players.removeFirst()); //skip if player is finished
             requestMove();
@@ -43,6 +44,7 @@ public class Game implements Serializable
     public void requestMove() {
         Move move;
         Player p = getNextPlayer();
+        Logger.log(LOGGER_LEVEL.GAMEINFO, "Next player: " + p.toString());
         do {
             move = p.requestMove(board, new LinkedList<>(players), p); //wait til valid turn
         } while ((!board.isValidMove(move)) && (getNextPlayer() == p));
