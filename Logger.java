@@ -1,14 +1,14 @@
+import java.util.Collections;
 import java.util.HashSet;
 
 public class Logger {
     private static Logger instanceLogger = null;
     private HashSet<LOGGER_LEVEL> logger_levels;
+    private boolean timestamp = true;
 
     private Logger() {
         logger_levels = new HashSet<>();
-        for (LOGGER_LEVEL l : LOGGER_LEVEL.values()) {
-            logger_levels.add(l);
-        }
+        Collections.addAll(logger_levels, LOGGER_LEVEL.values());
         logger_levels.remove(LOGGER_LEVEL.AI_DEBUG);
         logger_levels.remove(LOGGER_LEVEL.GRAPHICAL_DEBUG);
     }
@@ -36,5 +36,13 @@ public class Logger {
 
     private void _set_loglevel(HashSet<LOGGER_LEVEL> levels) {
         logger_levels = levels;
+    }
+
+    public static void set_timestamp(boolean t) {
+        getInstance()._set_timestamp(t);
+    }
+
+    private void _set_timestamp(boolean t) {
+        this.timestamp = t;
     }
 }

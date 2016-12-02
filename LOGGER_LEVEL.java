@@ -6,7 +6,8 @@ public enum LOGGER_LEVEL {
     AI_DEBUG("AI_DEBUG"),
     DEBUG("DEBUG"),
     TEMP_DEBUG("TEMP_DEBUG"),
-    GRAPHICAL_DEBUG("GRAPHICAL_DEBUG");
+    GRAPHICAL_DEBUG("GRAPHICAL_DEBUG"),
+    GUI_DEBUG("GUI_DEBUG");
 
     //TODO: more to come when needed
 
