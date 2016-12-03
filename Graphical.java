@@ -158,9 +158,9 @@ public class Graphical extends JFrame implements Interface
         add(panel);
         setVisible(true);
         this.game = game;
-        panel.setBoard(game.getBoard());
+        panel.setBoard(game.board);
 
-        int dim = game.getBoard().getDimension();
+        int dim = game.board.getDimension();
         int short_tri = (dim - 1) / 3;
         int full = dim - 1;
         Position a, b;

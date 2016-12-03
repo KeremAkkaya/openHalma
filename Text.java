@@ -11,7 +11,7 @@ public class Text implements Interface
     }
 
     public void repaint() {
-        System.out.println(game.getBoard().toString(false));
+        System.out.println(game.board.toString(false));
     }
 
     public Move requestMove(Player player) {

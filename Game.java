@@ -5,19 +5,16 @@ import java.io.*;
 
 public class Game implements Serializable
 {
-    private StarBoard board;
+    public final StarBoard board;
     private LinkedList<Move> moves = new LinkedList<>();
     private LinkedList<Move> cachedMoves = new LinkedList<>(); //additional list for 'undo'/'redo' functionality
     private LinkedList<Player> players = new LinkedList<>();
-    private Interface iface;
+    private final Interface iface;
     private Position hoverPosition = new Position(-1,-1);
     private Position selectedPosition = new Position(-1,-1);
     private LinkedList<Position> possibleJumps = new LinkedList<>();
     private LinkedList<Player> winners = new LinkedList<>();
 
-    public Game() {
-
-    }
 
     public Game(StarBoard board, LinkedList<Player> players) {
         this.board = board;
@@ -25,7 +22,7 @@ public class Game implements Serializable
         this.iface = new Graphical(this);
     }
 
-    public boolean start() {
+    public void start() {
         Logger.log(LOGGER_LEVEL.GAMEINFO, "Game started");
         if (players.size() < 2 && players.get(0) instanceof LocalPlayer) {
             //why not one player mode make as few moves as possible...?
@@ -33,64 +30,64 @@ public class Game implements Serializable
             Logger.log(LOGGER_LEVEL.GAMEINFO, "Do you know why there is an AI implemented in this software?");
         }
         Logger.log(LOGGER_LEVEL.TEMP_DEBUG, "got this far");
-        while (!isFinished()) {
+        if (getNextPlayer() instanceof ComputerPlayer) {
             requestMove();
         }
+    }
+
+    public void finished() {
         Logger.log(LOGGER_LEVEL.GAMEINFO, "Game finished");
-        return true;
     }
 
     public void requestMove() {
         Move move;
         Player p = getNextPlayer();
-        Logger.log(LOGGER_LEVEL.GAMEINFO, "Next player: " + p.toString());
+
         do {
+            Logger.log(LOGGER_LEVEL.TEMP_DEBUG, "requesting from " + p.toString());
             move = p.requestMove(board, new LinkedList<>(players), p); //wait til valid turn
             //System.out.println("busy waiting");
         } while ((!board.isValidMove(move)) && (getNextPlayer() == p));
-        if (p == getNextPlayer()) {
-            tryMove(move);
-        }
+        tryMove(move);
     }
 
-    public boolean tryMove(Move move) {
+    public void tryMove(Move move) {
         Player p = getNextPlayer();
-        if (board.getJumpPositions(move.start, p).contains(move.end)) {
+        if (board.isValidMove(move)) {
             makeMove(move);
             if (p.isFinished(board)) {
                 winners.push(p);
                 players.remove(p);
                 Logger.log(LOGGER_LEVEL.GAMEINFO, p.toString() + " finished the game as " + winners.size() + ".");
+                if (isFinished()) {
+                    finished();
+                    return;
+                }
             }
-            return true;
+            Logger.log(LOGGER_LEVEL.GAMEINFO, "Next player: " + getNextPlayer().toString());
+            if (getNextPlayer() instanceof ComputerPlayer) {
+                requestMove();
+            } else {
+
+            }
         }
-        return false;
     }
 
     private void makeMove(Move move) {
         Logger.log(LOGGER_LEVEL.GAMEINFO, move.toString());
-        applyMove(move);
+        board.applyMoveUnchecked(move);
+        iface.repaint();
         moves.add(move);
         cachedMoves.clear();
         players.addLast(players.removeFirst());
     }
 
 
-    /**
-     * Applies a move to the board without checking anything
-     *
-     * @param move move to be applied
-     */
-    private void applyMove(Move move) {
-        board.setPosition(move.start, Player.emptyPlayer.getFieldValue());
-        board.setPosition(move.end, move.player.getFieldValue());
-        iface.repaint();
-    }
-
     public boolean undoMove() {
         if (undoable()) {
             Move m = moves.getLast();
-            applyMove(new Move(m.player, m.end, m.start));
+            board.applyMoveUnchecked(new Move(m.player, m.end, m.start));
+            iface.repaint();
             players.addFirst(players.removeLast());
             cachedMoves.addLast(moves.removeLast());
             return true;
@@ -101,7 +98,8 @@ public class Game implements Serializable
 
     public boolean redoMove() {
         if (redoable()) {
-            applyMove(cachedMoves.getLast());
+            board.applyMoveUnchecked(cachedMoves.getLast());
+            iface.repaint();
             players.addLast(players.removeFirst());
             moves.addLast(cachedMoves.removeLast());
             return true;
@@ -153,7 +151,9 @@ public class Game implements Serializable
                 if (hoverPosition.equals(selectedPosition)) {
                     selectedPosition = Position.InvalidPosition;
                 } else {
-                    if (tryMove(new Move(getNextPlayer(), selectedPosition, hoverPosition))) {
+                    Move move = new Move(getNextPlayer(), selectedPosition, hoverPosition);
+                    if (board.isValidMove(move)) {
+                        tryMove(move);
                         selectedPosition = Position.InvalidPosition;
                     } else if ((board.getPosition(hoverPosition).getVal() >= 0) &&
                             (getNextPlayer().equals(board.getPosition(hoverPosition).getPlayer()))) {
@@ -166,10 +166,6 @@ public class Game implements Serializable
         }
         Logger.log(LOGGER_LEVEL.DEBUG, "Clicked " + hoverPosition.toString());
         hoverPosition(hoverPosition);
-    }
-
-    public StarBoard getBoard() {
-        return board;
     }
 
     public Position getSelectedPosition() {

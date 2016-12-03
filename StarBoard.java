@@ -16,6 +16,8 @@ public class StarBoard
         };
         
     public final static int directions = 6;
+    public final static int maxPlayers = 6;
+
     public StarBoard() {
         //Logger.log(LOGGER_LEVEL.TEMP_DEBUG, "Starboard instantiated");
     }
@@ -40,10 +42,6 @@ public class StarBoard
     public void applyMoveUnchecked(Move m) {
         setPosition(m.start, Player.emptyPlayer.getFieldValue());
         setPosition(m.end, m.player.getFieldValue());
-    }
-
-    public int getNumDirections() {
-        return directions;
     }
     
     public int[][] getSigna() {
@@ -162,10 +160,6 @@ public class StarBoard
 
     }
 
-    public static int getMaxPlayers() {
-        return 6;
-    }
-
     public double pointDistance(Position a, Position b) {
         double gax = getCoordinateX(a.x, a.y);
         double gay = getCoordinateY(a.y);
@@ -181,7 +175,6 @@ public class StarBoard
     private static final double PADDING_HORIZONTAL = CIRCLE_DISTANCE / 2;
 
     private double getCoordinateX(int x, int y) {
-        //return (int)Math.round(PADDING_BORDER + x * (PADDING_HORIZONTAL +15 ));
         return ((y * PADDING_HORIZONTAL) + (x * CIRCLE_DISTANCE) - (((getDimension() - 1) / 3) * CIRCLE_DISTANCE + 2 * CIRCLE_RADIUS));
     }
 
@@ -223,6 +216,10 @@ public class StarBoard
 
 
     public boolean isValidMove(Move move) {
+        if (move == null) System.out.println("sproing whole move");
+        if (move.start == null) System.out.println("sproing start");
+        if (move.end == null) System.out.println("sproing end");
+        if (move.player == null) System.out.println("sproing player");
         return getJumpPositions(move.start, move.player).contains(move.end);
     }
 

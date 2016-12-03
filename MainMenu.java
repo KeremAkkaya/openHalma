@@ -1,7 +1,11 @@
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.*;
 
 public class MainMenu extends JFrame {
@@ -27,6 +31,7 @@ public class MainMenu extends JFrame {
     private JButton buttonColorPlayer4;
     private JButton buttonColorPlayer5;
     private JButton buttonColorPlayer6;
+    private JSpinner spinnerBoardSize;
 
     private final LinkedList<ComponentContainer> uiElements = new LinkedList<ComponentContainer>() {{
         add(new ComponentContainer(comboBoxPlayer1, textFieldPlayer1, buttonColorPlayer1));
@@ -83,15 +88,6 @@ public class MainMenu extends JFrame {
 
         super("openHalma");
 
-        /*buttonColorPlayer1 = new JButton() {
-            @Override
-            protected void paintComponent(Graphics graphics) {
-                super.paintComponent(graphics);
-                graphics.setColor(Color.GREEN);
-                graphics.fillRect(0, 0, getSize().width, getSize().height);
-            }
-        };*/
-
         actionListenerColor = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -117,6 +113,9 @@ public class MainMenu extends JFrame {
         textFieldPlayer1.setText("Human");
         textFieldPlayer2.setText("Fred");
 
+        spinnerBoardSize.setValue(1);
+
+
         buttonClose.addActionListener(e -> System.exit(0));
         buttonStart.addActionListener(e -> start());
 
@@ -129,6 +128,18 @@ public class MainMenu extends JFrame {
 
         JColorChooser colorChooser = new JColorChooser();
         colorChooser.setVisible(true);
+
+        spinnerBoardSize.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent changeEvent) {
+                if ((int) spinnerBoardSize.getValue() < 1) {
+                    spinnerBoardSize.setValue(1);
+                }
+                if ((int) spinnerBoardSize.getValue() > 9) {
+                    spinnerBoardSize.setValue(9);
+                }
+            }
+        });
     }
 
     private void start() {
@@ -146,7 +157,7 @@ public class MainMenu extends JFrame {
                     break;
             }
         }
-        StarBoard board = BoardFactory.createStandardStarBoard(9, players, 0);
+        StarBoard board = BoardFactory.createStandardStarBoard(1 + 4 * ((int) spinnerBoardSize.getValue()), players, 0);
         GameThread gameThread = new GameThread(new Game(board, players));
         this.setVisible(false);
         gameThread.start();
