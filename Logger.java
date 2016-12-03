@@ -1,3 +1,5 @@
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashSet;
 
@@ -5,12 +7,16 @@ public class Logger {
     private static Logger instanceLogger = null;
     private HashSet<LOGGER_LEVEL> logger_levels;
     private boolean timestamp = true;
+    private Calendar cal;
+    private SimpleDateFormat sdf;
 
     private Logger() {
         logger_levels = new HashSet<>();
         Collections.addAll(logger_levels, LOGGER_LEVEL.values());
         logger_levels.remove(LOGGER_LEVEL.AI_DEBUG);
         logger_levels.remove(LOGGER_LEVEL.GRAPHICAL_DEBUG);
+        cal = Calendar.getInstance();
+        sdf = new SimpleDateFormat("HH:mm:ss");
     }
 
     private static Logger getInstance() {
@@ -25,8 +31,9 @@ public class Logger {
     }
 
     private void _log(LOGGER_LEVEL logger_level, String data) {
+        String timestring = timestamp ? "[" + sdf.format(cal.getTime()) + "]" : "";
         if (logger_levels.contains(logger_level)) {
-            System.out.println("[" + logger_level.toString() + "]: " + data);
+            System.out.println(timestring + "[" + logger_level.toString() + "]: " + data);
         }
     }
 
