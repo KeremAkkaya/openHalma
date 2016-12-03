@@ -4,8 +4,6 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.*;
 
 public class MainMenu extends JFrame {
@@ -88,15 +86,12 @@ public class MainMenu extends JFrame {
 
         super("openHalma");
 
-        actionListenerColor = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                JButton source = ((JButton) (actionEvent.getSource()));
-                Color current = source.getBackground();
-                Color newColor = JColorChooser.showDialog(null, "Change color", current);
-                if (newColor != null) {
-                    source.setBackground(newColor);
-                }
+        actionListenerColor = actionEvent -> {
+            JButton source = ((JButton) (actionEvent.getSource()));
+            Color current = source.getBackground();
+            Color newColor = JColorChooser.showDialog(null, "Change color", current);
+            if (newColor != null) {
+                source.setBackground(newColor);
             }
         };
 
@@ -129,15 +124,12 @@ public class MainMenu extends JFrame {
         JColorChooser colorChooser = new JColorChooser();
         colorChooser.setVisible(true);
 
-        spinnerBoardSize.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent changeEvent) {
-                if ((int) spinnerBoardSize.getValue() < 1) {
-                    spinnerBoardSize.setValue(1);
-                }
-                if ((int) spinnerBoardSize.getValue() > 9) {
-                    spinnerBoardSize.setValue(9);
-                }
+        spinnerBoardSize.addChangeListener(changeEvent -> {
+            if ((int) spinnerBoardSize.getValue() < 1) {
+                spinnerBoardSize.setValue(1);
+            }
+            if ((int) spinnerBoardSize.getValue() > 9) {
+                spinnerBoardSize.setValue(9);
             }
         });
     }

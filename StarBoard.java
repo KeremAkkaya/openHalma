@@ -43,10 +43,6 @@ public class StarBoard
         setPosition(m.start, Player.emptyPlayer.getFieldValue());
         setPosition(m.end, m.player.getFieldValue());
     }
-    
-    public int[][] getSigna() {
-        return signa;
-    }
 
     public StarBoard simulateMove(Move move) {
         FIELD_VALUE nBoard[][] = new FIELD_VALUE[dimension][dimension];
@@ -190,16 +186,12 @@ public class StarBoard
         return FIELD_VALUE.INVALID;
     }
 
-    public int setPosition(Position p, FIELD_VALUE val) {
-        return setPosition(p.x, p.y, val);
-    }
-
-    public int setPosition(int x, int y, FIELD_VALUE val) {
-        if ((x < dimension) && (y < dimension) && (x >= 0) && (y >= 0)) {
-            board[x][y] = val;
-            return 0;
+    public void setPosition(Position p, FIELD_VALUE val) {
+        if ((p.x >= dimension) || (p.y >= dimension) || (p.x < 0) || (p.y < 0)) {
+            Logger.log(LOGGER_LEVEL.WARNING, "Trying to set position out of bounds");
+            return;
         }
-        return 1;
+        board[p.x][p.y] = val;
     }
 
     public void initBoard() {
@@ -256,6 +248,7 @@ public class StarBoard
     }
 
     public boolean equals(Object b) {
+        if (!(b instanceof StarBoard)) return false;
         if (((StarBoard) b).dimension != this.dimension) return false;
         for (int i = 0; i < this.dimension; i++) {
             for (int j = 0; j < this.dimension; j++) {

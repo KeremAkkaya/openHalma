@@ -14,6 +14,7 @@ public class Position
     }
 
     public boolean equals(Object p) {
+        if (!(p instanceof Position)) return false;
         return (((Position) p).x == this.x) && (((Position) p).y == this.y);
     }
     

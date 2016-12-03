@@ -62,6 +62,8 @@ public abstract class Player
     public abstract Move requestMove(StarBoard board, LinkedList<Player> pl, Player p);
 
     public boolean equals (Object p) {
+        if (!(p instanceof Player)) return false;
+        //TODO: check more?
         return ((Player)p).fieldValue == this.fieldValue;
     }
 
