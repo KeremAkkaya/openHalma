@@ -32,47 +32,40 @@ public class Graphical extends JFrame implements Interface
             if (board == null) return;
             g.setColor(BACKGROUND_COLOR);
             g.fillRect(0,0,WIDTH,HEIGHT);
-            int dimension = board.getDimension();
-            Color c;
-            FIELD_VALUE fv;
-            Position pos;
             Logger.log(LOGGER_LEVEL.GRAPHICAL_DEBUG, "Redrawing!");
 
-            for (int x = 0; x < dimension; x++) {
-                for (int y = 0; y < dimension; y++) {
-                    fv = board.getPosition(x, y);
-                    pos = new Position(getCoordinateX(x,y), (getCoordinateY(y)));
-                    if (fv != FIELD_VALUE.INVALID) {
-                        c = fv.getPlayer().getColor();
-                        if (new Position(x, y).equals(game.getSelectedPosition())) {
-                            drawFieldCentered(g, c, SELECTED_COLOR, pos.x, pos.y);
-                        } else if ((game.getPossibleJumps().contains(new Position(x, y))) && (fv == FIELD_VALUE.EMPTY)) {
-                            drawFieldCentered(g, JUMP_COLOR, FRAME_COLOR,  pos.x, pos.y);
-                        } else {
-                            drawFieldCentered(g, c, FRAME_COLOR, pos.x, pos.y);
-                        }
+            for (Position arrayPos : board.getAllPositions()) {
+                FIELD_VALUE fv = board.getPosition(arrayPos);
+                Position visualPos = getVisualPosition(arrayPos);
+                if (fv != FIELD_VALUE.INVALID) {
+                    Color c = fv.getPlayer().getColor();
+                    if (arrayPos.equals(game.getSelectedPosition())) {
+                        drawFieldCentered(g, c, SELECTED_COLOR, visualPos);
+                    } else if ((game.getPossibleJumps().contains(arrayPos)) && (fv == FIELD_VALUE.EMPTY)) {
+                        drawFieldCentered(g, JUMP_COLOR, FRAME_COLOR, visualPos);
                     } else {
-                        //drawFieldCentered(g, Color.BLACK, Color.black, pos.x, pos.y);
-                        //debug output
+                        drawFieldCentered(g, c, FRAME_COLOR, visualPos);
                     }
-
+                } else {
+                    //drawFieldCentered(g, Color.BLACK, Color.black, pos.x, pos.y);
+                    //debug output
                 }
             }
         }
 
-        protected int getCoordinateX(int x, int y) {
-            return (int)Math.round( PADDING_BORDER + (y * PADDING_HORIZONTAL) + (x * CIRCLE_DISTANCE) - (((this.board.getDimension() - 1) /  3) * CIRCLE_DISTANCE + 2* CIRCLE_RADIUS) );
-        }
-
-        protected int getCoordinateY(int y) {
-            return (int)Math.round( PADDING_BORDER + (y * PADDING_VERTICAL) );
+        protected Position getVisualPosition(Position pos) {
+            int x = (int) Math.round(PADDING_BORDER + (pos.y * PADDING_HORIZONTAL) + (pos.x * CIRCLE_DISTANCE) - (((this.board.getDimension() - 1) / 3) * CIRCLE_DISTANCE + 2 * CIRCLE_RADIUS));
+            int y = (int) Math.round(PADDING_BORDER + (pos.y * PADDING_VERTICAL));
+            return new Position(x, y);
         }
 
         protected Position getPositionByCoordinates(int x, int y) {
+
             int exacty = ((int)Math.round((y - PADDING_BORDER) / PADDING_VERTICAL));
             int exactx = ((int)Math.round( (x - (PADDING_BORDER + (exacty * PADDING_HORIZONTAL) - (((this.board.getDimension() - 1) /  3) * CIRCLE_DISTANCE + 2* CIRCLE_RADIUS))) / CIRCLE_DISTANCE ));
-            int distancex = Math.abs(x - getCoordinateX(exactx, exacty));
-            int distancey = Math.abs(y - getCoordinateY(exacty));
+            Position p = getVisualPosition(new Position(exactx, exacty));
+            int distancex = Math.abs(x - p.x);
+            int distancey = Math.abs(y - p.y);
             if (Math.round(Math.sqrt(distancex * distancex + distancey * distancey)) <= CIRCLE_RADIUS) return new Position(exactx, exacty);
             return Position.InvalidPosition;
         }
@@ -87,33 +80,18 @@ public class Graphical extends JFrame implements Interface
             System.out.println("CH: " + CONSTANT_HORIZONTAL);
         }
 
-        protected void drawFieldCentered(Graphics g, Color center, Color frame, int x, int y) {
-            drawCenteredCircle(g, frame, x, y, CIRCLE_RADIUS);
-            drawCenteredCircle(g, center, x, y, CIRCLE_RADIUS - CIRCLE_FRAME);
+        protected void drawFieldCentered(Graphics g, Color center, Color frame, Position p) {
+            drawCenteredCircle(g, frame, p, CIRCLE_RADIUS);
+            drawCenteredCircle(g, center, p, CIRCLE_RADIUS - CIRCLE_FRAME);
         }
 
-        protected void drawCenteredCircle(Graphics g, Color c, int x, int y, int radius) {
-            x = x - radius;
-            y = y - radius;
+        protected void drawCenteredCircle(Graphics g, Color c, Position p, int radius) {
             g.setColor(c);
-            g.fillOval(x, y, 2 * radius, 2 * radius);
+            g.fillOval(p.x - radius, p.y - radius, 2 * radius, 2 * radius);
         }
 
         public void setBoard(StarBoard board) {
-
-            //CONSTANT_HORIZONTAL = 0 - ((board.getDimension() - 1) /  3) * CIRCLE_DISTANCE - CIRCLE_RADIUS;
             this.board = board;
-            /*int x = board.getDimension();
-            x = (3 * x + 1) / 4;
-            int size = 0;
-            size += 2 * PADDING_BORDER;
-            size += x * CIRCLE_DISTANCE;
-            size += CIRCLE_DISTANCE;
-            this.setSize(size,size);//*/
-
-            //CONSTANT_HORIZONTAL = 0 - ((this.board.getDimension() - 1) /  3) * CIRCLE_DISTANCE - CIRCLE_RADIUS; //uncommenting this gives me nullpointer
-            //but why?
-
         }
 
         public void updatePosition(int x, int y) {
@@ -185,8 +163,11 @@ public class Graphical extends JFrame implements Interface
         int dim = game.getBoard().getDimension();
         int short_tri = (dim - 1) / 3;
         int full = dim - 1;
-        int x = panel.getCoordinateX(full, short_tri);
-        int y = panel.getCoordinateY(full);
+        Position a, b;
+        a = panel.getVisualPosition(new Position(full, short_tri));
+        b = panel.getVisualPosition(new Position(short_tri, full));
+        int x = a.x;
+        int y = b.y;
         x += CIRCLE_RADIUS + PADDING_BORDER;
         y += CIRCLE_RADIUS + 1.5 * PADDING_BORDER;
         this.setSize(x, y);

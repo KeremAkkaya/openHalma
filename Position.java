@@ -3,10 +3,9 @@ public class Position
 {
     public static final Position InvalidPosition = new Position(-1, -1);
     public final int x, y;
-    
-    public Position()
-    {
-        this(0,0);
+
+    public Position() { // create invalid position by default
+        this(-1, -1);
     }
     
     public Position(int x, int y) {
