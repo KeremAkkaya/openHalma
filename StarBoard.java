@@ -272,6 +272,10 @@ public class StarBoard
         return allPos;
     }
 
+    /**
+     * @param p
+     * @return all the positions occupied by player p
+     */
     public List<Position> getPositionByPlayer(Player p) {
         LinkedList<Position> playerPos = new LinkedList<>();
         for (int i = 0; i < dimension; i++) {

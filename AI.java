@@ -6,6 +6,7 @@ public class AI
     public enum STRATEGY {
         RANDOM, MINIMAX, FARTHEST
     }
+    //TODO: make ai threaded
 
     public static class Pair<Board, Integer> {
         public final Move move;

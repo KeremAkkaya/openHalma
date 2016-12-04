@@ -34,7 +34,11 @@ public class Game implements Serializable
     }
 
     public void finished() {
-        Logger.log(LOGGER_LEVEL.GAMEINFO, "Game finished");
+        String s = "Game finished\n";
+        for (int i = 0; i < winners.size(); ++i) {
+            s += i + ". " + winners.get(i).toString();
+        }
+        Logger.log(LOGGER_LEVEL.GAMEINFO, s);
     }
 
     public void requestMove() {
@@ -44,7 +48,6 @@ public class Game implements Serializable
         do {
             Logger.log(LOGGER_LEVEL.TEMP_DEBUG, "requesting from " + p.toString());
             move = p.requestMove(board, new LinkedList<>(players), p); //wait til valid turn
-            //System.out.println("busy waiting");
         } while ((!board.isValidMove(move)) && (getNextPlayer() == p));
         tryMove(move);
     }
